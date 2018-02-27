@@ -1,33 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script src="../js/jQuery.js"></script>
-<link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="../css/brij.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div> 
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-		    <li class="active"><a href="index.php" style="text-transform:uppercase;">Admin Login</a></li>
-		    <li><a href="upload_event.php">Upload Event</a></li>
-			<li><a href="show_all_events.php">Events</a></li>
-			<li> <a href="logout.php">Logout</a></li>
-        </ul>
-    </div>
-</nav>
+<?php
+require_once('candidate_details.php');
+require_once('functions.php');
+check_session();
+require_once("global_links.php");
+?>
 <center>
-<div class="container padded">
-<form name="i_form" method="post" enctype="multipart/form-data" action="submit_img.php">
-<table cellpadding="10px" cellspacing="10px">
+<div class="container well login_block" align="center">
+	<div class="row center-block ">
+		<div><caption><a href="index.php"><a href="index.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-top:10px;width:250px;height:60px;float:center;filter:drop-shadow(0px 0px 3px #ffffff);"/></a></caption></div>
+	</div>
+	<div class="row">
+<form name="i_form" method="post" enctype="multipart/form-data" action="candidate_submit_img.php">
+<table class="myTable">
 	<tr>
 	<div class="form-group">
 		<td><label for="a_image" class="control-label">Image of Event</label></td>
@@ -38,12 +22,15 @@
 	<div class="form-group">
 		<td></td>
 		<td><input class="form-control" type="button" id="uploadimage" value="Upload Pic" onclick="check()"/></td>
+	</div>
 	</tr>
 </table>
 </form>
 	
 <div id="image_preview">
-	<img id="previewing" src="../images/noimage.png" alt="no image" />
+	<img id="previewing" src="Images/noimage.png" alt="no image" />
+</div>
+</div>
 </div>
 </div>
 </center>

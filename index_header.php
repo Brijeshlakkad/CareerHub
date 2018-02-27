@@ -1,5 +1,4 @@
 <?php
-require_once('functions.php');
 require_once('candidate_details.php');
 require_once('institute_details.php');
 ?>
@@ -40,6 +39,7 @@ require_once('institute_details.php');
        	<?php
        	if(isset($_SESSION['Userid']))
        	{
+			$im=base64_encode($login_image);
        		?>
        	<li>
 			  <div class="box" style="padding-top: 10px;">
@@ -49,7 +49,8 @@ require_once('institute_details.php');
 				  </div>
 				</div>
        	</li>
-       	<li><a href="institute_profile.php">Profile <?php echo '<img class="img-responsive"  src="data:image/jpeg;base64,'.base64_encode( $r['Image'] ).'"/>'; ?></a></li>
+       	<li><a href="candidate_profile.php" style="">Profile</a>
+      	</li>
        	<li><a href="">Find Work!</a></li>
         <li><a href="about_us.php">About Us</a></li>
 		<li><a href="logout.php">Logout</a></li>	
@@ -66,7 +67,7 @@ require_once('institute_details.php');
 				  </div>
 				</div>
        	</li>
-		<li><a href="candidate_profile.php">Profile <?php echo '<img class="img-responsive" src="data:image/jpeg;base64,'.base64_encode( $r['Image'] ).'"/>'; ?></a></li>
+		<li><a href="institute_profile.php">Profile</a></li>
       	<li><a href="">Hire candidate!</a></li>
         <li><a href="about_us.php">About Us</a></li>
 		<li><a href="logout.php">Logout</a></li>	
@@ -76,11 +77,11 @@ require_once('institute_details.php');
 		{ 
 			?>
 			
-			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-			<li><a href=""><span class="glyphicon glyphicon-map-marker"></span> Find Work!</a></li>
-			<li><a href=""><span class="glyphicon glyphicon-check"></span> Hire candidate!</a></li>
-			<li><a href=""><span class="glyphicon glyphicon-blackboard"></span> About Us</a></li>
-			<li><a href="candidate.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			<li><a href="index.php">Home</a></li>
+			<li><a href="">Find Work!</a></li>
+			<li><a href="">Hire candidate!</a></li>
+			<li><a href="">About Us</a></li>
+			<li><a href="candidate.php">Login</a></li>
 			<?php
 		  }
 	     ?>

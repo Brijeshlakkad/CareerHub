@@ -1,8 +1,6 @@
 <?php
 require_once('index_header.php');
 require_once('functions.php');
-check_session();
-
 ?>
 <div class="container-fluid padded">
     <div class="row">

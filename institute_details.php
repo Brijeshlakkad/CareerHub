@@ -1,7 +1,6 @@
 <?php
 include_once("config.php");
 include_once("functions.php");
-check_session();
 if(isset($_SESSION['BUserid']))
 {
 	$user_check=$_SESSION['BUserid'];
@@ -13,6 +12,9 @@ if(isset($_SESSION['BUserid']))
 	$login_email=$row['Email'];
 	$login_password=$row['Password'];
 	$login_mno=$row['Phone'];
+	$sbits=$row['Status_bits'];
+	$bits=explode(",",$sbits);
+	
 	mysqli_close($con);
 }
 ?>

@@ -1,55 +1,51 @@
 <?php
-include("a_lock.php");
-include("../config.php");
+require_once("config.php");
+require_once('candidate_details.php');
+check_session();
+require_once("global_links.php");
+
 
     $check = getimagesize($_FILES["image"]["tmp_name"]);
     if($check !== false){
         $image = $_FILES['image']['tmp_name'];
         $imgContent = addslashes(file_get_contents($image));
 		
-		
-        $id=$_SESSION['event_id'];
+		$s="";
+        $id=$_SESSION['Userid'];
 		date_default_timezone_get("asia,kolkata");
         $dataTime = date("Y-m-d H:i:s");
-		
-        $insert = mysqli_query($con,"Update events SET Image='$imgContent',Created='$dataTime' where ID='$id'");
+		$im='<img class="img-responsive"  src="Image/noimage.png"/>'; 
+		$bits[0]=1;
+		$sbits=implode(",/,",$bits);
+        $insert = mysqli_query($con,"Update Candidates SET Status_bits='$sbits',Image='$imgContent',Created='$dataTime' where Email='$id'");
         if($insert){
-            $s="File uploaded successfully.<br><a href='upload_event.php'>want to add one more event?</a>";
+			$im='<img class="img-responsive img-circle" style="height: 150px;" src="data:image/jpeg;base64,'.base64_encode($login_image).'"/>'; 
+            $s="<span style='color:green;'>Profile Picture Set.</span><br/><br/>
+			<a class='btn btn-primary' href='candidate_profile.php'>Next</a>";
         }else{
-           	$s= "File upload failed, please try again.";
-        } 
+			
+           	$s= "<span style='color:red;'>Profile Picture upload failed.</span>
+			 please <a class='btn btn-primary' href='candidate_upload_img.php'>try again</a>";
+        }
     }else{
-        $s="Please select an image file to upload.";
+        $s= "<span style='color:red;'>Profile Picture upload failed.</span>
+			 please <a class='btn btn-primary' href='candidate_upload_img.php'>try again</a>";
     }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<script src="../js/jQuery.js"></script>
-<link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="../css/brij.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div> 
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-		    <li><a href="index.php" style="text-transform:uppercase;">Admin Login</a></li>
-		    <li class="active"><a href="upload_event.php">Upload Event</a></li>
-			<li><a href="show_all_events.php">Events</a></li>
-			<li> <a href="logout.php">Logout</a></li>
-        </ul>
+
+<div class="container well login_block" align="center">
+	<div class="row center-block ">
+		<div><caption><a href="index.php"><a href="index.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-top:10px;width:250px;height:60px;float:center;filter:drop-shadow(0px 0px 3px #ffffff);"/></a></caption></div>
+	</div>
+	<div class="row">
+	<div class="media">
+    <div class="media-left">
     </div>
-</nav>
-<div class="container padded" style="line-height: 40px;">
-	<h3><?php echo $s; ?></h3>
+    <div class="media-body">
+      <h3 class="media-heading"><?php echo $im; ?><br/><?php echo $s; ?></h3>
+    </div>
+  	</div>
+	</div>
 </div>
 </body>
 </html>

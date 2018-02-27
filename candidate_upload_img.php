@@ -1,12 +1,17 @@
 <?php
-require_once('index_header.php');
+require_once('candidate_details.php');
 require_once('functions.php');
 check_session();
+require_once("global_links.php");
 ?>
 <center>
-<div class="container padded">
-<form name="i_form" method="post" enctype="multipart/form-data" action="submit_img.php">
-<table cellpadding="10px" cellspacing="10px">
+<div class="container well login_block" align="center">
+	<div class="row center-block ">
+		<div><caption><a href="index.php"><a href="index.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-top:10px;width:250px;height:60px;float:center;filter:drop-shadow(0px 0px 3px #ffffff);"/></a></caption></div>
+	</div>
+	<div class="row">
+<form name="i_form" method="post" enctype="multipart/form-data" action="candidate_submit_img.php">
+<table class="myTable">
 	<tr>
 	<div class="form-group">
 		<td><label for="a_image" class="control-label">Image of Event</label></td>
@@ -17,12 +22,15 @@ check_session();
 	<div class="form-group">
 		<td></td>
 		<td><input class="form-control" type="button" id="uploadimage" value="Upload Pic" onclick="check()"/></td>
+	</div>
 	</tr>
 </table>
 </form>
 	
 <div id="image_preview">
-	<img id="previewing" src="../images/noimage.png" alt="no image" />
+	<img id="previewing" src="Images/noimage.png" alt="no image" />
+</div>
+</div>
 </div>
 </div>
 </center>
