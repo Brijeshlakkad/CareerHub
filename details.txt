@@ -1,0 +1,16 @@
+Below pages are same for both, just replace candidate to institute: 
+candidate.php is a candidate login page
+candidate_login_data.php receives login data and send control to the profile page
+candidate_signup.php is a candidate signup page
+candidate_signup_data.php saves data to the database
+candidate_profile.php shows profile of candidate
+candidate_details.php captures all details of candidate from database
+candidate_upload_img.php takes image from user
+candidate_submit_img.php saves image to the database
+
+
+check_exists.php is for candidates to check validation of email is already there or not,whereas check_exists2.php is for institutes
+
+funtions.php contains all functions required
+
+links.php contains all link for candidate/institute login or singup php pages

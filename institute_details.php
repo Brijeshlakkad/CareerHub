@@ -2,10 +2,10 @@
 include_once("config.php");
 include_once("functions.php");
 check_session();
-if(isset($_SESSION['Userid']))
+if(isset($_SESSION['BUserid']))
 {
-	$user_check=$_SESSION['Userid'];
-	$r="select * from Candidates where Email='$user_check' ";
+	$user_check=$_SESSION['BUserid'];
+	$r="select * from Institutes where Email='$user_check' ";
 	$ses_sql=mysqli_query($con,$r);
 
 	$row=mysqli_fetch_assoc($ses_sql);

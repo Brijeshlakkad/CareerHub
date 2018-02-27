@@ -8,9 +8,9 @@ $sql="SELECT * FROM Institutes WHERE Email='$email' AND Password='$password'";
 $result=mysqli_query($con,$sql);
 $r=mysqli_num_rows($result);
 $row=mysqli_fetch_assoc($result);
-if($r>0)
+if($r==1)
 {
-	$_SESSION['Userid']=$email;
+	$_SESSION['BUserid']=$email;
 	echo "1";
 	return;
 }

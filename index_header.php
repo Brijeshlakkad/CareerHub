@@ -1,5 +1,7 @@
 <?php
 require_once('functions.php');
+require_once('candidate_details.php');
+require_once('institute_details.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,31 +45,37 @@ require_once('functions.php');
 			  <div class="box" style="padding-top: 10px;">
 				  <div class="container-1">
 					  <span class="icon"><i class="fa fa-search"></i></span>
-					  <input type="search" id="search" placeholder="Search..." />
+					  <input type="search" id="search" placeholder="Search CareerHub" />
 				  </div>
 				</div>
        	</li>
-       	<li><a href="institute_profile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-       	<li><a href=""><span class="glyphicon glyphicon-map-marker"></span> Find Work!</a></li>
-        <li><a href="about_us.php"><span class="glyphicon glyphicon-blackboard"></span> About Us</a></li>
-		<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>	
+       	<li><a href="institute_profile.php">Profile <?php echo '<img class="img-responsive"  src="data:image/jpeg;base64,'.base64_encode( $r['Image'] ).'"/>'; ?></a></li>
+       	<li><a href="">Find Work!</a></li>
+        <li><a href="about_us.php">About Us</a></li>
+		<li><a href="logout.php">Logout</a></li>	
 			<?php
 		}
 		else if(isset($_SESSION['BUserid']))
        	{
        		?>
        	<li>
-		  
+			  <div class="box" style="padding-top: 10px;">
+				  <div class="container-1">
+					  <span class="icon"><i class="fa fa-search"></i></span>
+					  <input type="search" id="search" placeholder="Search CareerHub" />
+				  </div>
+				</div>
        	</li>
-       	<li><a href="candidate_profile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-      	<li><a href=""><span class="glyphicon glyphicon-check"></span> Hire candidate!</a></li>
-        <li><a href="about_us.php"><span class="glyphicon glyphicon-blackboard"></span> About Us</a></li>
-		<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>	
+		<li><a href="candidate_profile.php">Profile <?php echo '<img class="img-responsive" src="data:image/jpeg;base64,'.base64_encode( $r['Image'] ).'"/>'; ?></a></li>
+      	<li><a href="">Hire candidate!</a></li>
+        <li><a href="about_us.php">About Us</a></li>
+		<li><a href="logout.php">Logout</a></li>	
 			<?php
 		}
 		else
 		{ 
 			?>
+			
 			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 			<li><a href=""><span class="glyphicon glyphicon-map-marker"></span> Find Work!</a></li>
 			<li><a href=""><span class="glyphicon glyphicon-check"></span> Hire candidate!</a></li>
