@@ -3,25 +3,35 @@ require_once("config.php");
 require_once('candidate_details.php');
 check_session();
 require_once("global_links.php");
-
-
     $check = getimagesize($_FILES["image"]["tmp_name"]);
     if($check !== false){
         $image = $_FILES['image']['tmp_name'];
         $imgContent = addslashes(file_get_contents($image));
 		
 		$s="";
-        $id=$_SESSION['Userid'];
-		date_default_timezone_get("asia,kolkata");
+        $id=$_SESSION['BUserid'];
+		date_default_timezone_get("Asia/Kolkata");
         $dataTime = date("Y-m-d H:i:s");
 		$im='<img class="img-responsive"  src="Image/noimage.png"/>'; 
 		$bits[0]=1;
 		$sbits=implode(",/,",$bits);
         $insert = mysqli_query($con,"Update Institutes SET Status_bits='$sbits',Image='$imgContent',Created='$dataTime' where Email='$id'");
-        if($insert){
-			$im='<img class="img-responsive img-circle" style="height: 150px;" src="data:image/jpeg;base64,'.base64_encode($login_image).'"/>'; 
-            $s="<span style='color:green;'>Profile Picture Set.</span><br/><br/>
-			<a class='btn btn-primary' href='candidate_profile.php'>Next</a>";
+		$sql="Select * from Institutes Where Email='$id'";
+        if($insert)
+		{
+			$result=mysqli_query($con,$sql);
+			if($result)
+			{
+				$row=mysqli_fetch_array($result);
+				$im='<img class="img-responsive img-circle" style="height:150px;" src="data:image/jpeg;base64,'.base64_encode($row['Image']).'"/>'; 
+				$s="<span style='color:green;'>Profile Picture Set.</span><br/><br/>
+				<a class='btn btn-primary' href='candidate_profile.php'>Next</a>";
+			}
+			else
+			{
+				$s= "<span style='color:red;'>Profile Picture upload failed.</span>
+				 please <a class='btn btn-primary' href='candidate_upload_img.php'>try again</a>";
+			}
         }else{
 			
            	$s= "<span style='color:red;'>Profile Picture upload failed.</span>

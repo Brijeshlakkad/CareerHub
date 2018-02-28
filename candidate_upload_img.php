@@ -1,7 +1,6 @@
 <?php
 require_once('candidate_details.php');
 require_once('functions.php');
-check_session();
 require_once("global_links.php");
 ?>
 <center>
@@ -20,9 +19,12 @@ require_once("global_links.php");
 	</tr>
 	<tr>
 	<div class="form-group">
-		<td></td>
-		<td><input class="form-control" type="button" id="uploadimage" value="Upload Pic" onclick="check()"/></td>
+		<td></td><td><button class="btn btn-default form-control" type="button" id="uploadimage" onclick="check()">Upload Pic</button></td>
 	</div>
+	</tr>
+	<tr>
+		<td></td>
+		<td><a class="btn btn-default form-control" type="button" href="candidate_default_pic.php">Skip</a></td>
 	</tr>
 </table>
 </form>

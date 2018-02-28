@@ -1,7 +1,7 @@
 <?php
 include_once("config.php");
 include_once("functions.php");
-check_session();
+check_session2();
 $email=protect_anything($_POST['l_email']);
 $password=protect_anything($_POST['l_password']);
 $sql="SELECT * FROM Institutes WHERE Email='$email' AND Password='$password'";

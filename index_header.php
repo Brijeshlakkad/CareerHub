@@ -1,6 +1,10 @@
 <?php
-require_once('candidate_details.php');
-require_once('institute_details.php');
+$filename=basename($_SERVER['PHP_SELF']);
+if($filename!="index.php")
+{
+include_once('candidate_details.php');
+include_once('institute_details.php');
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,9 +18,22 @@ require_once('institute_details.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
 </head>
-<body scroll="yes" style="overflow: hidden">
-
+<?php 
+if($filename!="index.php")
+{
+	?>
+	<body scroll="yes" style="overflow: hidden">
+	<?php
+}else
+		{
+	?>
+	<body>
+	<?php 	
+			
+		}
+?>
 <nav class="navbar navbar-default navbar-static-top navcust myBar">
 <div class="container-fluid">	
 		
@@ -27,7 +44,7 @@ require_once('institute_details.php');
         <span class="icon-bar" style="background-color:white;"></span>    
       </button>
 		
-    <a href="index.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:250px;height:60px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
+    <a href="careerhub.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:250px;height:60px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
 
     </div>
 		
@@ -39,7 +56,6 @@ require_once('institute_details.php');
        	<?php
        	if(isset($_SESSION['Userid']))
        	{
-			$im=base64_encode($login_image);
        		?>
        	<li>
 			  <div class="box" style="padding-top: 10px;">
@@ -49,11 +65,29 @@ require_once('institute_details.php');
 				  </div>
 				</div>
        	</li>
-       	<li><a href="candidate_profile.php" style="">Profile</a>
+       	
+		<li><a href="candidate_profile.php">Profile</a></li>
+       <li><a href="candidate_findwork.php">Find Work!</a></li>
+        <li><a href="candidate_inbox.php">Inbox</a></li>
+       	
+		<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="candidate_history.php">History &amp; Activity Log</a></li>
+          <li><a href="candidate_edit.php">Edit Profile</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
       	</li>
-       	<li><a href="">Find Work!</a></li>
-        <li><a href="about_us.php">About Us</a></li>
-		<li><a href="logout.php">Logout</a></li>	
+      	<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="careerhub_support.php">Get Support</a></li>
+          <li><a href="careerhub_feedback.php">Feedback</a></li>
+          <li><a href="careerhub.php">About Us</a></li>
+        </ul>
+      	</li>	
 			<?php
 		}
 		else if(isset($_SESSION['BUserid']))
@@ -67,10 +101,28 @@ require_once('institute_details.php');
 				  </div>
 				</div>
        	</li>
-		<li><a href="institute_profile.php">Profile</a></li>
-      	<li><a href="">Hire candidate!</a></li>
-        <li><a href="about_us.php">About Us</a></li>
-		<li><a href="logout.php">Logout</a></li>	
+       	<li><a href="institute_profile.php">Profile</a></li>
+		<li><a href="institute_hire.php">Hire Candidate!</a></li>
+        <li><a href="institute_inbox.php">Inbox</a></li>
+       	
+		<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="institute_history.php">History &amp; Activity Log</a></li>
+          <li><a href="institute_edit.php">Edit Profile</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
+      	</li>
+      	<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="careerhub_support.php">Get Support</a></li>
+          <li><a href="careerhub_feedback.php">Feedback</a></li>
+          <li><a href="careerhub.php">About Us</a></li>
+        </ul>
+      	</li>
 			<?php
 		}
 		else
@@ -80,8 +132,16 @@ require_once('institute_details.php');
 			<li><a href="index.php">Home</a></li>
 			<li><a href="">Find Work!</a></li>
 			<li><a href="">Hire candidate!</a></li>
-			<li><a href="">About Us</a></li>
-			<li><a href="candidate.php">Login</a></li>
+			<li class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
+			<span class="caret"></span></a>
+			<ul class="dropdown-menu">
+			  <li><a href="careerhub_support.php">Get Support</a></li>
+			  <li><a href="careerhub_feedback.php">Feedback</a></li>
+			  <li><a href="careerhub.php">About Us</a></li>
+			</ul>
+			</li>
+			<li><a href="candidate.php">Login/Signup</a></li>
 			<?php
 		  }
 	     ?>

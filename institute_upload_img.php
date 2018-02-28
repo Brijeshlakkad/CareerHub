@@ -1,7 +1,6 @@
 <?php
 require_once('candidate_details.php');
 require_once('functions.php');
-check_session();
 require_once("global_links.php");
 ?>
 <center>

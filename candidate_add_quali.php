@@ -1,0 +1,120 @@
+<?php
+include_once('functions.php');
+include_once('index_header.php');
+include_once('candidate_details.php');
+check_session();
+$error="";
+get_details_from_candidate();
+if(isset($_GET['q']))
+{
+	$error="<span style='color:red;'>Please Enter Skills Again!!</span>";
+}
+?>
+
+<div class="container well">
+   <form name="myform" id="myform" action="candidate_submit_skills.php" method="post" novalidate>
+    <div class="row">
+        <div align="center">
+			<table class="myTable">
+			<div class="form-group">
+			<tr>
+				<td><?php echo $error; ?></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><label for="quali">You can add maximum 15 Skills</label></td>
+				<td><input class="form-control btn btn-primary" type="button" name="quali" id="add" value="Add Your Skills" /></td>
+				<td><p id="quali"></p></td>
+			</tr>
+			
+			<tr>
+			<td id="status"></td>
+			<td><input type="button" class="btn btn-success" onclick='check()' value="Add to Skills"/></td>
+			<td></td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-4 col-sm-offset-4" ><ol id="fields_container"></ol></div>
+	</div>
+	</form>
+</div>
+
+<script>
+	var xcounter=0;
+	$(document).ready(function() {
+    var max_fields_limit= 15; 
+    var x = 0;
+    $('#add').click(function(){
+		if(x>=max_fields_limit){ 
+		$("#quali").append("<b style='color:red'>max 15 skills</b>");
+		}
+        if(xcounter < max_fields_limit){ 
+            xcounter++;
+			var in_id=xcounter+'xxx';
+			var f_id=xcounter+'xx';
+			var fun="analyze(this.value,'"+xcounter+"xx')";
+            $('#fields_container').append('<div class="form-group"><li><input type="text" name="skills[]" id="'+in_id+'" class="form-control"  onblur="'+fun+'" onkeyup="'+fun+'" /><a href="#" class="remove_field" style="margin-left:10px;">Remove</a><br/><span id="'+f_id+'" ></span></li></div>'); 
+			
+        }
+    });  
+    $('#fields_container').on("click",".remove_field", function(){ 
+		$(this).parent('div').remove(); 
+		xcounter--;
+    });
+	});
+	function analyze(val,f)
+	{
+		if(val=="")
+			{
+				$("#"+f+"").html("<span style='color:red;'>Don't leave empty</span>");
+				$("#"+f+"x").css({"border-color": "red", "border-width": "1.45px"});
+			}
+		else
+			{
+				$("#"+f+"").empty();
+				$("#"+f+"x").css({"border-color": "green", "border-width": "1.45px"});
+			}
+	}
+	function check()
+	{
+		if(xcounter!=0)
+			{
+				var flag=0;
+				for(i=1;i<=xcounter;i++)
+					{
+						var xx=$("#"+i+"xxx").val();
+						if(xx=="")
+							{
+								$("#"+i+"xx").html("<span style='color:red;'>Don't leave empty</span>");
+								$("#"+i+"xxx").css({"border-color": "red", "border-width": "1.45px"});
+								flag=1;
+							}
+						else
+						{
+							$("#"+i+"xx").empty();
+							$("#"+i+"xxx").css({"border-color": "green", "border-width": "1.45px"});
+						}
+					}
+				if(flag==0)
+					{
+						$("#status").html("<span style='color:green;'>Event added</span>");
+						$("#myform").submit();
+						return;
+					}
+				else
+				{
+					$("#status").html("<span style='color:red;'>please enter valid information</span>");
+				}
+				
+			}
+		else{
+			$("#status").html("<span style='color:red;'>please enter at least one skill</span>");
+		}
+	}
+	
+	</script>
+	</body>
+</html>

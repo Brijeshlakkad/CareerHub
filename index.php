@@ -1,5 +1,13 @@
 <?php
 require_once('index_header.php');
+if(isset($_SESSION['Userid']))
+{
+	header("Location:candidate_profile.php");
+}
+else if(isset($_SESSION['BUserid']))
+{
+	header("Location:institute_profile.php");
+}
 ?>
 <!-- for background image and two buttons -->
 

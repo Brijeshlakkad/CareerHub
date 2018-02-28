@@ -26,7 +26,7 @@
 			<tr>
 				<td><label for="l_password" >Password:</label></td>
 				<td>
-					<input type="password" class="form-control" name="l_password" placeholder="Enter Password" ng-model="l_password" ng-style="passStyle" ng-change="analyze(l_password)"  required />
+					<input type="password" class="form-control" name="l_password" placeholder="Enter Password" ng-model="l_password" ng-style="passStyle" ng-change="analyze(l_password)" id="show_pass" data-toggle="password"  required />
 				</td>
 				<td></td>
 			</tr>
@@ -65,7 +65,9 @@
 		</form>
 	</div>
 </div>
-
+<script type="text/javascript">
+	$("#show_pass").password('toggle');
+</script>
 <script>
 	var myApp = angular.module("myapp", []);
 	myApp.controller("BrijController", function($scope,$http) {
@@ -91,7 +93,7 @@ function login_status()
 		var pass =	document.myForm.l_password.value;
 		var l_email=document.getElementById('l_email').innerHTML;
 		var l_pass=document.getElementById('l_password').innerHTML;
-		if(l_email!="Email is required." || l_email!="Invalid email address." || l_pass!="Password is required.")
+		if(l_email!="Email is required." && l_email!="Invalid email address." && l_pass!="Password is required.")
 			{
 				var x=new XMLHttpRequest();
 				x.onreadystatechange=function()
@@ -99,13 +101,15 @@ function login_status()
 					if(x.readyState==4 && x.status==200)
 						{
 							var data=this.responseText;
-							if(data==1)
+							if(data!=0)
 							{
 								document.getElementById('l_status').innerHTML="<p style='color:green;'>Logging in....</p>";
 								document.location="candidate_profile.php";
 							}
 							else
+							{
 								document.getElementById('l_status').innerHTML="<p style='color:red;'>Please Enter valid information</p>";
+							}
 						}
 				};
 				x.open("POST","candidate_login_data.php",true);

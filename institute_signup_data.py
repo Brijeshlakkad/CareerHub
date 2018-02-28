@@ -55,7 +55,7 @@ if form.getvalue('s_mobile'):
 if form.getvalue('s_password'):
 	password = form.getvalue('s_password')
 cursor=db.cursor();
-sql="INSERT INTO Institutes (Name,Email,Bname,Bemail,Phone,Password,Status_bits) values('%s','%s','%s','%s','%s','%s','0')" % (user,email,buser,bemail,phone,password)
+sql="INSERT INTO Institutes (Name,Email,Bname,Bemail,Phone,Password) values('%s','%s','%s','%s','%s','%s')" % (user,email,buser,bemail,phone,password)
 try:
 	cursor.execute(sql)
 	db.commit()

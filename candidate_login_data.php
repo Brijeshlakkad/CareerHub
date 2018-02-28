@@ -1,7 +1,6 @@
 <?php
-include_once("config.php");
 include_once("functions.php");
-check_session();
+include_once("config.php");
 $email=protect_anything($_POST['l_email']);
 $password=protect_anything($_POST['l_password']);
 $sql="SELECT * FROM Candidates WHERE Email='$email' AND Password='$password'";
@@ -10,7 +9,7 @@ $r=mysqli_num_rows($result);
 $row=mysqli_fetch_assoc($result);
 if($r==1)
 {
-	$_SESSION['Userid']=$email;
+	$_SESSION['Userid']=$row['Email'];
 	echo "1";
 	return;
 }
