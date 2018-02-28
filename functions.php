@@ -8,7 +8,9 @@ function protect_anything($str)
 }
 function check_session()
 {
-	if(!isset($_SESSION['Userid']))
+	if((!isset($_SESSION['Userid'])) && (!isset($_SESSION['BUserid'])))
+	{
 		header("Location:index.php");
+	}
 }
 ?>
