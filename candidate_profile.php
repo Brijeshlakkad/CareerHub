@@ -30,9 +30,11 @@ $im=base64_encode($login_image);
 				  	</div><br/>
 				  	<?php
 					if($qualis[0]=='0')
-						echo "<a href='candidate_add_quali.php'>Add Qualification Details</a>";
+						echo "<a href='candidate_add_quali.php'>+ Add Qualification Details</a>";
 					if($course=='-99' || $college=='-99' || $intern== '-99' || $p_year=='-99')
-						echo "<a href='candidate_add_gra.php'>Add Graduation Details</a>";
+						echo "<br/><a href='candidate_add_gra.php'>+ Add Graduation Details</a>";
+					if($gender=='-99')
+						echo "<br/><a href='candidate_add_per.php'>+ Add Personal Details</a>";
 					?>
 				</div>
 			  </div>
@@ -95,6 +97,43 @@ $im=base64_encode($login_image);
 							<tr>
 								<td>Internship/Experience</td>
 								<td><?php echo $intern; ?></td>
+							</tr>
+			</table>
+			<?php 
+						}
+			?>
+			</div>
+		</section>
+		<section class="row">
+			<div id="heading_per">
+			<?php
+					get_details_from_candidate();
+					if($gender!='-99')
+					{
+						?>
+			<label>Personal Details <span id="edit_btn"><a id="edit" href="candidate_add_per.php">Edit <span class="glyphicon glyphicon-pencil"></span></a></span></label>
+			</div>
+			<div id="show_per">
+			<table class="myTable">
+							<tr>
+								<td>Postal Address</td>
+								<td><?php echo $postal_add; ?></td>
+							</tr>
+							<tr>
+								<td>Permanent Address</td>
+								<td><?php echo $perm_add; ?></td>
+							</tr>
+							<tr>
+								<td>Pincode</td>
+								<td><?php echo $per_pin; ?></td>
+							</tr>
+							<tr>
+								<td>DOB</td>
+								<td><?php echo $dob; ?></td>
+							</tr>
+							<tr>
+								<td>Gender</td>
+								<td><?php echo $gender; ?></td>
 							</tr>
 			</table>
 			<?php 

@@ -3,12 +3,9 @@ include_once('functions.php');
 include_once('index_header.php');
 include_once('candidate_details.php');
 check_session();
-$error="";
+
 get_details_from_candidate();
-if(isset($_GET['q']))
-{
-	$error="<span style='color:red;'>Please Enter Skills Again!!</span>";
-}
+
 ?>
 <body>
 <div class="container well">
@@ -17,11 +14,6 @@ if(isset($_GET['q']))
         <div align="center">
 			<table class="myTable">
 			<div class="form-group">
-			<tr>
-				<td><?php echo $error; ?></td>
-				<td></td>
-				<td></td>
-			</tr>
 			<tr>
 				<td><label for="quali">You can add maximum 15 Skills</label></td>
 				<td><input class="form-control btn btn-primary" type="button" name="quali" id="add" value="Add Your Skills" /></td>

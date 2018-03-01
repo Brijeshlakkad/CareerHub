@@ -3,36 +3,30 @@ include_once('functions.php');
 include_once('index_header.php');
 include_once('candidate_details.php');
 check_session();
-$error="";
+
 get_details_from_candidate();
-if(isset($_GET['q']))
-{
-	$error="<span style='color:red;'>Please Enter Details Again!!</span>";
-}
+
 ?>
 <style>
-input.ng-invalid {
+input.ng-touched.ng-invalid {
 	border-width: 1.45px;
     border-color: red;
 }
-input.ng-valid {
+input.ng-touched.ng-valid {
     border-width: 1.45px;
     border-color: green;
 }
+</
 </style>
 <div class="container well">
  
-   <form name="myForm" id="myForm"  ng-app="myapp" ng-controller="BrijController" action="candidate_submit_gra.php" method="post" novalidate>
+   <form name="myForm" id="myForm"  ng-app="myapp" ng-controller="BrijController" method="post" novalidate>
     <div class="row">
         <div align="center">
          <h3 class="heading">Graduation Details</h3>
 			<table class="myTable">
 			<div class="form-group">
-			<tr>
-				<td><?php echo $error; ?></td>
-				<td></td>
-				<td></td>
-			</tr>
+			
 			<tr>
 				<td><label for="course">Course</label></td>
 				<td><select class="form-control" name="course" id="course" ng-model="course" >

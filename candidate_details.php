@@ -36,7 +36,11 @@ function get_details_from_candidate()
 	global $college;
 	global $p_year;
 	global $intern;
-	
+	global $postal_add;
+	global $perm_add;
+	global $per_pin;
+	global $dob;
+	global $gender;
 	$login_id=$row['ID'];
 	$login_name=$row['Name'];
 	$login_email=$row['Email'];
@@ -55,11 +59,18 @@ function get_details_from_candidate()
 	$p_year=$row['Passing_year'];
 	$intern=$row['Intern'];
 	$college=$row["College"];
+	
+	$postal_add=$row['Postal_Add'];
+	$perm_add=$row['Perm_Add'];
+	$per_pin=$row['Per_pincode'];
+	$dob= date('d/m/Y', strtotime($row['DOB']));
+	$gender=$row['Gender'];
 }
 function set_progress($f)
 {
 	global $course;
 	global $qualis;
+	global $gender;
 	global $barV;
 	get_details_from_candidate();
 	if($f=="skills")
@@ -78,11 +89,20 @@ function set_progress($f)
 		}
 		return $barV;
 	}
+	else if($f=="per")
+	{
+		if($gender == '-99')
+		{
+				$barV+=15;
+		}
+		return $barV;
+	}
 }
 function set_bits($f)
 {
 	global $course;
 	global $qualis;
+	global $gender;
 	global $bits;
 	get_details_from_candidate();
 	if($f=="skills")
@@ -96,6 +116,14 @@ function set_bits($f)
 	else if($f=="gra")
 	{
 		if($course=='-99')
+		{
+			$bits[0]+=1;
+		}
+		return implode(",/,",$bits);
+	}
+	else if($f=="per")
+	{
+		if($gender == '-99')
 		{
 			$bits[0]+=1;
 		}
