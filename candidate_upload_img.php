@@ -40,7 +40,12 @@ require_once("global_links.php");
 	function check()
 	{
 		var a = document.getElementById("a_img").innerHTML;
-		if(a=="")
+		var b = $("#file").val();
+		if(b=="")
+			{
+				$("#a_img").html("<p style='color:red;'>Please select a valid Image File <br> Only jpeg, jpg and png images type allowed </p>");
+			}
+		else if(a=="" && b!="")
 			document.i_form.submit();
 	}
 $(document).ready(function (e) {
