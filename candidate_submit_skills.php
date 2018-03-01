@@ -6,20 +6,21 @@ check_session();
 get_details_from_candidate();
 $skills=$_POST['skills'];
 $strskils=implode(",/,",$skills);
-if($qualis[0]=='0')
-{
-	$barV+=20;
-}
 
-$sql="UPDATE Candidates SET Progress='$barV',Quali='$strskils' where Email='$login_email'";
-$result=mysqli_query($con,$sql);
-if($result)
+$q1=set_progress('skills');
+$q2=set_bits('skills');
+$sql="UPDATE Candidates SET Progress='$q1',Status_bits='$q2' where Email='$login_email'";
+$result2=mysqli_query($con,$sql);
+
+$sql="UPDATE Candidates SET Quali='$strskils' where Email='$login_email'";
+$result1=mysqli_query($con,$sql);
+
+if($result1 && $result2)
 {
-	header("location:candidate_profile.php");
+	echo "1";
 }
 else
 {
-	$q=mcrypt_encrypt("Set");
-	header("location:candidate_add_quali.php?q='$q'");
+	echo "0";
 }
 ?>
