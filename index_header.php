@@ -103,6 +103,7 @@ if($filename=="index.php")
        	</li>
        	<li><a href="institute_profile.php">Profile</a></li>
 		<li><a href="institute_hire.php">Hire Candidate!</a></li>
+       	<li><a href="institute_post_job.php">Post a Job</a></li>
         <li><a href="institute_inbox.php">Inbox</a></li>
        	
 		<li class="dropdown">
