@@ -126,6 +126,31 @@ if($filename=="index.php")
       	</li>
 			<?php
 		}
+		else if(isset($_SESSION['Admin']))
+       	{
+       		?>
+       	<li>
+			  <div class="box" style="padding-top: 10px;">
+				  <div class="container-1">
+					  <span class="icon"><i class="fa fa-search"></i></span>
+					  <input type="search" id="search" placeholder="Search CareerHub" />
+				  </div>
+				</div>
+       	</li>
+       	<li><a href="admin_profile.php">Profile</a></li>
+		<li><a href="admin_candidate.php">Candidates</a></li>
+       	<li><a href="admin_institute.php">Institutes</a></li>
+       	<li><a href="admin_post_test.php">Post a Test!</a></li>
+		<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="institute_history.php">History &amp; Activity Log</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
+      	</li>
+			<?php
+		}
 		else
 		{ 
 			?>

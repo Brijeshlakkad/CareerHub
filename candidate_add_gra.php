@@ -100,10 +100,10 @@ input.ng-touched.ng-valid {
 	var myApp = angular.module("myapp", []);
 	myApp.controller("BrijController", function($scope,$http) {
 		$scope.courseOptions = [
-				{val : "B.Tech", name_c : "B.TECH"},
-				{val : "MCA", name_c : "MCA"},
-				{val : "MBA", name_c : "MBA"},
-				{val : "BCA", name_c : "BCA"}
+				{val : "Information Technology", name_c : "Information Technology"},
+				{val : "Computer Science", name_c : "Computer Science"},
+				{val : "Mechanical Engineering", name_c : "Mechanical Engineering"},
+				{val : "Civil Engineering", name_c : "Civil Engineering"}
 			];
 		$scope.internOptions = [
 				{val : "yes", name_c : "Yes"},
@@ -113,6 +113,7 @@ input.ng-touched.ng-valid {
 			{
 				$scope.course="<?php echo $course; ?>";
 				$scope.college="<?php echo $college; ?>";
+				$scope.col_pin="<?php echo $col_pin; ?>";
 				$scope.intern="<?php echo $intern; ?>";
 			}
 				var patt3 = new RegExp("^[0-9]{6}$");
