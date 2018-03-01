@@ -41,6 +41,8 @@ function get_details_from_candidate()
 	global $per_pin;
 	global $dob;
 	global $gender;
+	global $col_pin;
+	
 	$login_id=$row['ID'];
 	$login_name=$row['Name'];
 	$login_email=$row['Email'];
@@ -59,6 +61,7 @@ function get_details_from_candidate()
 	$p_year=$row['Passing_year'];
 	$intern=$row['Intern'];
 	$college=$row["College"];
+	$col_pin=$row['College_pincode'];
 	
 	$postal_add=$row['Postal_Add'];
 	$perm_add=$row['Perm_Add'];

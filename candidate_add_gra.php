@@ -50,6 +50,16 @@ input.ng-touched.ng-valid {
 				</td>
 			</tr>
 			<tr>
+				<td><label for="col_pin">College Pincode</label></td>
+				<td><input class="form-control" type="text" name="col_pin" id="col_pin" ng-model="col_pin" ng-style="pinStyle"  ng-change="analyze3(col_pin)" required pin-dir/></td>
+				<td>
+					<span style="color:red" id="s_col_pin" ng-show="myForm.col_pin.$dirty && myForm.col_pin.$invalid">
+					<span ng-show="myForm.col_pin.$error.required">Pincode is required</span>
+					<span ng-show="!myForm.col_pin.$error.required && myForm.col_pin.$error.pinvalid">Invalid pincode</span>
+					</span>
+				</td>
+			</tr>
+			<tr>
 				<td><label for="year">Passing year</label></td>
 				<td><input class="form-control" type="number" min="<?php echo date("Y"); ?>" max="<?php $s=date("Y");
 						   echo $s+5; ?>"  step="1"  name="year" id="year" ng-model="year" required/></td>
@@ -105,15 +115,27 @@ input.ng-touched.ng-valid {
 				$scope.college="<?php echo $college; ?>";
 				$scope.intern="<?php echo $intern; ?>";
 			}
+				var patt3 = new RegExp("^[0-9]{6}$");
+				$scope.pinStyle = {
+					"border-width":"1.45px"
+                };
+                $scope.analyze3 = function(value) {
+                    if(patt3.test(value)) {
+                        $scope.pinStyle["border-color"] = "green";
+                    }else {
+                        $scope.pinStyle["border-color"] = "red";
+                    }
+                };
 			$scope.submit_form = function() {
 							var c1=$scope.course;
 							var c2=$scope.college;
 							var c3=$scope.year;
 							var c4=$scope.intern;
+							var c5=$scope.col_pin;
 							$http({
 								method : "POST",
 								url : "candidate_submit_gra.php",
-								data: "course="+c1+"&college="+c2+"&year="+c3+"&intern="+c4,
+								data: "course="+c1+"&college="+c2+"&year="+c3+"&intern="+c4+"&col_pin="+c5,
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).then(function mySuccess(response) {
 								flag = response.data;
@@ -127,7 +149,23 @@ input.ng-touched.ng-valid {
 							});
                };
 	});
-	
+	myApp.directive('pinDir', function() {
+				return {
+					require: 'ngModel',
+					link: function(scope, element, attr, mCtrl) {
+						function myValidation(value) {
+							var patt = new RegExp("^[0-9]{6}$");
+							if (patt.test(value)) {
+								mCtrl.$setValidity('pinvalid', true);
+							} else {
+								mCtrl.$setValidity('pinvalid', false);
+							}
+							return value;
+						}
+						mCtrl.$parsers.push(myValidation);
+					}
+				};
+});
 </script>
 	</body>
 </html>

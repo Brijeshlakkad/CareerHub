@@ -91,6 +91,10 @@ $im=base64_encode($login_image);
 								<td><?php echo $college; ?></td>
 							</tr>
 							<tr>
+								<td>College Pincode</td>
+								<td><?php echo $col_pin; ?></td>
+							</tr>
+							<tr>
 								<td>Passing Year</td>
 								<td><?php echo $p_year; ?></td>
 							</tr>
