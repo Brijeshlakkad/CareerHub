@@ -21,7 +21,7 @@ include_once('institute_details.php');
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
 </head>
 <?php 
-if($filename!="index.php")
+if($filename=="index.php")
 {
 	?>
 	<body scroll="yes" style="overflow: hidden">
