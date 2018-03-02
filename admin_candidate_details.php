@@ -1,19 +1,45 @@
 <?php
 include_once('functions.php');
 include_once("config.php");
-include_once("admin_single_cand_details.php");
-
 check_session();
-?>
-<script>
-var myScript = document.createElement('script'); 
-myScript.src = 'js/admin_cand.js';
-myScript.onload = function() { 
-  console.log('jQuery loaded.');
-};
+if(isset($_POST['query']))
+{
+	$id=$_POST['query'];
+	$sql="select * from Candidates where ID='$id'";
+	$result=mysqli_query($con,$sql);
+	if(!$result)
+		die("Server is down.");
+	$row=mysqli_fetch_array($result);
+	$im=base64_encode($row['Image']);
+	$login_name=ucwords($row['Name']);
+	$barV=$row['Progress'];
+	$qualis=explode(",/,",$row['Quali']);
+	$course=$row['Course'];
+	$p_year=$row['Passing_year'];
+	$intern=$row['Intern'];
+	$college=$row["College"];
+	$col_pin=$row['College_pincode'];
+	
+	$postal_add=$row['Postal_Add'];
+	$perm_add=$row['Perm_Add'];
+	$per_pin=$row['Per_pincode'];
+	$dob= date('d/m/Y', strtotime($row['DOB']));
+	$gender=$row['Gender'];
 
-document.head.appendChild(myScript);
-</script>
+
+?>
+<script src="js/angular.js"></script>
+<script language="JavaScript">
+   function helper()
+   {
+      var head= document.getElementsByTagName('head')[0];
+      var script= document.createElement('script');
+      script.type= 'text/javascript';
+      script.src= 'js/admin_cand.js';
+      head.appendChild(script);
+   }
+helper();
+   </script>
     <div class="row">
         <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
             <div>
@@ -140,7 +166,13 @@ document.head.appendChild(myScript);
 			<hr class="hr-primary" />
 		</div>
 		<div class="row" align="center" id="<?php echo $id; ?>">
+		<form>
+			<input type="hidden" name="flag" />
 			<button type="button" class="btn btn-success" id="approve_cand" >Approve <span class="glyphicon glyphicon-ok"></span></button>
 			<button type="button" class="btn btn-danger" id="decline_cand" >Decline <span class="glyphicon glyphicon-remove"></span></button>
+		</form>
 		</div>
 </div>
+<?php
+}
+?>

@@ -18,17 +18,10 @@ include_once('institute_details.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/admin_cand.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
 </head>
-<script>
-var myScript = document.createElement('script'); 
-myScript.src = 'js/admin_cand.js';
-myScript.onload = function() { 
-  console.log('jQuery loaded.');
-};
 
-document.head.appendChild(myScript);
-</script>
 <?php 
 if($filename=="index.php")
 {
@@ -148,15 +141,14 @@ if($filename=="index.php")
        	</li>
        	<li>&nbsp;&nbsp;&nbsp;</li>
        	<li><button class="btn btn-primary btn-sm navbar-btn" style="padding: 10px;" id="refresh">Refresh <span class="glyphicon glyphicon-refresh"></span></button></li>
-       	<li><a href="admin_profile.php">Profile</a></li>
        	<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Candidates
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="admin_candidate.php" id="admin_all_cand">See all candidates</a></li>
-          <li><a href="admin_candidate.php" id="admin_wait_cand">Waiting candidates</a></li>
-          <li><a href="admin_candidate.php" id="admin_appr_cand">Approved candidates</a></li>
-          <li><a href="admin_candidate.php" id="admin_decl_cand">Declined candidates</a></li>
+          <li><a id="admin_all_cand">See all candidates</a></li>
+          <li><a id="admin_wait_cand">Waiting candidates</a></li>
+          <li><a id="admin_appr_cand">Approved candidates</a></li>
+          <li><a id="admin_decl_cand">Declined candidates</a></li>
         </ul>
       	</li>
 		

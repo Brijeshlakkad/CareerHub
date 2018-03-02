@@ -1,9 +1,19 @@
-<?php
-include_once("functions.php");
-include_once("config.php");
-include_once("candidate_details.php");
-check_session();
-get_details_from_candidate();
-$q=set_bits("skills");
-echo $q;
-?>
+<html><head></head>
+<script language="JavaScript">
+	var i=0;
+	function help(){
+			if(i==0)
+				  {
+			  var head= document.getElementsByTagName('head')[0];
+			  var script= document.createElement('script');
+			  script.type= 'text/javascript';
+			  script.src= 'js/admin_cand.js';
+					  console.log("added");
+			  head.appendChild(script);
+					  i++;
+				  }
+
+		  }
+	help();
+  </script>
+  <body></body></html>

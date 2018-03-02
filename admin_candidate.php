@@ -1,12 +1,7 @@
 <?php
 include_once('functions.php');
 include_once('index_header.php');
-
 check_session();
-$sql="Select * from Candidates";
-$result=mysqli_query($con,$sql);
-if(!$result)
-	die("Server is down.");
 ?>
 
 <style>
@@ -17,6 +12,12 @@ if(!$result)
 	}
 </style>
 <div class="container well" id="show_here">
+<?php
+$sql="Select * from Candidates";
+$result=mysqli_query($con,$sql);
+if(!$result)
+	die("Server is down.");
+?>
 <div class="row">
 <div class="form-group" >
 <div class="table-responsive" align="center">
