@@ -240,6 +240,17 @@ helper();
 		</form>
 		
 		<?php
+		}else if((count($bits)>1) && $updated==1 && $bits[1]==1)
+		{
+			?>
+		
+		<form>
+			<input type="hidden" name="flag" />
+			<button type="button" class="btn btn-success" id="approve_cand" >Approve <span class="glyphicon glyphicon-ok"></span></button>
+			<button type="button" class="btn btn-danger" id="decline_cand" >Decline <span class="glyphicon glyphicon-remove"></span></button>
+		</form>
+		
+		<?php
 		}
 		else
 		{
