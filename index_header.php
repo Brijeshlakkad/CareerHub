@@ -20,6 +20,15 @@ include_once('institute_details.php');
 	<script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
 </head>
+<script>
+var myScript = document.createElement('script'); 
+myScript.src = 'js/admin_cand.js';
+myScript.onload = function() { 
+  console.log('jQuery loaded.');
+};
+
+document.head.appendChild(myScript);
+</script>
 <?php 
 if($filename=="index.php")
 {
@@ -137,15 +146,27 @@ if($filename=="index.php")
 				  </div>
 				</div>
        	</li>
+       	<li>&nbsp;&nbsp;&nbsp;</li>
+       	<li><button class="btn btn-primary btn-sm navbar-btn" style="padding: 10px;" id="refresh">Refresh <span class="glyphicon glyphicon-refresh"></span></button></li>
        	<li><a href="admin_profile.php">Profile</a></li>
-		<li><a href="admin_candidate.php">Candidates</a></li>
+       	<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Candidates
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="admin_candidate.php" id="admin_all_cand">See all candidates</a></li>
+          <li><a href="admin_candidate.php" id="admin_wait_cand">Waiting candidates</a></li>
+          <li><a href="admin_candidate.php" id="admin_appr_cand">Approved candidates</a></li>
+          <li><a href="admin_candidate.php" id="admin_decl_cand">Declined candidates</a></li>
+        </ul>
+      	</li>
+		
        	<li><a href="admin_institute.php">Institutes</a></li>
        	<li><a href="admin_post_test.php">Post a Test!</a></li>
 		<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="institute_history.php">History &amp; Activity Log</a></li>
+          <li><a href="admin_history.php">History &amp; Activity Log</a></li>
           <li><a href="logout.php">Logout</a></li>
         </ul>
       	</li>
