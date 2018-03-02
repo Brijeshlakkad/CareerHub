@@ -10,6 +10,8 @@ function check_session()
 {
 	if((!isset($_SESSION['Userid'])) && (!isset($_SESSION['BUserid'])) && (!isset($_SESSION['Admin'])))
 	{
+		if(!isset($_SESSION['Admin']))
+			header("Location:index.php");
 		header("Location:index.php");
 	}
 }
