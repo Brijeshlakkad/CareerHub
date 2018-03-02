@@ -5,7 +5,7 @@ check_session();
 ?>
 
 
-<div class="container" id="show_here">
+<div class="container well" id="show_here">
 
 </div>
 </body>

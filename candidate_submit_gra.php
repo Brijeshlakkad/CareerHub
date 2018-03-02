@@ -13,7 +13,10 @@ $b_colpin=protect_anything($_POST['col_pin']);
 
 $q1=set_progress('gra');
 $q2=set_bits('gra');
-$sql="UPDATE Candidates SET Progress='$q1',Status_bits='$q2' where Email='$login_email'";
+$q3=check_appr();
+date_default_timezone_get("Asia/Kolkata");
+$q4 = date("Y-m-d H:i:s");
+$sql="UPDATE Candidates SET Progress='$q1',Status_bits='$q2',isUpdated='$q3',Upd_Gra='$q4' where Email='$login_email'";
 $result2=mysqli_query($con,$sql);
 
 $sql="UPDATE Candidates SET Course='$b_course',College='$b_college',Passing_year='$b_year',Intern='$b_intern',College_pincode='$b_colpin' where Email='$login_email'";

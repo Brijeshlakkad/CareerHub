@@ -21,27 +21,12 @@ function connect_with_row()
 function get_details_from_candidate()
 {
 	connect_with_row();
-	global $row;
-	global $login_id;
-	global $login_name;
-	global $login_email;
-	global $login_mno;
+	global $row,$login_id,$login_name,$login_email,$login_mno;
 	global $login_image;
-	global $sbit;
-	global $bits;
-	global $barV;
-	global $squali;
-	global $qualis;
-	global $course;
-	global $college;
-	global $p_year;
-	global $intern;
-	global $postal_add;
-	global $perm_add;
-	global $per_pin;
-	global $dob;
-	global $gender;
-	global $col_pin;
+	global $sbit,$bits,$barV,$squali,$qualis;
+	global $course,$college,$p_year,$intern;
+	global $postal_add,$perm_add,$per_pin,$dob,$gender,$col_pin;
+	global $desc,$updated;
 	
 	$login_id=$row['ID'];
 	$login_name=$row['Name'];
@@ -68,6 +53,9 @@ function get_details_from_candidate()
 	$per_pin=$row['Per_pincode'];
 	$dob= date('d/m/Y', strtotime($row['DOB']));
 	$gender=$row['Gender'];
+	
+	$updated=$row['isUpdated'];
+	$desc=$row['Description'];
 }
 function set_progress($f)
 {
@@ -75,6 +63,7 @@ function set_progress($f)
 	global $qualis;
 	global $gender;
 	global $barV;
+	global $desc;
 	get_details_from_candidate();
 	if($f=="skills")
 	{
@@ -100,6 +89,14 @@ function set_progress($f)
 		}
 		return $barV;
 	}
+	else if($f=="desc")
+	{
+		if($desc == '-99')
+		{
+				$barV+=10;
+		}
+		return $barV;
+	}
 }
 function set_bits($f)
 {
@@ -107,6 +104,7 @@ function set_bits($f)
 	global $qualis;
 	global $gender;
 	global $bits;
+	global $desc;
 	get_details_from_candidate();
 	if($f=="skills")
 	{
@@ -132,5 +130,22 @@ function set_bits($f)
 		}
 		return implode(",/,",$bits);
 	}
+	else if($f=="desc")
+	{
+		if($desc == '-99')
+		{
+			$bits[0]+=1;
+		}
+		return implode(",/,",$bits);
+	}
 }
+function check_appr()
+{
+	global $bits,$updated;
+	if(count($bits)>1 && $bits[1]==1 && $updated==0)
+		return 1;
+	else
+		return 0;
+}
+
 ?>

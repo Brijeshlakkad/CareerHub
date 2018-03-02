@@ -22,7 +22,7 @@ input.ng-touched.ng-valid {
    <form name="myForm" id="myForm"  ng-app="myapp" ng-controller="BrijController" method="post" novalidate>
     <div class="row">
         <div align="center">
-         <h3 class="heading">Graduation Details</h3>
+         <h3 class="heading">Personal Details</h3>
 			<table class="myTable">
 			<div class="form-group">
 			

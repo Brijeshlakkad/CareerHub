@@ -38,7 +38,7 @@ if(isset($_POST['flag']))
 		{
 			$sbits=$row['Status_bits'];
 			$bits=explode(",/,",$sbits);
-			if(count($bits)==1)
+			if(count($bits)==1 && $bits[0]>=5)
 			{
 				$name[$i]=$row["Email"];
 				$id[$i]=$row['ID'];
@@ -53,9 +53,10 @@ if(isset($_POST['flag']))
 		reset_var();
 		while($row=mysqli_fetch_array($result))
 		{
+			$isUpdated=$row['isUpdated'];
 			$sbits=$row['Status_bits'];
 			$bits=explode(",/,",$sbits);
-			if(count($bits)>1 && $bits[1]==1)
+			if(count($bits)>1 && $bits[1]==1 && $isUpdated==0)
 			{
 				$name[$i]=$row["Email"];
 				$id[$i]=$row['ID'];
@@ -81,6 +82,24 @@ if(isset($_POST['flag']))
 		}
 		$len=$i;
 		show_cands($len,$id,$name,"Declined Candidates");
+	}
+	else if($flag=="updated")
+	{
+		reset_var();
+		while($row=mysqli_fetch_array($result))
+		{
+			$isUpdated=$row['isUpdated'];
+			$sbits=$row['Status_bits'];
+			$bits=explode(",/,",$sbits);
+			if(count($bits)>1 && $bits[1]==1 && $isUpdated==1)
+			{
+				$name[$i]=$row["Email"];
+				$id[$i]=$row['ID'];
+				$i++;
+			}
+		}
+		$len=$i;
+		show_cands($len,$id,$name,"Updated Candidates");
 	}
 }
 

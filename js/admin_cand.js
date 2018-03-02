@@ -2,6 +2,18 @@ $(document).ready(function(){
 	$("#refresh").click(function(){
 		location.reload();
 	});
+	$("#admin_updated_cand").click(function(){
+			$.ajax({
+     		type: 'POST', 
+			url: 'admin_show_cand.php',
+           	data: 'flag=updated',
+         	success  : function (data)
+         	{
+				$("#show_here").empty();
+				$("#show_here").html(data);
+         	}
+			});
+		});
 	$("#admin_all_cand").click(function(){
 			$.ajax({
      		type: 'POST', 

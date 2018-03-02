@@ -14,9 +14,9 @@ if($bits[0]==0)
 $im=base64_encode($login_image);
 ?>
 <div class="container-fluid well">
-    <div class="row">
-        <div class="col-sm-8">
-            <div>
+    <div class="row" style="margin: 15px;">
+        <div class="col-sm-8 blog">
+            <section class="row" >
            		<div class="media">
 				<div class="media-left">
 				  <img class="img-circle" style="height:150px;" src="data:image/jpeg;base64,<?php echo $im; ?>" />
@@ -29,18 +29,43 @@ $im=base64_encode($login_image);
 					</div>
 				  	</div><br/>
 				  	<?php
-					if($qualis[0]=='0')
-						echo "<a href='candidate_add_quali.php'>+ Add Qualification Details</a>";
-					if($course=='-99' || $college=='-99' || $intern== '-99' || $p_year=='-99')
-						echo "<br/><a href='candidate_add_gra.php'>+ Add Graduation Details</a>";
-					if($gender=='-99')
-						echo "<br/><a href='candidate_add_per.php'>+ Add Personal Details</a>";
+					if($qualis[0]=='0' || $course=='-99' || $college=='-99' || $intern== '-99' || $p_year=='-99' || $gender=='-99' || $desc=='-99')
+					{
+						if($qualis[0]=='0')
+							echo "<a href='candidate_add_quali.php'>+ Add Qualification Details</a>";
+						if($course=='-99' || $college=='-99' || $intern== '-99' || $p_year=='-99')
+							echo "<br/><a href='candidate_add_gra.php'>+ Add Graduation Details</a>";
+						if($gender=='-99')
+							echo "<br/><a href='candidate_add_per.php'>+ Add Personal Details</a>";
+						if($desc=='-99')
+							echo "<br/><a href='candidate_add_desc.php'>+ Add Description</a>";
+					}
+					else{
+						echo "<br/><span style='color:green;'>All details are added <span class='glyphicon glyphicon-ok'></span></span>";
+					}
 					?>
 				</div>
 			  </div>
-            </div>
+            </section>
+            <hr />
+            <section class="row">
+			<div id="heading_skills">
+			<?php
+					get_details_from_candidate();
+					if($desc!='-99')
+					{
+						?>
+			<label>Description <span id="edit_btn"><a id="edit" href="candidate_add_desc.php">Edit <span class="glyphicon glyphicon-pencil"></span></a></span></label>
+			</div>
+			<div id="show_desc" class="jumbotron" style="margin: 5px;" align="left">
+					<?php
+						echo $desc;
+					}
+			?>
+			</div>
+			</section>
 		</div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 sidebar">
         <section class="row">
         <div id="heading_skills">
         <?php
@@ -69,8 +94,10 @@ $im=base64_encode($login_image);
 					}
 		?>
 		</div>
-		
 		</section>
+		
+		<hr />
+		
 		<section class="row">
 			 <div id="heading_gra">
 			<?php
@@ -108,6 +135,9 @@ $im=base64_encode($login_image);
 			?>
 			</div>
 		</section>
+		
+		<hr />
+		
 		<section class="row">
 			<div id="heading_per">
 			<?php

@@ -149,6 +149,7 @@ if($filename=="index.php")
           <li><a id="admin_wait_cand">Waiting candidates</a></li>
           <li><a id="admin_appr_cand">Approved candidates</a></li>
           <li><a id="admin_decl_cand">Declined candidates</a></li>
+          <li><a id="admin_updated_cand">Updated candidates</a></li>
         </ul>
       	</li>
 		
