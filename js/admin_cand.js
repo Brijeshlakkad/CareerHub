@@ -66,10 +66,10 @@ $(document).ready(function(){
 		var parid=$(this).closest('div').attr('id');
 		var appr = prompt("Please enter 'Approve' to approve Candidate : "+parid );
 		if (appr.toLowerCase() == "approve") {
-			$.post("admin_handle_cand.php",
+			$.post("admin_varify_cand.py",
 			{
 				id: ""+parid,
-				flag:"1"
+				flag: "1"
 			},
 			function(data){
 				if(data==01)
@@ -80,7 +80,7 @@ $(document).ready(function(){
 				{
 					alert("Candidate "+parid+" is approved Successfully.");
 				}
-				else if(data==00 || data==01)
+				else if(data==00 || data==10)
 				{
 					alert("Please, try again! later");
 				}
@@ -93,7 +93,7 @@ $(document).ready(function(){
 		var parid=$(this).closest('div').attr('id');
 		var appr = prompt("Please enter 'Decline' to decline Candidate : "+parid );
 		if (appr.toLowerCase() == "decline") {
-			$.post("admin_handle_cand.php",
+			$.post("admin_varify_cand.py",
 			{
 				id: ""+parid,
 				flag:"0"
@@ -107,7 +107,7 @@ $(document).ready(function(){
 				{
 					alert("Candidate "+parid+" is declined Successfully.");
 				}
-				else if(data==00 || data==01)
+				else if(data==00 || data==10)
 				{
 					alert("Please, try again! later");
 				}
