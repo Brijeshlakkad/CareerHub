@@ -2,15 +2,13 @@
 import cgi, cgitb 
 import sys
 import os
-import re
 import MySQLdb
 
-conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-cursor = conn.cursor ()
-cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-form = cgi.FieldStorage()
-
-print("Content-type:text/html\r\n\r\n")
+def connect_to_database():
+	global conn,cursor
+	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
+	cursor = conn.cursor ()
+	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
 def check_already(c_id):
 	global bits,cursor,conn,updated,sbits
@@ -24,10 +22,13 @@ def check_already(c_id):
 		return len(bits)
 	except:
 		conn.rollback()
-		print("0")
+		return "0"
 
-def update_database(c_id,flag):
+def update_database(c_id1,flag1):
 	global bits,cursor,conn,updated,sbits
+	connect_to_database()
+	c_id=(int)(c_id1)
+	flag=(int)(flag1)
 	if flag==1:
 		if check_already(c_id)==1:
 			sbits+=",/,"+"1"
@@ -35,10 +36,10 @@ def update_database(c_id,flag):
 			try:
 				cursor.execute(sql)
 				conn.commit()
-				print("11")
+				return "11"
 			except:
 				conn.rollback()
-				print("10")
+				return "10"
 		elif check_already(c_id)>=1 and bits[1]=="1" and updated=="1":
 			bits[1]="1"
 			s=",/,"
@@ -47,12 +48,12 @@ def update_database(c_id,flag):
 			try:
 				cursor.execute(sql)
 				conn.commit()
-				print("11")
+				return "11"
 			except:
 				conn.rollback()
-				print("10")
+				return "10"
 		else:
-			print("01")
+			return "01"
 	elif flag==0:
 		if check_already(c_id)==1:
 			sbits+=",/,"+"0"
@@ -60,10 +61,10 @@ def update_database(c_id,flag):
 			try:
 				cursor.execute(sql)
 				conn.commit()
-				print("11")
+				return "11"
 			except:
 				conn.rollback()
-				print("10")
+				return "10"
 		elif check_already(c_id)>=1 and bits[1]=="1" and updated=="1":
 			bits[1]="0"
 			s=",/,"
@@ -72,18 +73,12 @@ def update_database(c_id,flag):
 			try:
 				cursor.execute(sql)
 				conn.commit()
-				print("11")
+				return "11"
 			except:
 				conn.rollback()
-				print("10")
+				return "10"
 		else:
-			print("01")
-	
-
-if form.getvalue('id'):
-	c_id = (int)(form.getvalue('id'))
-
-if form.getvalue('flag'):
-	flag = (int)(form.getvalue('flag'))
-update_database(c_id,flag)
-conn.close()
+			return "01"
+	else:
+		return "01"
+	conn.close()

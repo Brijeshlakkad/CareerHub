@@ -62,11 +62,12 @@ $(document).ready(function(){
          	}
 		});
 		});
+	
 	$("#approve_cand").click(function(){
 		var parid=$(this).closest('div').attr('id');
 		var appr = prompt("Please enter 'Approve' to approve Candidate : "+parid );
 		if (appr.toLowerCase() == "approve") {
-			$.post("admin_varify_cand.py",
+			$.post("admin_cand.py",
 			{
 				id: ""+parid,
 				flag: "1"
@@ -74,7 +75,7 @@ $(document).ready(function(){
 			function(data){
 				if(data==01)
 				{
-					alert("Already approved.");
+					alert("Decision is already taken.");
 				}
 				else if(data==11)
 				{
@@ -84,6 +85,8 @@ $(document).ready(function(){
 				{
 					alert("Please, try again! later");
 				}
+				else
+					alert("hii");
 			});
 		} else {
 			
@@ -93,7 +96,7 @@ $(document).ready(function(){
 		var parid=$(this).closest('div').attr('id');
 		var appr = prompt("Please enter 'Decline' to decline Candidate : "+parid );
 		if (appr.toLowerCase() == "decline") {
-			$.post("admin_varify_cand.py",
+			$.post("admin_cand.py",
 			{
 				id: ""+parid,
 				flag:"0"
@@ -101,7 +104,7 @@ $(document).ready(function(){
 			function(data, status){
 				if(data==01)
 				{
-					alert("Already declined.");
+					alert("Decision is already taken.");
 				}
 				else if(data==11)
 				{

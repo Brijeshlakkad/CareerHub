@@ -25,7 +25,7 @@
 		var parid=$(this).closest('div').attr('id');
 		var appr = prompt("Please enter 'Approve' to approve Candidate : "+parid );
 		if (appr.toLowerCase() == "approve") {
-			$.post("admin_varify_cand.py",
+			$.post("admin_cand.py",
 			{
 				id: ""+parid,
 				flag: "1"
@@ -39,9 +39,9 @@
 		});
 	$("#decline_cand").click(function(){
 		var parid=$(this).closest('div').attr('id');
-		var appr = prompt("Please enter 'Decline' to approve Candidate : "+parid );
-		if (appr.toLowerCase() == "approve") {
-			$.post("admin_varify_cand.py",
+		var appr2 = prompt("Please enter 'Decline' to approve Candidate : "+parid );
+		if (appr2.toLowerCase() == "decline") {
+			$.post("admin_cand.py",
 			{
 				id: ""+parid,
 				flag: "0"
