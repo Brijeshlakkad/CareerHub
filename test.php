@@ -37,5 +37,21 @@
 			
 		}
 		});
+	$("#decline_cand").click(function(){
+		var parid=$(this).closest('div').attr('id');
+		var appr = prompt("Please enter 'Decline' to approve Candidate : "+parid );
+		if (appr.toLowerCase() == "approve") {
+			$.post("admin_varify_cand.py",
+			{
+				id: ""+parid,
+				flag: "0"
+			},
+			function(data){
+				alert(data);
+			});
+		} else {
+			
+		}
+		});
   </script>
   <body></body></html>

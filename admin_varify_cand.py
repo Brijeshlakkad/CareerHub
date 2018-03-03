@@ -25,59 +25,65 @@ def check_already(c_id):
 	except:
 		conn.rollback()
 		print("0")
-		
+
+def update_database(c_id,flag):
+	global bits,cursor,conn,updated,sbits
+	if flag==1:
+		if check_already(c_id)==1:
+			sbits+=",/,"+"1"
+			sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
+			try:
+				cursor.execute(sql)
+				conn.commit()
+				print("11")
+			except:
+				conn.rollback()
+				print("10")
+		elif check_already(c_id)>=1 and bits[1]=="1" and updated=="1":
+			bits[1]="1"
+			s=",/,"
+			sbits=s.join(bits);
+			sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
+			try:
+				cursor.execute(sql)
+				conn.commit()
+				print("11")
+			except:
+				conn.rollback()
+				print("10")
+		else:
+			print("01")
+	elif flag==0:
+		if check_already(c_id)==1:
+			sbits+=",/,"+"0"
+			sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
+			try:
+				cursor.execute(sql)
+				conn.commit()
+				print("11")
+			except:
+				conn.rollback()
+				print("10")
+		elif check_already(c_id)>=1 and bits[1]=="1" and updated=="1":
+			bits[1]="0"
+			s=",/,"
+			sbits=s.join(bits);
+			sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
+			try:
+				cursor.execute(sql)
+				conn.commit()
+				print("11")
+			except:
+				conn.rollback()
+				print("10")
+		else:
+			print("01")
+	
+
 if form.getvalue('id'):
 	c_id = (int)(form.getvalue('id'))
 
 if form.getvalue('flag'):
 	flag = (int)(form.getvalue('flag'))
-
-	
-if flag==1:
-	if check_already(c_id)==1:
-		sbits+=",/,"+"1"
-		sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
-		try:
-			cursor.execute(sql)
-			print("11")
-		except:
-			conn.rollback()
-			print("10")
-	elif check_already(c_id)>=1 and bits[1]=="1" and updated=="1":
-		bits[1]="1"
-		s=",/,"
-		sbits=s.join(bits);
-		sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
-		try:
-			cursor.execute(sql)
-			print("11")
-		except:
-			conn.rollback()
-			print("10")
-	else:
-		print("01")
-elif flag==0:
-	if check_already(c_id)==1:
-		sbits+=",/,"+"0"
-		sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
-		try:
-			cursor.execute(sql)
-			print("11")
-		except:
-			conn.rollback()
-			print("10")
-	elif check_already(c_id)>=1 and bits[1]=="1" and updated=="1":
-		bits[1]="0"
-		s=",/,"
-		sbits=s.join(bits);
-		sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
-		try:
-			cursor.execute(sql)
-			print("11")
-		except:
-			conn.rollback()
-			print("10")
-	else:
-		print("01")
-	
+update_database(c_id,flag)
 conn.close()
