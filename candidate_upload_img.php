@@ -1,7 +1,9 @@
 <?php
-require_once('candidate_details.php');
 require_once('functions.php');
+require_once('candidate_details.php');
 require_once("global_links.php");
+check_session();
+get_details_from_candidate();
 ?>
 <center>
 <div class="container well login_block" align="center">
@@ -24,7 +26,18 @@ require_once("global_links.php");
 	</tr>
 	<tr>
 		<td></td>
-		<td><a class="btn btn-default form-control" type="button" href="candidate_default_pic.php">Skip</a></td>
+		<td><?php 
+			if($barV<30)
+			{?>
+				<a class="btn btn-default form-control" type="button" href="candidate_default_pic.php">Skip</a>
+			<?php
+			}else
+			{
+				?><a class="btn btn-default form-control" type="button" onclick="javascript:history.back();" href="#">Back</a>
+				<?php 
+			}
+			?>
+				</td>
 	</tr>
 </table>
 </form>
