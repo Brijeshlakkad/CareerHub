@@ -41,6 +41,18 @@ def delete_message(c_id1):
 		conn.rollback()
 	conn.close()
 
+def delete_all_mess(c_id1):
+	global cursor,conn
+	connect_to_database()
+	sql="DELETE FROM chat where ToUserID='%s'"%(c_id1)
+	try:
+		cursor.execute(sql)
+		conn.commit()
+	except:
+		conn.rollback()
+	conn.close()
+
+
 form = cgi.FieldStorage()	
 if form.getvalue('id'):
 	c_id1 = form.getvalue('id')
@@ -49,3 +61,8 @@ if form.getvalue('id'):
 if form.getvalue('de_id'):
 	c_id2 = form.getvalue('de_id')
 	delete_message(c_id2)
+	
+if form.getvalue('delete_all_mess'):
+	c_id3 = form.getvalue('delete_all_mess')
+	delete_all_mess(c_id3)
+	reload_messages(c_id3)

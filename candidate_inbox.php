@@ -5,23 +5,23 @@ include_once('index_header.php');
 include_once('candidate_details.php');
 check_session();
 get_details_from_candidate();
-if($bits[0]==0)
-{
-	header("Location:candidate_upload_img.php");
-}
-
 ?>
 
 <div class="container-fluid well" id="inbox_show">
 <div class="row" align="center">
-	<div id="success" class="alert alert-success hide"></div>
-		<div class="header" id="<?php echo $login_id; ?>">
-            <h1>Inbox</h1><button class="btn btn-primary"  id="chat_refresh"><span class="glyphicon glyphicon-refresh"></span></button>
-        </div>
-        <div id="chatOutput" style="margin:10px;"></div>
+	<div class="col-lg-offset-2 col-lg-8">
+		<div id="success" class="alert alert-success hide"></div>
+			<div class="header brij" id="<?php echo $login_id; ?>">
+				<h1>Inbox</h1><button class="btn btn-primary"  id="chat_refresh"><span class="glyphicon glyphicon-refresh"></span></button>
+			</div>
+			<div id="chatOutput" style="margin:10px;"></div>
+	</div>
+	<div class="col-lg-2">
+		<button class="btn btn-primary"  id="message_all_delete">Clear all <span class="glyphicon glyphicon-trash"></span></button>
+	</div>
 </div>
 </div>
-<script src="js/rChat.js"></script>
+<script src="js/inbox.js"></script>
 <script>
 	
 var delete_mes=function(pid)
