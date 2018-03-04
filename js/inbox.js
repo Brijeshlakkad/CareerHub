@@ -39,7 +39,7 @@ $(document).ready(function () {
 					$messTotalShow.html(data);
 				}
 				});
-		}
+		};
 		mess_total_cal();
 		retrieveMessages();
 		$chatRefresh.click(function () {
@@ -54,6 +54,10 @@ $(document).ready(function () {
 			}
 			
 		});
+		var requestInterval=500;
+		setInterval(function () {
+			mess_total_cal();
+    	}, requestInterval);
 	};
 	add_this_script();
 });

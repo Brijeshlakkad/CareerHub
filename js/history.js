@@ -39,7 +39,7 @@ $(document).ready(function () {
 					$histTotalShow.html(data);
 				}
 				});
-		}
+		};
 		hist_total_cal();
 		$historyDeleteAll.click(function(){
 			var r = confirm("Are you sure??");
@@ -51,7 +51,10 @@ $(document).ready(function () {
 			
 		});
 		retrieveHistory();
-		
+		var requestInterval=500;
+		setInterval(function () {
+			hist_total_cal();
+    	}, requestInterval);
 		$historyRefresh.click(function () {
 			retrieveHistory();
 		});
