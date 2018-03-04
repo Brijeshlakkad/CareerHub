@@ -13,6 +13,8 @@ $(document).ready(function () {
 				success  : function (data)
 				{
 					$chatOutput.html(data);
+					$("#mess_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
+					mess_total_cal();
 				}
 				});
 		};
@@ -25,6 +27,7 @@ $(document).ready(function () {
 				success  : function (data)
 				{
 					$chatOutput.html(data);
+					mess_total_cal();
 				}
 				});
 		};
@@ -49,15 +52,12 @@ $(document).ready(function () {
 			var r = confirm("Are you sure??");
 			if (r == true) {
 				delete_all_mes();
+				mess_total_cal();
 			} else {
 				
 			}
 			
 		});
-		var requestInterval=500;
-		setInterval(function () {
-			mess_total_cal();
-    	}, requestInterval);
 	};
 	var add_hist_script=function(){
 		var $historyOutput = $("#historyOutput");
@@ -73,6 +73,8 @@ $(document).ready(function () {
 				success  : function (data)
 				{
 					$historyOutput.html(data);
+					$("#hist_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
+					hist_total_cal();
 				}
 				});
 		};
@@ -85,6 +87,7 @@ $(document).ready(function () {
 				success  : function (data)
 				{
 					$historyOutput.html(data);
+					hist_total_cal();
 				}
 				});
 		};
@@ -105,16 +108,13 @@ $(document).ready(function () {
 			var r = confirm("Are you sure??");
 			if (r == true) {
 				delete_all_hist();
+				hist_total_cal();
 			} else {
 				
 			}
 			
 		});
 		retrieveHistory();
-		var requestInterval=500;
-		setInterval(function () {
-			hist_total_cal();
-    	}, requestInterval);
 		$historyRefresh.click(function () {
 			retrieveHistory();
 		});

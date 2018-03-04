@@ -9,7 +9,7 @@ get_details_from_candidate();
 <div class="container-fluid well" id="history_show">
 <div class="row" align="center">
 	<div class="col-lg-offset-2 col-lg-8">
-		<div id="success" class="alert alert-success hide"></div>
+		<div id="hist_success" class="alert alert-success hide"></div>
 		<div class="header">
             <h1>History</h1><button class="btn btn-primary"  id="history_refresh"><span class="glyphicon glyphicon-refresh"></span></button>
         </div>
@@ -30,7 +30,8 @@ get_details_from_candidate();
 				data: 'hist_delete='+pid,
 				success  : function (data)
 				{
-					$("#success").html('History deleted.').removeClass("hide").show().fadeOut("slow");
+					$("#hist_success").html('History deleted.').removeClass("hide").show().fadeOut("slow");
+					location.reload();
 				}
 			});
 	}
