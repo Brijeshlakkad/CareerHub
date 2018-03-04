@@ -11,7 +11,7 @@ get_details_from_candidate();
 <div class="row" align="center">
 	<div class="col-lg-offset-2 col-lg-8">
 		<div id="success" class="alert alert-success hide"></div>
-			<div class="header brij" id="<?php echo $login_id; ?>">
+			<div class="header">
 				<h1>Inbox</h1><button class="btn btn-primary"  id="chat_refresh"><span class="glyphicon glyphicon-refresh"></span></button>
 			</div>
 			<div id="chatOutput" style="margin:10px;"></div>
@@ -21,7 +21,7 @@ get_details_from_candidate();
 	</div>
 </div>
 </div>
-<script src="js/inbox.js"></script>
+
 <script>
 	
 var delete_mes=function(pid)

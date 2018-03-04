@@ -50,3 +50,18 @@ def delete_all_mess(c_id1):
 	except:
 		conn.rollback()
 	conn.close()
+
+def mess_total_count(c_id1):
+	global cursor,conn
+	connect_to_database()
+	sql="SELECT * FROM Chat where ToUserID='%s'"%(c_id1)
+	try:
+		cursor.execute(sql)
+		results=cursor.rowcount
+		rownum="%s"%results
+		print(rownum)
+		conn.commit()
+	except:
+		conn.rollback()
+		print("0")
+	conn.close()

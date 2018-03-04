@@ -13,6 +13,7 @@ if($bits[0]==0)
 //for image
 $im=base64_encode($login_image);
 ?>
+
 <div class="container-fluid well">
     <div class="row" style="margin: 15px;">
         <div class="col-sm-8 blog">

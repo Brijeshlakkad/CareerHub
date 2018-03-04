@@ -3,8 +3,9 @@ $(document).ready(function () {
 		var $chatOutput = $("#chatOutput");
 		var $chatRefresh = $("#chat_refresh");
 		var $mesDeleteAll= $("#message_all_delete");
+		var $messTotalShow=$("#mess_show_total");
 		var delete_all_mes=function(){
-			var parid=$("div.brij").attr('id');
+			var parid=$("a.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -14,9 +15,9 @@ $(document).ready(function () {
 					$chatOutput.html(data);
 				}
 				});
-		}
+		};
 		var retrieveMessages=function() {
-			var parid=$("div.brij").attr('id');
+			var parid=$("a.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -27,6 +28,19 @@ $(document).ready(function () {
 				}
 				});
 		};
+		var mess_total_cal =function(){
+			var parid=$("a.brij").attr('id');
+			$.ajax({
+				type: 'POST', 
+				url: 'history_and_inbox.py',
+				data: 'mess_total='+parid,
+				success  : function (data)
+				{
+					$messTotalShow.html(data);
+				}
+				});
+		}
+		mess_total_cal();
 		retrieveMessages();
 		$chatRefresh.click(function () {
 			retrieveMessages();

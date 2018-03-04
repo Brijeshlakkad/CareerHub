@@ -3,8 +3,9 @@ $(document).ready(function () {
 		var $historyOutput = $("#historyOutput");
 		var $historyRefresh = $("#history_refresh");
 		var $historyDeleteAll= $("#history_all_delete");
+		var $histTotalShow=$("#hist_show_total");
 		var delete_all_hist=function(){
-			var parid=$("div.brij").attr('id');
+			var parid=$("a.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -14,9 +15,9 @@ $(document).ready(function () {
 					$historyOutput.html(data);
 				}
 				});
-		}
+		};
 		var retrieveHistory=function() {
-			var parid=$("div.brij").attr('id');
+			var parid=$("a.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -27,7 +28,19 @@ $(document).ready(function () {
 				}
 				});
 		};
-		
+		var hist_total_cal =function(){
+			var parid=$("a.brij").attr('id');
+			$.ajax({
+				type: 'POST', 
+				url: 'history_and_inbox.py',
+				data: 'hist_total='+parid,
+				success  : function (data)
+				{
+					$histTotalShow.html(data);
+				}
+				});
+		}
+		hist_total_cal();
 		$historyDeleteAll.click(function(){
 			var r = confirm("Are you sure??");
 			if (r == true) {
@@ -38,9 +51,10 @@ $(document).ready(function () {
 			
 		});
 		retrieveHistory();
+		
 		$historyRefresh.click(function () {
 			retrieveHistory();
-		});	
+		});
 	};
 	add_this_script();
 });

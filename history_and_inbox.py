@@ -33,3 +33,11 @@ if form.getvalue('delete_all_mess'):
 	c_id6 = form.getvalue('delete_all_mess')
 	candidate_reload_mess.delete_all_mess(c_id6)
 	candidate_reload_mess.reload_messages(c_id6)
+
+if form.getvalue('hist_total'):
+	c_id7 = form.getvalue('hist_total')
+	candidate_reload_history.history_total_count(c_id7)
+	
+if form.getvalue('mess_total'):
+	c_id8 = form.getvalue('mess_total')
+	candidate_reload_mess.mess_total_count(c_id8)

@@ -18,6 +18,8 @@ include_once('institute_details.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/history.js"></script>
+	<script src="js/inbox.js"></script>
 	<script type="text/javascript" src="js/admin_cand.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
 </head>
@@ -58,6 +60,7 @@ if($filename=="index.php")
        	<?php
        	if(isset($_SESSION['Userid']))
        	{
+			get_details_from_candidate();
        		?>
        	<li>
 			  <div class="box" style="padding-top: 10px;">
@@ -68,15 +71,15 @@ if($filename=="index.php")
 				</div>
        	</li>
        	
-		<li><a href="candidate_profile.php">Profile</a></li>
+		<li><a href="candidate_profile.php"  class="brij" id="<?php echo $login_id; ?>">Profile</a></li>
        <li><a href="candidate_findwork.php">Find Work!</a></li>
-        <li><a href="candidate_inbox.php">Inbox</a></li>
+        <li><a href="candidate_inbox.php">Inbox <span class="badge" id="mess_show_total"></span></a></li>
        	
 		<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="candidate_history.php">History &amp; Activity Log</a></li>
+          <li><a href="candidate_history.php">History &amp; Activity Log <span class="badge" id="hist_show_total"></span></a></li>
           <li><a href="candidate_edit.php">Edit Profile</a></li>
           <li><a href="logout.php">Logout</a></li>
         </ul>
