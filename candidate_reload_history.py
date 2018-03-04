@@ -1,0 +1,67 @@
+#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
+import cgi, cgitb 
+import sys
+import os
+import MySQLdb
+print("Content-type:text/html\r\n\r\n")
+
+def connect_to_database():
+	global conn,cursor
+	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
+	cursor = conn.cursor ()
+	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+
+def reload_history(c_id1):
+	global cursor,conn
+	connect_to_database()
+	sql="SELECT * FROM History where UserID='%s' ORDER BY Time DESC"%(c_id1)
+	try:
+		cursor.execute(sql)
+		results = cursor.fetchall()
+		for row in results:
+			divid=row['ID']
+			time=row["Time"]
+			datetime=time.strftime('%H : %M')
+			field=row['Field']
+			fdiv="You have updated <strong> %s</strong> at %s"%(field,datetime)
+			print("""<div id="%s"  class="alert alert-info alert-dismissable fade in" ><a href="#" onclick='delete_hist("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a> %s </div><br/>"""%(divid,divid,fdiv))
+	except:
+		conn.rollback()
+		print("Try again !")
+	conn.close()
+
+def delete_history(c_id1):
+	global cursor,conn
+	connect_to_database()
+	sql="DELETE FROM History where ID='%s'"%(c_id1)
+	try:
+		cursor.execute(sql)
+		conn.commit()
+	except:
+		conn.rollback()
+	conn.close()
+
+def delete_all_history(c_id1):
+	global cursor,conn
+	connect_to_database()
+	sql="DELETE FROM History where UserID='%s'"%(c_id1)
+	try:
+		cursor.execute(sql)
+		conn.commit()
+	except:
+		conn.rollback()
+	conn.close()
+
+form = cgi.FieldStorage()	
+if form.getvalue('id'):
+	c_id1 = form.getvalue('id')
+	reload_history(c_id1)
+
+if form.getvalue('de_id'):
+	c_id2 = form.getvalue('de_id')
+	delete_history(c_id2)
+	
+if form.getvalue('delete_all_hist'):
+	c_id3 = form.getvalue('delete_all_hist')
+	delete_all_history(c_id3)
+	reload_history(c_id3)
