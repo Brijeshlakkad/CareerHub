@@ -26,8 +26,8 @@ get_details_from_candidate();
 	{
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_reload_history.py',
-				data: 'de_id='+pid,
+				url: 'history_and_inbox.py',
+				data: 'hist_delete='+pid,
 				success  : function (data)
 				{
 					$("#success").html('History deleted.').removeClass("hide").show().fadeOut("slow");

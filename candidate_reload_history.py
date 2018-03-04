@@ -3,7 +3,6 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-print("Content-type:text/html\r\n\r\n")
 
 def connect_to_database():
 	global conn,cursor
@@ -51,17 +50,3 @@ def delete_all_history(c_id1):
 	except:
 		conn.rollback()
 	conn.close()
-
-form = cgi.FieldStorage()	
-if form.getvalue('id'):
-	c_id1 = form.getvalue('id')
-	reload_history(c_id1)
-
-if form.getvalue('de_id'):
-	c_id2 = form.getvalue('de_id')
-	delete_history(c_id2)
-	
-if form.getvalue('delete_all_hist'):
-	c_id3 = form.getvalue('delete_all_hist')
-	delete_all_history(c_id3)
-	reload_history(c_id3)

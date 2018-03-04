@@ -7,7 +7,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_reload_mess.py',
+				url: 'history_and_inbox.py',
 				data: 'delete_all_mess='+parid,
 				success  : function (data)
 				{
@@ -19,8 +19,8 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_reload_mess.py',
-				data: 'id='+parid,
+				url: 'history_and_inbox.py',
+				data: 'mess_reload='+parid,
 				success  : function (data)
 				{
 					$chatOutput.html(data);

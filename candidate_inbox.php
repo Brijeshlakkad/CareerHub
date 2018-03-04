@@ -28,8 +28,8 @@ var delete_mes=function(pid)
 	{
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_reload_mess.py',
-				data: 'de_id='+pid,
+				url: 'history_and_inbox.py',
+				data: 'mess_delete='+pid,
 				success  : function (data)
 				{
 					$("#success").html('Message deleted.').removeClass("hide").show().fadeOut("slow");
