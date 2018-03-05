@@ -24,12 +24,29 @@ def check_already(c_id):
 		conn.rollback()
 		return "0"
 
+def add_history(c_id1,flag1,fromuser):
+	global conn,cursor
+	if flag1==1:
+		f="Approved"
+	else:
+		f="Rejected"
+	field="%s candidate %s"%(f,c_id1)
+	sql="Insert into History(Field,UserID) values('%s',%s)"%(field,fromuser)
+	try:
+		cursor.execute(sql)
+		conn.commit()
+		return "11"
+	except:
+		conn.rollback()
+		return "10"
+
 def update_database(c_id1,flag1):
 	global bits,cursor,conn,updated,sbits
 	connect_to_database()
 	c_id=(int)(c_id1)
 	flag=(int)(flag1)
-	if flag==1:
+	st=add_history(c_id,flag,"-99")
+	if flag==1 and st=="11":
 		if check_already(c_id)==1:
 			sbits+=",/,"+"1"
 			sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)
@@ -54,7 +71,7 @@ def update_database(c_id1,flag1):
 				return "10"
 		else:
 			return "01"
-	elif flag==0:
+	elif flag==0 and st=="11":
 		if check_already(c_id)==1:
 			sbits+=",/,"+"0"
 			sql="Update Candidates SET Status_bits='%s',isUpdated='0' where ID='%s'"%(sbits,c_id)

@@ -7,7 +7,7 @@
 	<div class="row">
 		<form ng-app="myapp" ng-controller="BrijController" name="myForm" method="post" novalidate>
 		
-		<table class="myTable">
+		<table class="myTable" style="margin: 10px;">
 			<div class="form-group">
 			<tr>
 				<td><label for="l_email" >Email:</label></td>
@@ -41,7 +41,7 @@
 			</tr>
 			</div>
 			<tr>
-			
+				
 				<td><input type="submit" class="btn btn-primary" onclick="return login_status()" ng-disabled="myForm.l_email.$invalid || myForm.l_password.$invalid"></td>
 				<td><span id="l_status"></span></td>
 				<td></td>

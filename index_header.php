@@ -50,16 +50,31 @@ if($filename=="index.php")
     <a href="careerhub.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:250px;height:60px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
 
     </div>
-		
+	<?php
+	global $set;
+	if(isset($_SESSION['Userid']))
+	{
+		get_details_from_candidate();
+		$set=$login_id;
+	}
+	else if(isset($_SESSION['BUserid']))
+	{
+		$set="";
+	}
+	else if((isset($_SESSION['Admin'])))
+	{
+		$set="-99";
+	}
+	?>
   
-    <div class="collapse navbar-collapse" id="myNavbar">	
+    <div class="collapse navbar-collapse brij" id="<?php echo $set; ?>">	
     	<ul class="nav navbar-nav navbar-right">
       	
        
        	<?php
        	if(isset($_SESSION['Userid']))
        	{
-			get_details_from_candidate();
+			
        		?>
        	<li>
 			  <div class="box" style="padding-top: 10px;">
@@ -70,7 +85,7 @@ if($filename=="index.php")
 				</div>
        	</li>
        	
-		<li><a href="candidate_profile.php"  class="brij" id="<?php echo $login_id; ?>">Profile</a></li>
+		<li><a href="candidate_profile.php" >Profile</a></li>
        <li><a href="candidate_findwork.php">Find Work!</a></li>
         <li><a href="candidate_inbox.php">Inbox <span class="badge" id="mess_show_total"></span></a></li>
        	

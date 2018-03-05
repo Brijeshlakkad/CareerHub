@@ -5,7 +5,7 @@ $(document).ready(function () {
 		var $mesDeleteAll= $("#message_all_delete");
 		var $messTotalShow=$("#mess_show_total");
 		var delete_all_mes=function(){
-			var parid=$("a.brij").attr('id');
+			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -19,7 +19,7 @@ $(document).ready(function () {
 				});
 		};
 		var retrieveMessages=function() {
-			var parid=$("a.brij").attr('id');
+			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -32,7 +32,7 @@ $(document).ready(function () {
 				});
 		};
 		var mess_total_cal =function(){
-			var parid=$("a.brij").attr('id');
+			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -65,7 +65,7 @@ $(document).ready(function () {
 		var $historyDeleteAll= $("#history_all_delete");
 		var $histTotalShow=$("#hist_show_total");
 		var delete_all_hist=function(){
-			var parid=$("a.brij").attr('id');
+			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -79,7 +79,7 @@ $(document).ready(function () {
 				});
 		};
 		var retrieveHistory=function() {
-			var parid=$("a.brij").attr('id');
+			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
@@ -92,7 +92,7 @@ $(document).ready(function () {
 				});
 		};
 		var hist_total_cal =function(){
-			var parid=$("a.brij").attr('id');
+			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'history_and_inbox.py',
