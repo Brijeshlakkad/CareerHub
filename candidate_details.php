@@ -65,7 +65,15 @@ function set_progress($f)
 	global $barV;
 	global $desc;
 	get_details_from_candidate();
-	if($f=="skills")
+	if($f=="img")
+	{
+		if($barV==0)
+		{
+				$barV+=20;
+		}
+		return $barV;
+	}
+	else if($f=="skills")
 	{
 		if($qualis[0]=='0')
 		{
@@ -97,6 +105,7 @@ function set_progress($f)
 		}
 		return $barV;
 	}
+	
 }
 function set_bits($f)
 {
@@ -135,6 +144,14 @@ function set_bits($f)
 		if($desc == '-99')
 		{
 			$bits[0]+=1;
+		}
+		return implode(",/,",$bits);
+	}
+	else if($f=="img")
+	{
+		if($bits[0] == 0)
+		{
+				$bits[0]=1;
 		}
 		return implode(",/,",$bits);
 	}

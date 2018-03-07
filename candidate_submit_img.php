@@ -2,6 +2,7 @@
 require_once("config.php");
 require_once('candidate_details.php');
 check_session();
+get_details_from_candidate();
 require_once("global_links.php");
     $check = getimagesize($_FILES["image"]["tmp_name"]);
     if($check !== false){
@@ -13,9 +14,9 @@ require_once("global_links.php");
 		date_default_timezone_get("Asia/Kolkata");
         $dataTime = date("Y-m-d H:i:s");
 		$im='<img class="img-responsive"  src="Image/noimage.png"/>'; 
-		$bits[0]=1;
-		$sbits=implode(",/,",$bits);
-        $insert = mysqli_query($con,"Update Candidates SET Progress='30',Status_bits='$sbits',Image='$imgContent',Created='$dataTime' where Email='$id'");
+		$q1=set_progress('img');
+		$q2=set_bits('img');
+        $insert = mysqli_query($con,"Update Candidates SET Progress='$q1',Status_bits='$q2',Image='$imgContent',Created='$dataTime' where Email='$id'");
 		$sql="Select * from Candidates Where Email='$id'";
         if($insert)
 		{
