@@ -268,7 +268,11 @@ function check_details()
 								$("#spinner").hide();
 								$("#status").html("<span style='color:green;'>You have registered successfully.</span>");
 							}
-							
+							else
+							{
+								$("#spinner").hide();
+								$("#status").html("<span style='color:red;'>Error! Try agian..</span>");
+							}
 						}
 				};
 				x.open("POST","candidate_signup_data.py",true);

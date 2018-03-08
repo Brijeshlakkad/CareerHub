@@ -49,62 +49,32 @@ check_session();
 			</td>
 		</tr>
 	</div>
-	<div class="form-group">
 		<tr>
-			<td><label for="t_num_que">How many questions ?</label></td>
-			<td><input type="text" class="form-control" ng-model="t_num_que" name="t_num_que" id="t_num_que" ng-style="howmanyStyle" ng-change="analyze3(t_num_que)" required total-dir/></td>
-			<td>
-				<span style="color:red" id="s_t_num_que" ng-show="TestForm.t_num_que.$dirty && TestForm.t_num_que.$invalid">
-				<span ng-show="TestForm.t_num_que.$error.required">Please enter atleast one question</span>
-				<span ng-show="!TestForm.t_num_que.$error.required && TestForm.t_num_que.$error.howmanyvalid">Please enter only numbers and Maximum 50 Questions are allowed.</span>
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td><input type="submit" onClick="check_details()" id="submit_btn" value="Submit" class="btn btn-primary" ng-disabled="TestForm.t_title.$invalid ||  TestForm.t_course.$invalid ||  TestForm.t_subjects.$invalid ||  TestForm.t_num_que.$invalid" /></td>
-			<td></td>
+			<td><input type="submit" ng-click="submit_part1()" id="submit_btn" value="Submit" class="btn btn-primary" ng-disabled="TestForm.t_title.$invalid ||  TestForm.t_course.$invalid ||  TestForm.t_subjects.$invalid" /></td>
+			<td id="status"</td>
 			<td></td>
 		</tr>
-	</div>
+
 	</table>
 	</form>
 </div>
 <div class="row" align="center" id="questions_panel">
-
+hii
 </div>
 </div>
 <div class="modal"></div>
 <script>
 $body = $("body");
-
 $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
-	function check_details()
-	{
-		var title=$("#t_title").val();
-		var course=$("#t_course").val();
-		var subjects=$("#t_subjects").val();
-		var howmany=$("#t_num_que").val();
-		var x=new XMLHttpRequest();
-		x.onreadystatechange=function(){
-			
-			if(x.readyState==4 && x.status==200)
-			{
-				var data=this.responseText;
-				if(data==1)
-				{
-					$("#status").html("<span style='color:green;'>You have registered successfully.</span>");
-				}
-							
-			}
-		};
-		x.open("POST","candidate_signup_data.py",true);
-		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		x.send("s_user="+user+"&s_email="+email+"&s_password="+password+"&s_mobile="+mobile);
-		
-	}
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip(); 
+	$("#entry_panel").show();
+	$("#questions_panel").hide();
+});
+	
 	
 	var myApp = angular.module("myapp",[]);
 	myApp.controller("BrijController",function($scope,$http){
@@ -135,17 +105,33 @@ $(document).on({
 				$scope.subjectStyle["border-color"] = "red";
 			}
 		};
-		patt = new RegExp("^[0-9]+$");
-		$scope.howmanyStyle = {
-			"border-width":"1.45px"
-		};
-		$scope.analyze3 = function(value) {
-			if(patt.test(value) && value<50  && value!=0) {
-				$scope.howmanyStyle["border-color"] = "green";
-			}else {
-				$scope.howmanyStyle["border-color"] = "red";
+		$scope.submit_part1=function()
+		{
+		var parid=$("div.brij").attr("id");
+		var title=$("#t_title").val();
+		var course=$scope.t_course;
+		var subjects=$("#t_subjects").val();
+		var x=new XMLHttpRequest();
+		x.onreadystatechange=function(){
+			
+			if(x.readyState==4 && x.status==200)
+			{
+				var data=this.responseText;
+				if(data!="-1")
+				{
+					$("#status").empty();
+					$("#entry_panel").hide(1000);
+					$("#questions_panel").show(1000);
+				}
+				else
+					$("#status").html("<span style='color:red;'>Error! Try agian..</span>");
+							
 			}
 		};
+		x.open("POST","post_test_part1.php",true);
+		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		x.send("title="+title+"&parid="+parid+"&course="+course+"&subjects="+subjects);
+		}
 	});
 myApp.directive("titleDir",function(){
 	return {
@@ -165,29 +151,9 @@ myApp.directive("titleDir",function(){
 		}
 	};
 });
-myApp.directive("totalDir",function(){
-	return {
-		require: 'ngModel',
-		link: function(scope, element, attr, mCtrl) {
-			function myValidation(value) 
-			{
-				patt = new RegExp("^[0-9]$");
-				if(patt.test(value) && value.length<50 && value!=0) {
-					mCtrl.$setValidity('howmanyvalid', true);
-				}else {
-					mCtrl.$setValidity('howmanyvalid', false);
-				}
-				return value;
-			}
-			mCtrl.$parsers.push(myValidation);
-		}
-	};
-});
 
-$(document).ready(function(){
-	
-	$('[data-toggle="tooltip"]').tooltip(); 
-});
+
+
 </script>
 </body>
 </html>
