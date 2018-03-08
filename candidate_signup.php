@@ -65,11 +65,9 @@
 			</tr>
 			</div>
 			<tr>
-			<p>
 			<td><input type="submit" onClick="check_details()" id="submit_btn" value="Submit" class="btn btn-primary" ng-disabled="myForm.s_user.$invalid ||  myForm.s_email.$invalid ||  myForm.s_password.$invalid ||  myForm.s_cpassword.$invalid ||   myForm.s_mobile.$invalid" /></td>
 			<td id="status"><img src="images/loading_spinner.gif" id="spinner" style="height:30px;width:30px;" alt="Loading" /></td>
 			<td></td>
-			</p>
 			</tr>
 			<tr>
 				<td>

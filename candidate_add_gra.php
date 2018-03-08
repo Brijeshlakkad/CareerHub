@@ -30,7 +30,7 @@ input.ng-touched.ng-valid {
 			<tr>
 				<td><label for="course">Course</label></td>
 				<td><select class="form-control" name="course" id="course" ng-model="course" >
-       <option ng-selected="x.val_c=='-1'" 
+       <option ng-selected="x.val=='-1'" 
         ng-repeat="x in courseOptions" 
         ng-value="x.val">{{x.name_c}}</option>
 					</select></td>
@@ -93,7 +93,14 @@ input.ng-touched.ng-valid {
 	</form>
 </div>
 
+<div class="modal"></div>
 <script>
+$body = $("body");
+
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
 	
 	<?php get_details_from_candidate(); ?>
 	var check='<?php echo $course; ?>';
