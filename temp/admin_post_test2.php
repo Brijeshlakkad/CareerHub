@@ -4,16 +4,6 @@ include_once("config.php");
 include_once('index_header.php');
 check_session();
 ?>
-<style>
-input.ng-touched.ng-invalid {
-	border-width: 1.45px;
-    border-color: red;
-}
-input.ng-touched.ng-valid {
-    border-width: 1.45px;
-    border-color: green;
-}
-</style>
 <div class="container-fluid well" id="show_here">
 <div ng-app="myapp" ng-controller="BrijController">
 <div class="row" align="center" id="entry_panel">
@@ -202,18 +192,7 @@ $(document).ready(function(){
 				$scope.onlyChar["border-color"] = "red";
 			}
 		};
-		$scope.queStyle = {
-			"border-width":"1.45px"
-		};
-		$scope.que_analyze = function(value) {
-			if(value.length===0 || typeof $scope.que === 'undefined') {
-				$scope.queStyle["border-color"] = "red";
-			}else {
-				$scope.queStyle["border-color"] = "green";
-			}
-		};
-		
-	/*	$scope.subjectStyle = {
+		$scope.subjectStyle = {
 			"border-width":"1.45px"
 		};
 		$scope.analyze2 = function(value) {
@@ -275,7 +254,7 @@ $(document).ready(function(){
 				$scope.mcq4Style["border-color"] = "green";
 			}
 		};
-		*/
+		
 		$scope.submit_part1=function()
 		{
 		var parid=$("div.brij").attr("id");
