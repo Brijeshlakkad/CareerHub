@@ -41,40 +41,34 @@ def add_question(testid,que,a1,a2,a3,a4,ans):
 		print("-13")
 	conn.close()
 
-def delete_history(c_id1):
+def update_question(queid,que,a1,a2,a3,a4,ans):
 	global cursor,conn
 	connect_to_database()
-	sql="DELETE FROM History where ID='%s'"%(c_id1)
+	sql="Update Questions SET Question='%s',A1='%s',A2='%s',A3='%s',A4='%s',Ans='%s' where ID='%s'"%(que,a1,a2,a3,a4,ans,queid)
 	try:
 		cursor.execute(sql)
 		conn.commit()
+		print("1")
 	except:
 		conn.rollback()
+		print("-1")
 	conn.close()
 
-def delete_all_history(c_id1):
+
+def show_questions(testid):
 	global cursor,conn
 	connect_to_database()
-	sql="DELETE FROM History where UserID='%s'"%(c_id1)
+	sql="Select * FROM Questions where TestID='%s'"%(testid)
 	try:
 		cursor.execute(sql)
-		conn.commit()
+		results = cursor.fetchall()
+		for row in results:
+			divid=row['ID']
+			time=row["Time"]
+			datetime=time.strftime('%H : %M')
+			que=row['Question']
+			print("""<div id="%s" class='style_prevu_kit que_div' style="padding:10px;"><div class="row"><form action="show_questions.php" method="post" ><input type="hidden" name="que_id" value="%s" /><input class="btn btn-link" type="submit" value="%s" /></form></div><div class="row"><div class="col-md-offset-5 col-md-5 col-md-offset-2"> <span class="glyphicon glyphicon-time"></span> Posted on %s</div></div></div><hr/><hr/>"""%(divid,divid,que,time))
 	except:
 		conn.rollback()
+		print("-1")
 	conn.close()
-	
-def history_total_count(c_id1):
-	global cursor,conn
-	connect_to_database()
-	sql="SELECT * FROM History where UserID='%s'"%(c_id1)
-	try:
-		cursor.execute(sql)
-		results=cursor.rowcount
-		rownum="%s"%results
-		print(rownum)
-		conn.commit()
-	except:
-		conn.rollback()
-		print("0")
-	conn.close()
-	

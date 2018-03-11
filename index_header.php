@@ -19,6 +19,7 @@ include_once('institute_details.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/test_details.js"></script>
 	<script src="js/history_and_inbox.js"></script>
 	<script type="text/javascript" src="js/admin_cand.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
@@ -172,7 +173,14 @@ if($filename=="index.php")
       	</li>
 		
        	<li><a href="admin_institute.php">Institutes</a></li>
-       	<li><a href="admin_post_test.php">Post a Test!</a></li>
+       	<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Test Details
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="post_test.php">Post a Test!</a></li>
+          <li><a href="see_tests.php">See all tests</a></li>
+        </ul>
+      	</li>
 		<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
         <span class="caret"></span></a>

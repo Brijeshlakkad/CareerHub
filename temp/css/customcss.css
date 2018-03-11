@@ -1,0 +1,73 @@
+.well2
+{
+	background-color:rgba(110,110,110,0.2);
+}
+  	.navcust{
+  		background-color:rgba(110,110,110,0.1);
+    } 
+      
+    .navbar-default .navbar-nav>li>a {
+    color:#2F2F2F;
+    font-size:20px;
+    margin-top:10px;
+    font-family:Helvetica;
+    }
+    .navbar-default .navbar-nav>li>a:hover
+    {
+      color:#A29596;
+    }
+    .myBar:hover{
+		color:rgba(0,52,255,1.00);
+	}
+    .navbar /*Put it at last inside the style tag*/
+    {
+      margin-bottom:0px;
+      border-color:white;
+      border-top-width: 0px;
+      border-bottom-width: 2px;
+    }
+/* for blur image */
+.blurclass
+{
+	background: url(../Images/background-image.jpg) no-repeat center center scroll;
+	z-index: -10;
+	position:absolute;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-o-filter: blur(5px);
+	-ms-filter: blur(5px);
+	filter: blur(5px);
+}
+/* Buttons in index page */
+.mybtn1 {
+	margin-top:5px;
+	background-color:#F76909;
+	border:#F76909;
+}
+.mybtn1:hover{
+	background-color:rgba(200,93,0,0.6);
+}
+.mybtn2 {
+	margin-top:5px;
+	background-color:rgba(24,200,197,1.00);
+	border:rgba(24,200,197,1.00);
+}
+.mybtn2:hover{
+	background-color:rgba(24,200,197,0.6);
+}
+
+.myTable td {
+    padding: 10px
+}
+.login_block
+{
+	margin-top: 50px;
+}
+.login_block_inst
+{
+	margin-top: 20px;
+}

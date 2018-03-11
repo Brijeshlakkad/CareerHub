@@ -32,39 +32,31 @@ def add_test(title,parid,course,subjects):
 		print("-1")
 	conn.close()
 
-def delete_history(c_id1):
+def show_tests(postedby):
 	global cursor,conn
 	connect_to_database()
-	sql="DELETE FROM History where ID='%s'"%(c_id1)
+	sql="Select * FROM Tests where Postedby='%s'"%(postedby)
 	try:
 		cursor.execute(sql)
-		conn.commit()
+		results = cursor.fetchall()
+		for row in results:
+			divid=row['ID']
+			time=row["Time"]
+			datetime=time.strftime('%H : %M')
+			title=row['Title']
+			num=row['Total_num']
+			course=row['Course']
+			str_sub=row['Subjects']
+			subjects=str_sub.split("|")
+			if len(subjects)==1:
+				sub_string=str_sub.strip()
+			else:
+				sub_string="<ol>"
+				for i in subjects:
+					sub_string+="<li>"+i.strip()+"</li>"
+					sub_string+="</ol>"
+			print("""<div id="%s" class='style_prevu_kit test_div' style="padding:10px;"><div class="row"><div class="col-sm-6"><button class="btn btn-link" onclick="show_questions(%s)" >%s</button></div><div class="col-sm-6"><span class="glyphicon glyphicon-time"></span> Posted on  %s</div></div><hr /><div class="row"><div class="col-sm-6">Total Questions</div><div class="col-sm-6">%s</div></div><div class="row"><div class="col-sm-6">Course</div><div class="col-sm-6">%s</div></div><div class="row"><div class="col-sm-6">Subjects</div><div class="col-sm-6">%s</div></div></div><hr/><hr/>"""%(divid,divid,title,time,num,course,sub_string))
 	except:
 		conn.rollback()
-	conn.close()
-
-def delete_all_history(c_id1):
-	global cursor,conn
-	connect_to_database()
-	sql="DELETE FROM History where UserID='%s'"%(c_id1)
-	try:
-		cursor.execute(sql)
-		conn.commit()
-	except:
-		conn.rollback()
-	conn.close()
-	
-def history_total_count(c_id1):
-	global cursor,conn
-	connect_to_database()
-	sql="SELECT * FROM History where UserID='%s'"%(c_id1)
-	try:
-		cursor.execute(sql)
-		results=cursor.rowcount
-		rownum="%s"%results
-		print(rownum)
-		conn.commit()
-	except:
-		conn.rollback()
-		print("0")
+		print("-1")
 	conn.close()
