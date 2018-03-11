@@ -18,7 +18,7 @@ input.ng-touched.ng-valid {
 <div ng-app="myapp" ng-controller="BrijController">
 <div class="row" align="center" id="entry_panel">
 	<label><h3>Add a Test</h3></label>
-	<form name="TestForm" method="post" novalidate>
+	<form name="TestForm" method="post" class="brij" novalidate>
 	<table class="myTable">
 	<div class="form-group">
 		<tr>
@@ -71,8 +71,8 @@ input.ng-touched.ng-valid {
 	</form>
 </div>
 <div class="row" id="questions_panel">
-<div class="col-lg-offset-4 col-lg-4 col-lg-offset-4">
-	<form name="QueForm" method="post" novalidate>
+<div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
+	<form name="QueForm" method="post" id="QueForm" novalidate>
 	<table class="myTable">
 			<div class="form-group">
 			<tr>
@@ -151,11 +151,16 @@ input.ng-touched.ng-valid {
 			</tr>
 			</div>
 			<tr>
-			</div>
-			<td id="status"></td>
-			<td><input type="button" class="btn btn-success" id="submit"  value="Add Question"/></td>
+			<td id="status_que"></td>
+			<td></td>
 			<td></td>
 			</tr>
+			<tr>
+			<td></td>
+			<td><input type="submit" ng-click="add_next()" id="add_next" value="Add another question" class="btn btn-primary" ng-disabled="QueForm.que.$invalid ||  QueForm.mcq1.$invalid ||  QueForm.mcq2.$invalid ||  QueForm.mcq3.$invalid ||  QueForm.mcq4.$invalid ||  QueForm.ans.$invalid" /></td>
+			<td></td>
+			</tr>
+			
 	</table>
 	</form>
 </div>	
@@ -171,8 +176,9 @@ $(document).on({
 });
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
-	$("#entry_panel").hide();
-	$("#questions_panel").show();
+	$("#entry_panel").show();
+	$("#questions_panel").hide();
+
 	
 });
 	
@@ -290,6 +296,7 @@ $(document).ready(function(){
 				var data=this.responseText;
 				if(data!="-1")
 				{
+					$("form.brij").attr("id",data);
 					$("#status").empty();
 					$("#entry_panel").hide(1000);
 					$("#questions_panel").show(1000);
@@ -299,10 +306,39 @@ $(document).ready(function(){
 							
 			}
 		};
-		x.open("POST","post_test_part1.php",true);
+		x.open("POST","submit_test_and_questions.py",true);
 		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		x.send("title="+title+"&parid="+parid+"&course="+course+"&subjects="+subjects);
-		}
+		x.send("add_title="+title+"&parid="+parid+"&course="+course+"&subjects="+subjects);
+		};
+		$scope.add_next=function(){
+			var question=$("#que").val();
+			var mcq1=$("#mcq1").val();
+			var mcq2=$("#mcq2").val();
+			var mcq3=$("#mcq3").val();
+			var mcq4=$("#mcq4").val();
+			var ans=$scope.ans;
+			var testid=$("form.brij").attr("id");
+			$.ajax({
+				type: 'POST', 
+				url: 'submit_test_and_questions.py',
+				data: 'testid='+testid+'&add_que='+question+'&mcq1='+mcq1+'&mcq2='+mcq2+'&mcq3='+mcq3+'&mcq4='+mcq4+'&ans='+ans,
+				success  : function (data)
+				{
+					if(data==1)
+						{
+							$("#QueForm")[0].reset();
+							$("#status_que").empty();
+							$("#entry_panel").hide();
+							$("#questions_panel").show();
+							$scope.QueForm.$setPristine();
+						}
+					else
+						$("#status_que").html("<span style='color:red;'>Error! Try agian..</span>");
+				}
+			});
+		
+		};
+		
 	});
 myApp.directive("titleDir",function(){
 	return {
