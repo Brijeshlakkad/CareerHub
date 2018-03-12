@@ -331,6 +331,7 @@ $(document).ready(function(){
 							$("#entry_panel").hide();
 							$("#questions_panel").show();
 							$scope.QueForm.$setPristine();
+							$("#status_que").html("<span style='color:green;'>Question added</span>");
 						}
 					else
 						$("#status_que").html("<span style='color:red;'>Error! Try agian..</span>");

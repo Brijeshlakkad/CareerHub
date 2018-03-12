@@ -5,7 +5,7 @@ include_once('index_header.php');
 check_session();
 ?>
 <style>
-.fond{position:absolute}
+.fond{position:absolute;}
 
 .style_prevu_kit
 {
@@ -38,8 +38,9 @@ check_session();
 <div class="container-fluid well" id="show_here fond">
 <div class="row">
 	<div class="col-lg-offset-2 col-lg-8">
+		<div id="test_success" class="alert hide"></div>
 		<div class="test_header">
-            <h2>Tests <span id="total_num" class="badge"></span></h2>
+            <h2><span id="header_name">Tests</span> <span id="total_num" class="badge"></span></h2>
         </div>
         <div id="testOutput" style="margin-top:35px;"></div>
 	</div>
@@ -56,7 +57,45 @@ function show_questions(showid)
 		data: 'questions_reload='+showid,
 		success  : function (data)
 		{
+			total_num_questions(showid);
 			testOutput.html(data);
+		}
+	});
+}
+function total_num_questions(testid)
+	{
+		$.ajax({
+		type: 'POST', 
+		url: 'submit_test_and_questions.py',
+		data: 'total_que_num='+testid,
+		success  : function (data)
+		{
+			if(data!=-1)
+				{
+					$("#header_name").html("Questions");
+					$("#total_num").html(data);
+				}
+		}
+		});
+	}
+function remove_test(testid)
+{
+	var testOutput = $("#testOutput");
+	$.ajax({
+		type: 'POST', 
+		url: 'submit_test_and_questions.py',
+		data: 'remove_test='+testid,
+		success  : function (data)
+		{
+			if(data==1)
+				{
+					$("#test_success").addClass("alert-success").html('Test deleted successfully.').removeClass("hide").show("slow").fadeOut("slow");
+					location.reload();
+				}
+			else
+				{
+					$("#test_success").addClass("alert-danger").html('Please try again later!').removeClass("hide").show("slow").fadeOut("slow");
+				}
 		}
 	});
 }

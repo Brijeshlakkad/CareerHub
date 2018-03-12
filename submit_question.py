@@ -13,6 +13,7 @@ def connect_to_database():
 def add_question(testid,que,a1,a2,a3,a4,ans):
 	global cursor,conn
 	connect_to_database()
+	testid=int(testid)
 	sql="Insert into Questions(Question,A1,A2,A3,A4,TestID,Ans) values('%s','%s','%s','%s','%s','%s','%s')"%(que,a1,a2,a3,a4,testid,ans)
 	try:
 		cursor.execute(sql)
@@ -32,13 +33,13 @@ def add_question(testid,que,a1,a2,a3,a4,ans):
 				print("1")
 			except:
 				conn.rollback()
-				print("-11")
+				print("-1")
 		except:
 			conn.rollback()
-			print("-12")
+			print("-1")
 	except:
 		conn.rollback()
-		print("-13")
+		print("-1")
 	conn.close()
 
 def update_question(queid,que,a1,a2,a3,a4,ans):
@@ -67,7 +68,34 @@ def show_questions(testid):
 			time=row["Time"]
 			datetime=time.strftime('%H : %M')
 			que=row['Question']
-			print("""<div id="%s" class='style_prevu_kit que_div' style="padding:10px;"><div class="row"><form action="show_questions.php" method="post" ><input type="hidden" name="que_id" value="%s" /><input class="btn btn-link" type="submit" value="%s" /></form></div><div class="row"><div class="col-md-offset-5 col-md-5 col-md-offset-2"> <span class="glyphicon glyphicon-time"></span> Posted on %s</div></div></div><hr/><hr/>"""%(divid,divid,que,time))
+			print("""<div id="%s" class='style_prevu_kit que_div' style="padding:10px;"><div class="row"><form action="edit_question.php" method="post" ><input type="hidden" name="que_id" value="%s" /><input class="btn btn-link" type="submit" value="%s" /></form></div><div class="row"><div class="col-md-offset-5 col-md-5 col-md-offset-2"> <span class="glyphicon glyphicon-time"></span> Posted on %s</div></div></div><hr/><hr/>"""%(divid,divid,que,time))
+	except:
+		conn.rollback()
+		print("-1")
+	conn.close()
+
+def remove_questions_of_test(testid):
+	global cursor,conn
+	connect_to_database()
+	sql="Delete from Questions where TestID='%s'"%(testid)
+	try:
+		cursor.execute(sql)
+		conn.commit()
+		print("1")
+	except:
+		conn.rollback()
+		print("-1")
+	conn.close()
+	
+def total_que_num(testid):
+	global cursor,conn
+	connect_to_database()
+	sql="Select Total_num From Tests where ID='%s'"%(testid)
+	try:
+		cursor.execute(sql)
+		results = cursor.fetchone()
+		num=results['Total_num']
+		print(num)
 	except:
 		conn.rollback()
 		print("-1")
