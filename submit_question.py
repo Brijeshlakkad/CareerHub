@@ -68,7 +68,7 @@ def show_questions(testid):
 			time=row["Time"]
 			datetime=time.strftime('%H : %M')
 			que=row['Question']
-			print("""<div id="%s" class='style_prevu_kit que_div' style="padding:10px;"><div class="row"><form action="edit_question.php" method="post" ><input type="hidden" name="que_id" value="%s" /><input class="btn btn-link" type="submit" value="%s" /></form></div><div class="row"><div class="col-md-offset-5 col-md-5 col-md-offset-2"> <span class="glyphicon glyphicon-time"></span> Posted on %s</div></div></div><hr/><hr/>"""%(divid,divid,que,time))
+			print("""<div id="%s" class='style_prevu_kit que_div' style="padding:40px;"><div class="row"><h2>%s</h2><span class="pull-right"><form action="edit_question.php" method="post" ><input type="hidden" name="que_id" value="%s" /><button class="btn btn-sm btn-primary" type="submit" >Edit <span class="glyphicon glyphicon-pencil"></span></button></form></span><span class="pull-right"><button class="btn btn-sm btn-danger" onclick="remove_que(%s,%s)" >Delete <span class="glyphicon glyphicon-trash"></span></button></span></div><div class="row"><div class="col-md-offset-5 col-md-5 col-md-offset-2"> <span class="glyphicon glyphicon-time"></span> Posted on %s</div></div></div><hr/><hr/>"""%(divid,que,divid,divid,testid,time))
 	except:
 		conn.rollback()
 		print("-1")
@@ -86,7 +86,36 @@ def remove_questions_of_test(testid):
 		conn.rollback()
 		print("-1")
 	conn.close()
-	
+
+def remove_question(queid,testid):
+	global cursor,conn
+	connect_to_database()
+	sql="Delete from Questions where ID='%s'"%(queid)
+	try:
+		cursor.execute(sql)
+		sql2="Select Total_num from Tests where ID='%s'"%(testid) 
+		try:
+			cursor.execute(sql2)
+			results = cursor.fetchone()
+			num=results['Total_num']
+			n=int(num)
+			n-=1
+			sql3="Update Tests SET Total_num='%s' where ID='%s'"%(n,testid)
+			try:
+				cursor.execute(sql3)
+				conn.commit()
+				print("1")
+			except:
+				conn.rollback()
+				print("-1")
+		except:
+			conn.rollback()
+			print("-1")
+	except:
+		conn.rollback()
+		print("-1")
+	conn.close()
+
 def total_que_num(testid):
 	global cursor,conn
 	connect_to_database()

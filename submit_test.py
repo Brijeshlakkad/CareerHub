@@ -81,10 +81,10 @@ def remove_test(testid):
 	try:
 		cursor.execute(sql)
 		conn.commit()
-		print("1")
+		return "1"
 	except:
 		conn.rollback()
-		print("-1")
+		return "-1"
 	conn.close()
 	
 def total_test_num(postedby):

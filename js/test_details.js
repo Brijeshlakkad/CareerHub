@@ -1,8 +1,21 @@
 $(document).ready(function () {
    	var show_tests=function(){
 		var testOutput = $("#testOutput");
-		var totaltestnum = $("#total_num_test");
+		var totaltestnum = $("#total_num");
 		var testRefresh = $("#test_refresh");
+		var retrieveTests=function() {
+			var parid=$("div.brij").attr('id');
+			$.ajax({
+				type: 'POST', 
+				url: 'submit_test_and_questions.py',
+				data: 'tests_reload='+parid,
+				success  : function (data)
+				{
+					total_test_num();
+					testOutput.html(data);
+				}
+				});
+		};
 		
 		var total_test_num=function()
 		{
@@ -15,14 +28,18 @@ $(document).ready(function () {
 				{
 					if(data!=-1)
 						{
-						testOutput.html(data);
+						totaltestnum.html(data);
 						}
 				}
 				});
 		};
-		total_test_num();
+		retrieveTests();
 		testRefresh.click(function () {
-			total_test_num();
+			var cont=$("#refresh_name").html();
+			if(cont=="Tests")
+				{
+			retrieveTests();
+				}
 		});
 		
 	};

@@ -5,8 +5,6 @@ include_once('index_header.php');
 check_session();
 ?>
 <style>
-.fond{position:absolute;}
-
 .style_prevu_kit
 {
     border:0;
@@ -35,7 +33,7 @@ check_session();
     transform: scale(1.3);
 }
 </style>
-<div class="container-fluid well" id="show_here fond">
+<div class="container-fluid well" id="show_here">
 <div class="row">
 	<div class="col-lg-offset-2 col-lg-8">
 		<div id="test_success" class="alert hide"></div>
@@ -44,12 +42,22 @@ check_session();
         </div>
         <div id="testOutput" style="margin-top:35px;"></div>
 	</div>
-	<div class="col-lg-2"><button class="btn btn-primary"  id="test_refresh">Tests <span class="glyphicon glyphicon-refresh"></span></button></div>
+	<div class="col-lg-2"><button class="btn btn-primary"  id="test_refresh"><span id="refresh_name" >Tests</span> <span class="glyphicon glyphicon-refresh"></span></button></div>
 </div>
 </div>
 <script>
+var ttid="-99";
+	var testRefresh = $("#test_refresh");
+	testRefresh.click(function () {
+			var cont=$("#refresh_name").html();
+			if(cont=="Questions" && ttid!="-99")
+				{
+					show_questions(ttid);
+				}
+	});
 function show_questions(showid)
 {
+	ttid=showid;
 	var testOutput = $("#testOutput");
 	$.ajax({
 		type: 'POST', 
@@ -73,6 +81,7 @@ function total_num_questions(testid)
 			if(data!=-1)
 				{
 					$("#header_name").html("Questions");
+					$("#refresh_name").html("Questions");
 					$("#total_num").html(data);
 				}
 		}
@@ -80,7 +89,6 @@ function total_num_questions(testid)
 	}
 function remove_test(testid)
 {
-	var testOutput = $("#testOutput");
 	$.ajax({
 		type: 'POST', 
 		url: 'submit_test_and_questions.py',
@@ -91,6 +99,25 @@ function remove_test(testid)
 				{
 					$("#test_success").addClass("alert-success").html('Test deleted successfully.').removeClass("hide").show("slow").fadeOut("slow");
 					location.reload();
+				}
+			else
+				{
+					$("#test_success").addClass("alert-danger").html('Please try again later!').removeClass("hide").show("slow").fadeOut("slow");
+				}
+		}
+	});
+}
+function remove_que(queid,testid)
+{
+	$.ajax({
+		type: 'POST', 
+		url: 'submit_test_and_questions.py',
+		data: 'remove_que='+queid+"&test_id="+testid,
+		success  : function (data)
+		{
+			if(data==1)
+				{
+					$("#test_success").addClass("alert-success").html('Question is deleted successfully.').removeClass("hide").show("slow").fadeOut("slow");
 				}
 			else
 				{

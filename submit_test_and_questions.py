@@ -82,9 +82,19 @@ if form.getvalue('update_test'):
 if form.getvalue('remove_test'):
 	testid = form.getvalue('remove_test')
 	testid=security.protect_data(testid)
-	submit_test.remove_test(testid)
-	submit_question.remove_questions_of_test(testid)
+	xx=submit_test.remove_test(testid)
+	if xx=="1":
+		submit_question.remove_questions_of_test(testid)
+	else:
+		print("-1")
 	
+if form.getvalue('remove_que') and form.getvalue('test_id'):
+	queid = form.getvalue('remove_que')
+	testid = form.getvalue('test_id')
+	testid=security.protect_data(testid)
+	queid=security.protect_data(queid)
+	submit_question.remove_question(queid,testid)
+
 if form.getvalue('total_test_num'):
 	postedby = form.getvalue('total_test_num')
 	postedby=security.protect_data(postedby)
