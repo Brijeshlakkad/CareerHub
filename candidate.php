@@ -1,7 +1,7 @@
 <?php include("links.php"); ?>
 <body>
 <div class="container well login_block" align="center">
-	<div class="row center-block ">
+	<div class="row">
 		<div><caption><a href="index.php"><a href="index.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-top:10px;width:250px;height:60px;float:center;filter:drop-shadow(0px 0px 3px #ffffff);"/></a></caption></div>
 	</div>
 	<div class="row">
