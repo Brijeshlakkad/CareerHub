@@ -66,7 +66,8 @@ get_details_from_candidate();
 				 		<div class="form-group col-lg-3" >
 						<p><label for="search">Search: </label>
    						 <input type="text" id="search_location" ng-model="search_location" name="search_location"></p>
-				 		</div>
+				  </div>
+       		</form>
         </div>
       </ul>
     </div>

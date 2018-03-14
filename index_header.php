@@ -14,7 +14,7 @@ include_once('institute_details.php');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="css/customcss.css" rel="stylesheet">
-	<link href="css/please_wait.css" rel="stylesheet">
+	<link href="css/please_wait_2.css" rel="stylesheet">
 	<link href="css/search.css" rel="stylesheet">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
@@ -88,7 +88,14 @@ if($filename=="index.php")
        	</li>
        	
 		<li><a href="candidate_profile.php" >Profile</a></li>
-       <li><a href="candidate_findwork.php">Find Work!</a></li>
+      	<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Work
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="candidate_findwork.php">Find Work!</a></li>
+          <li><a href="candidate_certificate.php">Get Certified</a></li>
+        </ul>
+      	</li>
         <li><a href="candidate_inbox.php">Inbox <span class="badge" id="mess_show_total"></span></a></li>
        	
 		<li class="dropdown">
