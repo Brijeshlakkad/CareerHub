@@ -23,6 +23,7 @@ include_once('institute_details.php');
 	<script src="js/history_and_inbox.js"></script>
 	<script type="text/javascript" src="js/admin_cand.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
+	<link href="css/jquery.countdown.css" rel="stylesheet">
 </head>
 
 <?php 
