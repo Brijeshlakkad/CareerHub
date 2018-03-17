@@ -35,7 +35,8 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 			<div class="test_header" id="<?php echo $testid; ?>"><h3><?php echo $title; ?></h3></div>
 			<div class="row">
 			<div class="col-lg-offset-4 col-lg-4 col-lg-offset-4">
-				<form name="myForm" method="post" action="submit_test.php">
+				<form name="myForm" method="post" action="submit_test_by.php">
+					<input type="hidden" name="test_id" value="<?php echo $testid; ?>"/>
 					<div class="questions_of_test" id="-99">
 						
 					</div>
@@ -101,12 +102,13 @@ function check_answers(bit)
 					}
 				if(flag==1)
 					{
-					$("#status_test").html("<span style='color:red;'>Please select all answers.</span>");
+						$("#status_test").html("<span style='color:red;'>Please select all answers.</span>");
 					}
 				else
 					{
 						$("#status_test").empty();
 						document.myForm.submit();
+						flag=0;
 					}
 			}
 			else
@@ -116,7 +118,7 @@ function check_answers(bit)
 	}
 function validate_radio(ii)
 	{
-				var radios = document.getElementsByName('question'+ii);
+				var radios = $('#question'+ii+"").find(":radio");
 
 				for (var i = 0; i < radios.length; i++) {
 					if (radios[i].checked) {

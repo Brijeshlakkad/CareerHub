@@ -33,8 +33,11 @@ def que_reload(testid,cu_id):
 			i+=1
 			que_id="question%s"%i
 			error="error%s"%i
-			ans="""name="%s" ng-model="%s" ng-required='!%s' """%(que_id,que_id,que_id)
-			print("""<div id="%s" class="panel-body"><div id='question'>%s. %s</div><div id='mcqs' class="form-group"><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div id="%s"></div></div></div>"""%(que_id,i,que,ans,a1,ans,a2,ans,a3,ans,a4,error))
+			ans1="name='%s' value='1'"%(divid)
+			ans2="name='%s' value='2'"%(divid)
+			ans3="name='%s' value='3'"%(divid)
+			ans4="name='%s' value='4'"%(divid)
+			print("""<div id="%s" class="panel-body"><div id='question'>%s. %s</div><div id='mcqs' class="form-group"><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div id="%s"></div></div></div>"""%(que_id,i,que,ans1,a1,ans2,a2,ans3,a3,ans4,a4,error))
 	except:
 		conn.rollback()
 		print("-1")
