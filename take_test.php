@@ -19,6 +19,7 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 		$course=$row['Course'];
 		$subjects=$row['Subjects'];
 		$duration=$row['Duration'];
+		$total_que=$row['Total_num'];
 		$res_y=find_test($login_email,$testid);
 		if($res_y=="0")
 		{
@@ -30,7 +31,24 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 		?>
 <div class="container-fluid well">
 	<div class="row">
-		<div class="col-lg-8"></div>
+		<div class="col-lg-8">
+			<div class="test_header" id="<?php echo $testid; ?>"><h3><?php echo $title; ?></h3></div>
+			<div class="row">
+			<div class="col-lg-offset-4 col-lg-4 col-lg-offset-4">
+				<form name="myForm" method="post" action="submit_test.php">
+					<div class="questions_of_test" id="-99">
+						
+					</div>
+					<div id="controls">
+						<button class="btn btn-sm btn-primary" type="button" onclick="check_answers('0')">Submit</button>
+					</div>
+					<div id="status_test">
+						
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
 		<div class="col-lg-4">
 			<div id="countdown" class="countdownHolder">
 				<span class="countHours">
@@ -58,7 +76,57 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 		</div>
 	</div>
 </div>
+<script>
+	var myApp = angular.module("myapp", []);
+	myApp.controller("BrijController", function($scope,$http) {
+	});
+function check_answers(bit)
+	{
+		if(bit=="0")
+			{
+				var i=0,flag=0;
+				var total_que="<?php echo $total_que; ?>";
+				for(i=1;i<=total_que;i++)
+					{
+						var xx=validate_radio(i);
+						if(xx=="false")
+							{
+								$("#error"+i).html("<span style='color:red;'>Please select</span>");
+								flag=1;
+							}
+						else
+							{
+							$("#error"+i).empty();
+							}
+					}
+				if(flag==1)
+					{
+					$("#status_test").html("<span style='color:red;'>Please select all answers.</span>");
+					}
+				else
+					{
+						$("#status_test").empty();
+						document.myForm.submit();
+					}
+			}
+			else
+				{
+					
+				}
+	}
+function validate_radio(ii)
+	{
+				var radios = document.getElementsByName('question'+ii);
 
+				for (var i = 0; i < radios.length; i++) {
+					if (radios[i].checked) {
+					return "true";
+				}
+				};
+
+				return "false";
+	}
+</script>
 <script type="text/javascript">
 var dur_time="<?php echo $left_dur; ?>";
  function startTimer(duration, display1, display2, display3) {
@@ -78,6 +146,8 @@ var dur_time="<?php echo $left_dur; ?>";
 		var c_id="<?php echo $login_email; ?>";
 		var t_id="<?php echo $testid; ?>";
 		var left_dur=timer;
+		if (timer >= 0)
+			{
 		$.ajax({
 				type: 'POST', 
 				url: 'visit_test.php',
@@ -86,10 +156,11 @@ var dur_time="<?php echo $left_dur; ?>";
 				{
 					if (--timer < 0) {
 			
-						timer = duration;
+						alert("Game over!");
 					}
 				}
 			});
+			}
     }, 1000);
 }
 
