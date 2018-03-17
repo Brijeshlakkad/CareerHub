@@ -3,7 +3,6 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-import datetime
 def connect_to_database():
 	global conn,cursor
 	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
@@ -13,9 +12,7 @@ def connect_to_database():
 def add_test(title,parid,course,subjects,duration):
 	global cursor,conn
 	connect_to_database()
-	duration=int(duration)
-	dur=str(datetime.timedelta(seconds=duration))
-	sql="Insert into Tests(Title,Course,Subjects,PostedBy,Duration) values('%s','%s','%s','%s','%s')"%(title,course,subjects,parid,dur)
+	sql="Insert into Tests(Title,Course,Subjects,PostedBy,Duration) values('%s','%s','%s','%s','%s')"%(title,course,subjects,parid,duration)
 	try:
 		cursor.execute(sql)
 		conn.commit()
