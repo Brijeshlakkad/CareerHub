@@ -17,6 +17,7 @@ input.ng-touched.ng-valid {
 <div class="container-fluid well" id="show_here">
 <div ng-app="myapp" ng-controller="BrijController">
 <div class="row" align="center" id="entry_panel">
+<div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
 	<label><h3>Add a Test</h3></label>
 	<form name="TestForm" method="post" class="brij" novalidate>
 	<table class="myTable">
@@ -61,14 +62,27 @@ input.ng-touched.ng-valid {
 			</td>
 		</tr>
 	</div>
+	<div class="form-group">
 		<tr>
-			<td><input type="submit" ng-click="submit_part1()" id="submit_btn" value="Submit" class="btn btn-primary" ng-disabled="TestForm.t_title.$invalid ||  TestForm.t_course.$invalid ||  TestForm.t_subjects.$invalid" /></td>
+			<td><label for="t_time">Enter Duration</label></td>
+			<td><input type="text" class="form-control" ng-model="t_time_1" name="t_time_1" id="t_time_1" ng-style="numStyle" ng-change="analyze3(t_time_1)" width="50" required time-dir/>hours : <input type="text" class="form-control" ng-model="t_time_2" name="t_time_2" id="t_time_2" ng-style="numStyle" ng-change="analyze3(t_time_2)" width="50" required time-dir/>minutes : <input type="text" class="form-control" ng-model="t_time_3" name="t_time_3" id="t_time_3" ng-style="numStyle" ng-change="analyze3(t_time_3)" width="50" required time-dir/>seconds</td>
+			<td>
+				<span style="color:red" id="s_t_time" ng-show="(TestForm.t_time_1.$dirty && TestForm.t_time_1.$invalid) || (TestForm.t_time_2.$dirty && TestForm.t_time_2.$invalid) || (TestForm.t_time_3.$dirty && TestForm.t_time_3.$invalid)">
+				<span ng-show="TestForm.t_time_1.$error.required || TestForm.t_time_2.$error.required || TestForm.t_time_3.$error.required">Time is required</span>
+				<!--<span ng-show="!(TestForm.t_time_1.$error.required || TestForm.t_time_2.$error.required || TestForm.t_time_3.$error.required) && (TestForm.t_title_1.$error.onlynumvalid || TestForm.t_title_2.$error.onlynumvalid || TestForm.t_title_3.$error.onlynumvalid)">Only alphabets and numbers are allowed.</span>-->
+				</span>
+			</td>
+		</tr>
+	</div>
+		<tr>
+			<td><input type="submit" ng-click="submit_part1()" id="submit_btn" value="Submit" class="btn btn-primary" ng-disabled="TestForm.t_title.$invalid ||  TestForm.t_course.$invalid ||  TestForm.t_subjects.$invalid || TestForm.t_time_1.$invalid || TestForm.t_time_2.$invalid || TestForm.t_time_3.$invalid" /></td>
 			<td id="status"</td>
 			<td></td>
 		</tr>
 
 	</table>
 	</form>
+	</div>
 </div>
 <div class="row" id="questions_panel">
 <div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
@@ -185,6 +199,9 @@ $(document).ready(function(){
 	
 	var myApp = angular.module("myapp",[]);
 	myApp.controller("BrijController",function($scope,$http){
+		$scope.t_time_1="00";
+		$scope.t_time_2="00";
+		$scope.t_time_3="00";
 		$scope.t_courseOptions=[
 		{val : "Information Technology",name_c:"Information Technology"},
 		{val : "Computer Science", name_c : "Computer Science"},
@@ -218,7 +235,16 @@ $(document).ready(function(){
 				$scope.queStyle["border-color"] = "green";
 			}
 		};
-		
+		$scope.numStyle = {
+			"border-width":"1.45px"
+		};
+		$scope.analyze3 = function(value) {
+			if(/^[0-9]+$/.test(value) && value<=60) {
+				$scope.numStyle["border-color"] = "green";
+			}else {
+				$scope.numStyle["border-color"] = "red";
+			}
+		};
 	/*	$scope.subjectStyle = {
 			"border-width":"1.45px"
 		};
@@ -288,27 +314,40 @@ $(document).ready(function(){
 		var title=$("#t_title").val();
 		var course=$scope.t_course;
 		var subjects=$("#t_subjects").val();
-		var x=new XMLHttpRequest();
-		x.onreadystatechange=function(){
-			
-			if(x.readyState==4 && x.status==200)
-			{
-				var data=this.responseText;
-				if(data!="-1")
+			var time_1=$scope.t_time_1;
+			var time_2=$scope.t_time_2;
+			var time_3=$scope.t_time_3;
+			time1=parseInt(time_1);
+			time2=parseInt(time_2);
+			time3=parseInt(time_3);
+			var time=time1*3600+time2*60+time3;
+			if(time ==0 )
 				{
-					$("form.brij").attr("id",data);
-					$("#status").empty();
-					$("#entry_panel").hide(1000);
-					$("#questions_panel").show(1000);
+					$("#status").html("<span style='color:red;'>Please enter duration time for test.</span>");
 				}
-				else
-					$("#status").html("<span style='color:red;'>Error! Try agian..</span>");
-							
+			else{
+				var x=new XMLHttpRequest();
+				x.onreadystatechange=function(){
+
+					if(x.readyState==4 && x.status==200)
+					{
+						var data=this.responseText;
+						if(data!=-1)
+						{
+							$("form.brij").attr("id",data);
+							$("#status").empty();
+							$("#entry_panel").hide(1000);
+							$("#questions_panel").show(1000);
+						}
+						else
+							$("#status").html("<span style='color:red;'>Error! Try agian..</span>");
+
+					}
+				};
+				x.open("POST","submit_test_and_questions.py",true);
+				x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				x.send("add_title="+title+"&parid="+parid+"&course="+course+"&subjects="+subjects+"&time="+time);
 			}
-		};
-		x.open("POST","submit_test_and_questions.py",true);
-		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		x.send("add_title="+title+"&parid="+parid+"&course="+course+"&subjects="+subjects);
 		};
 		$scope.add_next=function(){
 			var question=$("#que").val();
@@ -366,7 +405,24 @@ myApp.directive("titleDir",function(){
 		}
 	};
 });
-	
+myApp.directive("timeDir",function(){
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attr, mCtrl) {
+			function myValidation(value) 
+			{
+				var patt = new RegExp("^[0-9]+$");
+				if(patt.test(value) && value<=60) {
+					mCtrl.$setValidity('onlynumvalid', true);
+				}else {
+					mCtrl.$setValidity('onlynumvalid', false);
+				}
+				return value;
+			}
+			mCtrl.$parsers.push(myValidation);
+		}
+	};
+});
 
 
 

@@ -2,7 +2,19 @@
 include_once('functions.php');
 include_once("config.php");
 include_once('index_header.php');
-?>
+check_session();
+if(isset($_POST['test_id']))
+{
+	$testid=$_POST['test_id'];
+	$sql="Select * from Tests where ID='$testid'";
+	$result=mysqli_query($con,$sql);
+	if($result)
+	{
+		$row=mysqli_fetch_array($result);
+		$title=$row['Title'];
+		$course=$row['Course'];
+		$subjects=$row['Subjects'];
+		?>
 <div class="container-fluid well">
 	<div class="row">
 		<div id="getting-started"></div>
@@ -63,3 +75,8 @@ window.onload = function () {
 </script>
 </body>
 </html>
+<?php
+		
+	}
+}
+?>

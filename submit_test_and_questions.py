@@ -10,16 +10,18 @@ print("Content-type:text/html\r\n\r\n")
 cgitb.enable(display=0, logdir="/path/to/logdir")
 form = cgi.FieldStorage()	
 if form.getvalue('add_title'):
-	if form.getvalue('parid') and form.getvalue('course') and form.getvalue('subjects'):
+	if form.getvalue('parid') and form.getvalue('course') and form.getvalue('subjects') and form.getvalue('time'):
 		title = form.getvalue('add_title')
 		parid = form.getvalue('parid')
 		course = form.getvalue('course')
 		subjects = form.getvalue('subjects')
+		time = form.getvalue('time')
 		title=security.protect_data(title)
 		parid=security.protect_data(parid)
 		course=security.protect_data(course)
 		subjects=security.protect_data(subjects)
-		submit_test.add_test(title,parid,course,subjects)
+		time=security.protect_data(time)
+		submit_test.add_test(title,parid,course,subjects,time)
 
 if form.getvalue('add_que'):
 	if form.getvalue('testid') and form.getvalue('mcq1') and form.getvalue('mcq2') and form.getvalue('mcq3') and form.getvalue('mcq4') and form.getvalue('ans'):
