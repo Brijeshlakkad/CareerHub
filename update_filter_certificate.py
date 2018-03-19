@@ -12,7 +12,7 @@ def connect_to_database():
 	cursor = conn.cursor ()
 	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
-def update_filter_panel(skillarr1):
+def update_filter_panel(skillarr1,candid):
 	global cursor,conn
 	connect_to_database()
 	skillarr=list()
@@ -41,8 +41,15 @@ def update_filter_panel(skillarr1):
 						sql2="SELECT * FROM Tests where ID='%s'"%(testid)
 						try:
 							cursor.execute(sql2)
-							if testid not in arr_id:
-								arr_id.append(testid)
+							sql3="Select * from results where CandID='%s' AND TestID='%s'"%(candid,testid)
+							try:
+								cursor.execute(sql3)
+								results_num=cursor.rowcount
+								if results_num==0 and testid not in arr_id:
+									arr_id.append(testid)
+							except:
+								conn.rollback()
+								print("-1")
 						except:
 							conn.rollback()
 							print("-1")
@@ -79,6 +86,7 @@ def update_filter_panel(skillarr1):
 	conn.close()
 
 form = cgi.FieldStorage()
-if form.getvalue('skills[]'):
+if form.getvalue('skills[]') and form.getvalue('cand_id'):
 	skills_arr = form.getvalue('skills[]')
-	update_filter_panel(skills_arr)
+	candid = form.getvalue('cand_id')
+	update_filter_panel(skills_arr,candid)

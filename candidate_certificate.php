@@ -124,10 +124,11 @@ get_details_from_candidate();
 				}
 		});
 		var update_filter_certificate = function(skills){
+			candid="<?php echo $login_email; ?>";
 			$.ajax({
 				type: 'POST', 
 				url: 'update_filter_certificate.py',
-				data: skills,
+				data: skills+"&cand_id="+candid,
 				success  : function (data)
 				{
 					if(data!=-1)
