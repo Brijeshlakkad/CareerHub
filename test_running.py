@@ -38,6 +38,7 @@ def que_reload(testid,cu_id):
 			ans3="name='%s' value='3'"%(divid)
 			ans4="name='%s' value='4'"%(divid)
 			print("""<div id="%s" class="panel-body"><div id='question'>%s. %s</div><div id='mcqs' class="form-group"><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div id="%s"></div></div></div>"""%(que_id,i,que,ans1,a1,ans2,a2,ans3,a3,ans4,a4,error))
+		print("""<div id="controls"><button class="btn btn-sm btn-primary" type="button" onclick="check_answers()">Submit</button></div>""")
 	except:
 		conn.rollback()
 		print("-1")

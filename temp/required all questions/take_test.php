@@ -20,7 +20,6 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 		$subjects=$row['Subjects'];
 		$duration=$row['Duration'];
 		$total_que=$row['Total_num'];
-		$res_y="0";
 		$res_y=find_test($login_email,$testid);
 		if($res_y=="0")
 		{
@@ -33,25 +32,17 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 <div class="container-fluid well">
 	<div class="row">
 		<div class="col-lg-8">
+			<div class="test_header" id="<?php echo $testid; ?>"><h3><?php echo $title; ?></h3></div>
 			<div class="row">
-			<div class="test_header col-lg-8" id="<?php echo $testid; ?>"><h3><?php echo $title; ?></h3>
-			</div>
-			<div class="col-lg-4 pull-right"><?php 
-		if($res_y=="0"){
-			?>
-			<button class="btn btn-primary" onClick="start_time()" id="start_test" >Start Test</button>
-			<?php
-		}
-			?></div>
-			</div>
-			<div class="row" id="taken_test_panel">
-			<div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
+			<div class="col-lg-offset-4 col-lg-4 col-lg-offset-4">
 				<form name="myForm" method="post" action="submit_test_by.php">
 					<input type="hidden" name="test_id" value="<?php echo $testid; ?>"/>
 					<div class="questions_of_test" id="-99">
 						
 					</div>
-					
+					<div id="controls">
+						<button class="btn btn-sm btn-primary" type="button" onclick="check_answers('0')">Submit</button>
+					</div>
 					<div id="status_test">
 						
 					</div>
@@ -87,40 +78,60 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 	</div>
 </div>
 <script>
-function check_answers()
+	var myApp = angular.module("myapp", []);
+	myApp.controller("BrijController", function($scope,$http) {
+	});
+function check_answers(bit)
 	{
-		$("#status_test").empty();
-		var check=confirm("Are you sure?");
-		if(check==true)
+		if(bit=="0")
 			{
-				document.myForm.submit();
+				var i=0,flag=0;
+				var total_que="<?php echo $total_que; ?>";
+				for(i=1;i<=total_que;i++)
+					{
+						var xx=validate_radio(i);
+						if(xx=="false")
+							{
+								$("#error"+i).html("<span style='color:red;'>Please select</span>");
+								flag=1;
+							}
+						else
+							{
+							$("#error"+i).empty();
+							}
+					}
+				if(flag==1)
+					{
+						$("#status_test").html("<span style='color:red;'>Please select all answers.</span>");
+					}
+				else
+					{
+						$("#status_test").empty();
+						document.myForm.submit();
+						flag=0;
+					}
 			}
-		else
-			{
-				
-			}
-	}
-
-var queOutput = $("div.questions_of_test");
-var retrieveQuestions=function() {
-			var testid=$("div.test_header").attr('id');
-			var currentid=$("div.questions_of_test").attr('id');
-			$.ajax({
-				type: 'POST', 
-				url: 'test_running.py',
-				data: 'que_reload='+testid+"&current_id="+currentid,
-				success  : function (data)
+			else
 				{
-					queOutput.html(data);
+					
 				}
-				});
-};
-		
-$("#start_test").click(function(){
-	retrieveQuestions();
-});
+	}
+function validate_radio(ii)
+	{
+				var radios = $('#question'+ii+"").find(":radio");
+
+				for (var i = 0; i < radios.length; i++) {
+					if (radios[i].checked) {
+					return "true";
+				}
+				};
+
+				return "false";
+	}
+</script>
+<script type="text/javascript">
 var dur_time="<?php echo $left_dur; ?>";
-function startTimer(duration, display1, display2, display3) {
+ function startTimer(duration, display1, display2, display3) {
     var timer = duration, minutes, seconds,hours;
     setInterval(function () {
 		hours = parseInt(timer / (60*60), 10)
@@ -147,28 +158,21 @@ function startTimer(duration, display1, display2, display3) {
 				{
 					if (--timer < 0) {
 			
-						document.myForm.submit();
+						alert("Game over!");
 					}
 				}
 			});
 			}
     }, 1000);
 }
-window.onload=function(){
-	var check="<?php echo $res_y; ?>";
-	if(check=="1")
-	{
-		start_time();
-		retrieveQuestions();
-	}
-};
-function start_time() {
+
+window.onload = function () {
     var fiveMinutes = parseInt(dur_time),
         display1 = document.querySelector('#time_hour');
 	display2 = document.querySelector('#time_min');
 	display3 = document.querySelector('#time_sec');
     startTimer(fiveMinutes, display1, display2, display3);
-}
+};
 </script>
 </body>
 </html>
