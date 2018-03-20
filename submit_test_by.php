@@ -23,6 +23,19 @@ function save_result_to_database($testid,$right,$attained,$total,$duration)
 			return "00";
 		}
 	}
+	else
+	{
+		$sql2="Update Results SET Rightt='$right',Attained='$attained',Left_time='$duration' where CandID='$login_email' and TestID='$testid'";
+		$result2=mysqli_query($con,$sql2);
+		if($result2)
+		{
+			return "11";
+		}
+		else
+		{
+			return "00";
+		}
+	}
 }
 if(isset($_POST['test_id']))
 {

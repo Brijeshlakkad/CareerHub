@@ -6,9 +6,8 @@ include_once('candidate_details.php');
 include_once('visit_test.php');
 check_session();
 
-if(isset($_POST['test_id']) && isset($_POST['visited']))
+if(isset($_POST['test_id']))
 {
-	
 	$testid=$_POST['test_id'];
 	$sql="Select * from Tests where ID='$testid'";
 	$result=mysqli_query($con,$sql);
@@ -21,12 +20,22 @@ if(isset($_POST['test_id']) && isset($_POST['visited']))
 		$duration=$row['Duration'];
 		$total_que=$row['Total_num'];
 		$res_y="0";
-		$res_y=find_test($login_email,$testid);
-		if($res_y=="0")
+		
+		if(isset($_POST['retest']))
 		{
-			$res_x=add_test_to_table($login_email,$testid,$duration);
-			if($res_x!="1")
-				die("Error!");
+			$up_bit=update_table($login_email,$testid,$duration);
+			if($up_bit!="1")
+					die("Error!");
+		}
+		else
+		{
+			$res_y=find_test($login_email,$testid);
+			if($res_y=="0")
+			{
+				$res_x=add_test_to_table($login_email,$testid,$duration);
+				if($res_x!="1")
+					die("Error!");
+			}
 		}
 		$left_dur=get_detail_of_test($login_email,$testid);
 		?>

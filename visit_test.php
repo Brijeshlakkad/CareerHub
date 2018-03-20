@@ -3,7 +3,28 @@ include_once('functions.php');
 include_once("config.php");
 include_once('candidate_details.php');
 check_session();
-
+function update_table($c_id,$id,$duration)
+{
+	global $con;
+	$sql="Select * from visited_test where CandId='$c_id' and TestID='$id'";
+	$result=mysqli_query($con,$sql);
+	if($result)
+	{
+		$row=mysqli_fetch_array($result);
+		$attempt=$row['Attempt'];
+		$attempt=intval($attempt);
+		$attempt++;
+		$sql="Update visited_test SET Attempt='$attempt',Left_time='$duration' where CandId='$c_id' and TestID='$id'";
+		$res=mysqli_query($con,$sql);
+		if($res)
+		{
+			return "1";
+		}
+		else
+			return "-1";
+	}
+	
+}
 function get_detail_of_test($c_id,$id)
 {
 	global $con;
