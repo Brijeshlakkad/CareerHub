@@ -2,8 +2,9 @@
 require_once("config.php");
 require_once('candidate_details.php');
 check_session();
+get_details_from_candidate();
 require_once("global_links.php");
-    $check = getimagesize("Images/user.png");
+$check = getimagesize("Images/user.png");
     if($check !== false){
         $imgContent = addslashes(file_get_contents("Images/user.png"));
 		
