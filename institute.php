@@ -91,7 +91,7 @@ function login_status()
 		var pass =	document.myForm.l_password.value;
 		var l_email=document.getElementById('l_email').innerHTML;
 		var l_pass=document.getElementById('l_password').innerHTML;
-		if(l_email!="Email is required." || l_email!="Invalid email address." || l_pass!="Password is required.")
+		if(l_email!="Email is required." && l_email!="Invalid email address." && l_pass!="Password is required.")
 			{
 				var x=new XMLHttpRequest();
 				x.onreadystatechange=function()

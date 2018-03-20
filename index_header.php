@@ -20,8 +20,8 @@ include_once('institute_details.php');
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/test_details.js"></script>
-	<script src="js/take_test.js"></script>
 	<script src="js/history_and_inbox.js"></script>
+	<script src="js/get_certificates.js"></script>
 	<script type="text/javascript" src="js/admin_cand.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
 	<link href="css/jquery_countdown.css" rel="stylesheet">
@@ -96,6 +96,7 @@ if($filename=="index.php")
         <ul class="dropdown-menu">
           <li><a href="candidate_findwork.php">Find Work!</a></li>
           <li><a href="candidate_certificate.php">Get Certified</a></li>
+          <li><a href="candidate_collected_certificate.php">Your Certificates</a></li>
         </ul>
       	</li>
         <li><a href="candidate_inbox.php">Inbox <span class="badge" id="mess_show_total"></span></a></li>
@@ -120,42 +121,7 @@ if($filename=="index.php")
       	</li>	
 			<?php
 		}
-		else if(isset($_SESSION['BUserid']))
-       	{
-       		?>
-       	<li>
-			  <div class="box" style="padding-top: 10px;">
-				  <div class="container-1">
-					  <span class="icon"><i class="fa fa-search"></i></span>
-					  <input type="search" id="search" placeholder="Search CareerHub" />
-				  </div>
-				</div>
-       	</li>
-       	<li><a href="institute_profile.php">Profile</a></li>
-		<li><a href="institute_hire.php">Hire Candidate!</a></li>
-       	<li><a href="institute_post_job.php">Post a Job</a></li>
-        <li><a href="institute_inbox.php">Inbox</a></li>
-       	
-		<li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="institute_history.php">History &amp; Activity Log</a></li>
-          <li><a href="institute_edit.php">Edit Profile</a></li>
-          <li><a href="logout.php">Logout</a></li>
-        </ul>
-      	</li>
-      	<li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="careerhub_support.php">Get Support</a></li>
-          <li><a href="careerhub_feedback.php">Feedback</a></li>
-          <li><a href="careerhub.php">About Us</a></li>
-        </ul>
-      	</li>
-			<?php
-		}
+		
 		else if(isset($_SESSION['Admin']))
        	{
        		?>

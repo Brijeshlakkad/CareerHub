@@ -1,7 +1,9 @@
 <?php
-require_once('candidate_details.php');
 require_once('functions.php');
+require_once('candidate_details.php');
 require_once("global_links.php");
+check_session();
+get_details_from_candidate();
 ?>
 <center>
 <div class="container well login_block" align="center">
@@ -9,7 +11,7 @@ require_once("global_links.php");
 		<div><caption><a href="index.php"><a href="index.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-top:10px;width:250px;height:60px;float:center;filter:drop-shadow(0px 0px 3px #ffffff);"/></a></caption></div>
 	</div>
 	<div class="row">
-<form name="i_form" method="post" enctype="multipart/form-data" action="candidate_submit_img.php">
+<form name="i_form" method="post" enctype="multipart/form-data" action="institute_submit_img.php">
 <table class="myTable">
 	<tr>
 	<div class="form-group">
@@ -19,9 +21,23 @@ require_once("global_links.php");
 	</tr>
 	<tr>
 	<div class="form-group">
-		<td></td>
-		<td><input class="form-control" type="button" id="uploadimage" value="Upload Pic" onclick="check()"/></td>
+		<td></td><td><button class="btn btn-default form-control" type="button" id="uploadimage" onclick="check()">Upload Pic</button></td>
 	</div>
+	</tr>
+	<tr>
+		<td></td>
+		<td><?php 
+			if($barV<30)
+			{?>
+				<a class="btn btn-default form-control" type="button" href="candidate_default_pic.php">Skip</a>
+			<?php
+			}else
+			{
+				?><a class="btn btn-default form-control" type="button" onclick="javascript:history.back();" href="#">Back</a>
+				<?php 
+			}
+			?>
+				</td>
 	</tr>
 </table>
 </form>
@@ -37,7 +53,12 @@ require_once("global_links.php");
 	function check()
 	{
 		var a = document.getElementById("a_img").innerHTML;
-		if(a=="")
+		var b = $("#file").val();
+		if(b=="")
+			{
+				$("#a_img").html("<p style='color:red;'>Please select a valid Image File <br> Only jpeg, jpg and png images type allowed </p>");
+			}
+		else if(a=="" && b!="")
 			document.i_form.submit();
 	}
 $(document).ready(function (e) {

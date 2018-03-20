@@ -1,7 +1,8 @@
 <?php
 require_once("config.php");
-require_once('candidate_details.php');
+require_once('institute_functions.php');
 check_session();
+get_details_from_institute();
 require_once("global_links.php");
     $check = getimagesize($_FILES["image"]["tmp_name"]);
     if($check !== false){
@@ -9,13 +10,12 @@ require_once("global_links.php");
         $imgContent = addslashes(file_get_contents($image));
 		
 		$s="";
-        $id=$_SESSION['BUserid'];
+        $id=$_SESSION['Userid'];
 		date_default_timezone_get("Asia/Kolkata");
         $dataTime = date("Y-m-d H:i:s");
-		$im='<img class="img-responsive"  src="Image/noimage.png"/>'; 
-		$bits[0]=1;
-		$sbits=implode(",/,",$bits);
-        $insert = mysqli_query($con,"Update Institutes SET Status_bits='$sbits',Image='$imgContent',Created='$dataTime' where Email='$id'");
+		$im='<img class="img-responsive"  src="Image/noimage.png"/>';
+		$q1="1";
+        $insert = mysqli_query($con,"Update Institutes SET Status_bits='$q1',Image='$imgContent',Created='$dataTime' where Email='$id'");
 		$sql="Select * from Institutes Where Email='$id'";
         if($insert)
 		{
@@ -25,21 +25,21 @@ require_once("global_links.php");
 				$row=mysqli_fetch_array($result);
 				$im='<img class="img-responsive img-circle" style="height:150px;" src="data:image/jpeg;base64,'.base64_encode($row['Image']).'"/>'; 
 				$s="<span style='color:green;'>Profile Picture Set.</span><br/><br/>
-				<a class='btn btn-primary' href='candidate_profile.php'>Next</a>";
+				<a class='btn btn-primary' href='institute_profile.php'>Next</a>";
 			}
 			else
 			{
 				$s= "<span style='color:red;'>Profile Picture upload failed.</span>
-				 please <a class='btn btn-primary' href='candidate_upload_img.php'>try again</a>";
+				 please <a class='btn btn-primary' href='institute_upload_img.php'>try again</a>";
 			}
         }else{
 			
            	$s= "<span style='color:red;'>Profile Picture upload failed.</span>
-			 please <a class='btn btn-primary' href='candidate_upload_img.php'>try again</a>";
+			 please <a class='btn btn-primary' href='institute_upload_img.php'>try again</a>";
         }
     }else{
         $s= "<span style='color:red;'>Profile Picture upload failed.</span>
-			 please <a class='btn btn-primary' href='candidate_upload_img.php'>try again</a>";
+			 please <a class='btn btn-primary' href='institute_upload_img.php'>try again</a>";
     }
 ?>
 

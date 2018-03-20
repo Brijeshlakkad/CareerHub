@@ -9,11 +9,11 @@ from smtplib import SMTP_SSL as SMTP
 from email.mime.text import MIMEText
 
 class Mail:
-	USERNAME = "brijeshlakkad22@gmail.com"
-	PASSWORD = "124567267b"
+	USERNAME = ""
+	PASSWORD = ""
 	def send_mail(self,email_ad,mob,name):
 		SMTPserver = 'smtp.gmail.com'
-		sender =     'brijeshlakkad22@gmail.com'
+		sender =     ''
 		destination = email_ad
 		text_subtype = 'html'
 		content="""\
