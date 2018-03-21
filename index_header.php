@@ -14,7 +14,7 @@ include_once('institute_details.php');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="css/customcss.css" rel="stylesheet">
-	<link href="css/please_wait_2.css" rel="stylesheet">
+	<link href="css/please_wait.css" rel="stylesheet">
 	<link href="css/search.css" rel="stylesheet">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>

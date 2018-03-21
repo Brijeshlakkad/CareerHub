@@ -102,7 +102,12 @@ get_details_from_candidate();
                 
 	</div>
 </div>
+<div class="please_wait_modal"></div>
 <script>
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
 	
 	var myApp = angular.module("myapp", []);
 	myApp.controller("BrijController", function($scope,$http) {

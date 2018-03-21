@@ -5,7 +5,7 @@ include_once('index_header.php');
 include_once('candidate_details.php');
 include_once('visit_test.php');
 check_session();
-
+global $test_started;
 if(isset($_POST['test_id']))
 {
 	$testid=$_POST['test_id'];
@@ -19,6 +19,12 @@ if(isset($_POST['test_id']))
 		$subjects=$row['Subjects'];
 		$duration=$row['Duration'];
 		$total_que=$row['Total_num'];
+		$sub_arr=explode("|",$subjects);
+		for($i=0;$i<count($subjects);$i++)
+		{
+			$sub_arr[$i]=trim($sub_arr[$i]);
+		}
+		$str_sub=implode(", ",$sub_arr);
 		$res_y="0";
 		
 		if(isset($_POST['retest']))
@@ -52,6 +58,23 @@ if(isset($_POST['test_id']))
 			<?php
 		}
 			?></div>
+			</div>
+			<div class="row" id="info_about_test" style="padding: 10px;">
+			<br/>
+			<table class="myTable table table-hover">
+			<tr>
+				<td>Total Questions</td>
+				<td><?php echo $total_que; ?></td>
+			</tr>
+			<tr>
+				<td>Course</td>
+				<td><?php echo $course; ?></td>
+			</tr>
+			<tr>
+				<td>Subjects</td>
+				<td><?php echo $str_sub; ?></td>
+			</tr>
+			</table>
 			</div>
 			<div class="row" id="taken_test_panel">
 			<div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
@@ -96,6 +119,12 @@ if(isset($_POST['test_id']))
 	</div>
 </div>
 <script>
+var test_started="<?php echo $test_started; ?>";
+if(test_started=="1")
+{
+	alert(""+test_started);
+	start_time();
+}
 function check_answers()
 	{
 		$("#status_test").empty();
@@ -172,6 +201,8 @@ window.onload=function(){
 	}
 };
 function start_time() {
+	$("#start_test").hide();
+	<?php $test_started=1; ?>
     var fiveMinutes = parseInt(dur_time),
         display1 = document.querySelector('#time_hour');
 	display2 = document.querySelector('#time_min');

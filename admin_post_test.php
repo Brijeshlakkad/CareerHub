@@ -167,7 +167,7 @@ input.ng-touched.ng-valid {
 </div>
 </div>
 </div>
-<div class="modal"></div>
+<div class="please_wait_modal"></div>
 <script>
 $body = $("body");
 $(document).on({

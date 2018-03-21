@@ -24,5 +24,35 @@ check_session();
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="getTestModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+        <div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a> Alert! your previous will be automatically deleted after getting result from next test. </div>
+        <button type="button" class="btn btn-default" id="ok_get_test">Get Test!</button>
+		</div>
+	</div>
+ </div> 
+</div>
+<div class="please_wait_modal"></div>
+<script>
+var formid="-99";
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+function get_test_fun(form_id)
+{
+	formid=form_id;
+	$("#getTestModal").modal("toggle");
+}
+$("#ok_get_test").click(function(){
+	
+	if(formid!="-99")
+		{
+			$("#"+formid+"").submit();
+		}
+});
+</script>
 </body>
 </html>
