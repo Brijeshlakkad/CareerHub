@@ -61,6 +61,7 @@ if(isset($_POST['test_id']))
 			</div>
 			<div class="row" id="info_about_test" style="padding: 10px;">
 			<br/>
+			<div class="header"><label>Information : </label></div>
 			<table class="myTable table table-hover">
 			<tr>
 				<td>Total Questions</td>

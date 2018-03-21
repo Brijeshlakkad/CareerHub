@@ -26,7 +26,7 @@ get_details_from_candidate();
 	{
 			$.ajax({
 				type: 'POST', 
-				url: 'history_and_inbox.py',
+				url: 'candidate_interface.py',
 				data: 'hist_delete='+pid,
 				success  : function (data)
 				{

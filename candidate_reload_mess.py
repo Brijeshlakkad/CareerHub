@@ -13,7 +13,7 @@ def connect_to_database():
 def reload_messages(c_id1):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM chat where ToUserID='%s' ORDER BY Time ASC"%(c_id1)
+	sql="SELECT * FROM chat where ToUserID='%s' and role='Candidate' ORDER BY Time ASC"%(c_id1)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -43,7 +43,7 @@ def delete_message(c_id1):
 def delete_all_mess(c_id1):
 	global cursor,conn
 	connect_to_database()
-	sql="DELETE FROM chat where ToUserID='%s'"%(c_id1)
+	sql="DELETE FROM chat where ToUserID='%s' and role='Candidate'"%(c_id1)
 	try:
 		cursor.execute(sql)
 		conn.commit()
@@ -54,7 +54,7 @@ def delete_all_mess(c_id1):
 def mess_total_count(c_id1):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM Chat where ToUserID='%s'"%(c_id1)
+	sql="SELECT * FROM Chat where ToUserID='%s' and role='Candidate'"%(c_id1)
 	try:
 		cursor.execute(sql)
 		results=cursor.rowcount

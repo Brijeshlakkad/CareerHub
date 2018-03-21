@@ -28,7 +28,7 @@ var delete_mes=function(pid)
 	{
 			$.ajax({
 				type: 'POST', 
-				url: 'history_and_inbox.py',
+				url: 'candidate_interface.py',
 				data: 'mess_delete='+pid,
 				success  : function (data)
 				{

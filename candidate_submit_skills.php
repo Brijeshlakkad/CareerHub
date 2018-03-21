@@ -37,7 +37,7 @@ else
 function enter_history()
 {
 	global $con,$result3,$login_id,$history,$changed;
-	$sql3="Insert into History(Field,UserID) values('$history','$login_id')";
+	$sql3="Insert into History(Field,UserID,role) values('$history','$login_id','Candidate')";
 	$result3=mysqli_query($con,$sql3);
 	if($result3)
 		$changed=1;

@@ -13,7 +13,7 @@ def connect_to_database():
 def reload_history(c_id1):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM History where UserID='%s' ORDER BY Time DESC"%(c_id1)
+	sql="SELECT * FROM History where UserID='%s' and role='Candidate' ORDER BY Time DESC"%(c_id1)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -32,6 +32,7 @@ def reload_history(c_id1):
 def delete_history(c_id1):
 	global cursor,conn
 	connect_to_database()
+	c_id1=int(c_id1)
 	sql="DELETE FROM History where ID='%s'"%(c_id1)
 	try:
 		cursor.execute(sql)
@@ -43,7 +44,7 @@ def delete_history(c_id1):
 def delete_all_history(c_id1):
 	global cursor,conn
 	connect_to_database()
-	sql="DELETE FROM History where UserID='%s'"%(c_id1)
+	sql="DELETE FROM History where UserID='%s' and role='Candidate'"%(c_id1)
 	try:
 		cursor.execute(sql)
 		conn.commit()
@@ -54,7 +55,7 @@ def delete_all_history(c_id1):
 def history_total_count(c_id1):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM History where UserID='%s'"%(c_id1)
+	sql="SELECT * FROM History where UserID='%s' and role='Candidate'"%(c_id1)
 	try:
 		cursor.execute(sql)
 		results=cursor.rowcount
