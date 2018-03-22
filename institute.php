@@ -6,7 +6,7 @@
 	</div>
 	<div class="row">
 		<form ng-app="myapp" ng-controller="BrijController" name="myForm" method="post" novalidate>
-		
+		<div class="row" style="padding-top: 20px;"><div class="col-md-offset-4 col-md-4 col-md-offset-4"><div id="l_status"></div></div></div>
 		<table class="myTable">
 			<div class="form-group">
 			<tr>
@@ -43,7 +43,7 @@
 			<tr>
 			
 				<td><input type="submit" class="btn btn-primary" onclick="return login_status()" ng-disabled="myForm.l_email.$invalid || myForm.l_password.$invalid"></td>
-				<td><span id="l_status"></span></td>
+				<td></td>
 				<td></td>
 			
 			</tr>
@@ -101,11 +101,13 @@ function login_status()
 							var data=this.responseText;
 							if(data==1)
 							{
-								document.getElementById('l_status').innerHTML="<p style='color:green;'>Logging in....</p>";
+								$("#l_status").removeClass("alert alert-danger").addClass("alert alert-success").html("Logging in....");
 								document.location="institute_profile.php";
 							}
 							else
-								document.getElementById('l_status').innerHTML="<p style='color:red;'>Please Enter valid information</p>";
+							{
+								$("#l_status").removeClass("alert alert-success").addClass("alert alert-danger").html("Email or password is wrong");
+							}
 						}
 				};
 				x.open("POST","institute_login_data.php",true);
