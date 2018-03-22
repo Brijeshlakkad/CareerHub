@@ -17,6 +17,7 @@ get_details_from_institute();
   <script src="js/jquery.min.js"></script>
   <script src="js/angular.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/inst_history_and_inbox.js"></script>
   <style type="text/css">
     .w3-sidebar a{
     text-decoration: none;
@@ -38,6 +39,7 @@ get_details_from_institute();
   <a href="#" class="w3-bar-item w3-button">View applications</a>
   <a href="#" class="w3-bar-item w3-button">Search Candidates</a>
   <a href="#" class="w3-bar-item w3-button">Track Profile Visits</a>
+  <a href="institute_inbox.php" class="w3-bar-item w3-button">Inbox</a>
 </div>
 
 <div id="main">
@@ -54,7 +56,7 @@ get_details_from_institute();
        <a href="careerhub.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:200px;height:44px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
    
     </div>
-
+	  <div class="brij" id="<?php echo $institute_id; ?>"> </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li style="padding-top: 15px;

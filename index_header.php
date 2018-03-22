@@ -3,7 +3,6 @@ $filename=basename($_SERVER['PHP_SELF']);
 if($filename!="index.php")
 {
 include_once('candidate_details.php');
-include_once('institute_details.php');
 }
 ?>
 <!DOCTYPE html>
