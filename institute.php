@@ -26,7 +26,7 @@
 			<tr>
 				<td><label for="l_password" >Password:</label></td>
 				<td>
-					<input type="password" class="form-control" name="l_password" placeholder="Enter Password" ng-model="l_password" ng-style="passStyle" ng-change="analyze(l_password)"  required />
+					<input type="password" class="form-control" name="l_password" placeholder="Enter Password" ng-model="l_password" ng-style="passStyle" ng-change="analyze(l_password)" id="show_pass" data-toggle="password" required />
 				</td>
 				<td></td>
 			</tr>
@@ -65,7 +65,9 @@
 		</form>
 	</div>
 </div>
-
+<script type="text/javascript">
+	$("#show_pass").password('toggle');
+</script>
 <script>
 	var myApp = angular.module("myapp", []);
 	myApp.controller("BrijController", function($scope,$http) {
