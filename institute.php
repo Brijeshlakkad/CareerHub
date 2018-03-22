@@ -93,7 +93,7 @@ function login_status()
 		var pass =	document.myForm.l_password.value;
 		var l_email=document.getElementById('l_email').innerHTML;
 		var l_pass=document.getElementById('l_password').innerHTML;
-		if(l_email!="Email is required." && l_email!="Invalid email address." && l_pass!="Password is required.")
+		if(l_email!="Email is required." && l_email!="Invalid email address." && l_pass!="Password is required." )
 			{
 				var x=new XMLHttpRequest();
 				x.onreadystatechange=function()
@@ -101,7 +101,7 @@ function login_status()
 					if(x.readyState==4 && x.status==200)
 						{
 							var data=this.responseText;
-							if(data==1)
+							if(data!=0)
 							{
 								$("#l_status").removeClass("alert alert-danger").addClass("alert alert-success").html("Logging in....");
 								document.location="institute_profile.php";
