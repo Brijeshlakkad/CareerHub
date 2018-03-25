@@ -10,6 +10,7 @@ $b_college=$_POST['college'];
 $b_year=$_POST['year'];
 $b_intern=$_POST['intern'];
 $b_colpin=$_POST['col_pin'];
+$b_exp_year=$_POST['exp_year'];
 
 $q1=set_progress('gra');
 $q2=set_bits('gra');
@@ -18,6 +19,7 @@ date_default_timezone_get("Asia/Kolkata");
 $q4 = date("Y-m-d H:i:s");
 $history="";
 $changed=0;
+
 if($b_degree!=$degree)
 {
 	$history="Degree";
@@ -38,6 +40,11 @@ if(($b_year."")!=($p_year.""))
 	$history="Passing Year";
 	enter_history();
 }
+if($b_exp_year!=$exp_year)
+{
+	$history="Experience Year";
+	enter_history();
+}
 if($b_intern!=$intern)
 {
 	$history="Internship/Experience";
@@ -53,7 +60,7 @@ if($b_colpin!=$col_pin)
 $sql2="UPDATE Candidates SET Progress='$q1',Status_bits='$q2',isUpdated='$q3',Upd_Gra='$q4' where Email='$login_email'";
 $result2=mysqli_query($con,$sql2);
 
-$sql="UPDATE Candidates SET Degree='$b_degree', Course='$b_course',College='$b_college',Passing_year='$b_year',Intern='$b_intern',College_pincode='$b_colpin' where Email='$login_email'";
+$sql="UPDATE Candidates SET Degree='$b_degree', Course='$b_course',College='$b_college',Passing_year='$b_year',Intern='$b_intern',College_pincode='$b_colpin',Experience='$b_exp_year' where Email='$login_email'";
 $result1=mysqli_query($con,$sql);
 
 

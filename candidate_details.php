@@ -24,7 +24,7 @@ function get_details_from_candidate()
 	global $row,$login_id,$login_name,$login_email,$login_mno;
 	global $login_image;
 	global $sbit,$bits,$barV,$squali,$qualis;
-	global $course,$college,$p_year,$intern,$degree;
+	global $course,$college,$p_year,$intern,$degree,$exp_year;
 	global $postal_add,$perm_add,$per_pin,$dob,$gender,$col_pin;
 	global $desc,$updated;
 	
@@ -48,7 +48,8 @@ function get_details_from_candidate()
 	$intern=$row['Intern'];
 	$college=$row["College"];
 	$col_pin=$row['College_pincode'];
-	
+	$exp_year=$row['Experience'];
+		
 	$postal_add=$row['Postal_Add'];
 	$perm_add=$row['Perm_Add'];
 	$per_pin=$row['Per_pincode'];

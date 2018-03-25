@@ -94,6 +94,16 @@ input.ng-touched.ng-valid {
 					</span>
 				</td>
 			</tr>
+			<tr ng-show="intern=='yes'">
+				<td><label for="experience_year">Experience Year</label></td>
+				<td><input class="form-control" name="experience_year" value="0" id="experience_year" ng-model="experience_year" ng-style="yearStyle"  ng-change="analyze4(experience_year)" required expyear-dir/></td>
+				<td>
+					<span style="color:red" id="s_experience_year" ng-show="myForm.experience_year.$dirty && myForm.experience_year.$invalid">
+					<span ng-show="myForm.experience_year.$error.required">Experience Year is required</span>
+					<span ng-show="!myForm.experience_year.$error.required && myForm.experience_year.$error.yearvalid">Invalid input</span>
+					</span>
+				</td>
+			</tr>
 			<tr>
 			<td id="status"></td>
 			<td><input type="button" class="btn btn-success" ng-click="submit_form()" ng-disabled="myForm.course.$invalid ||  myForm.college.$invalid ||  myForm.year.$invalid ||  myForm.intern.$invalid " value="Submit"/></td>
@@ -141,6 +151,7 @@ $(document).on({
 				$scope.college="<?php echo $college; ?>";
 				$scope.col_pin="<?php echo $col_pin; ?>";
 				$scope.intern="<?php echo $intern; ?>";
+				$scope.experience_year="<?php echo $exp_year; ?>";
 			}
 				var patt3 = new RegExp("^[0-9]{6}$");
 				$scope.pinStyle = {
@@ -153,6 +164,16 @@ $(document).on({
                         $scope.pinStyle["border-color"] = "red";
                     }
                 };
+				$scope.yearStyle = {
+					"border-width":"1.45px"
+                };
+                $scope.analyze4 = function(value) {
+                    if(/^[0-9]+$/.test(value)) {
+                        $scope.yearStyle["border-color"] = "green";
+                    }else {
+                        $scope.yearStyle["border-color"] = "red";
+                    }
+                };
 			$scope.submit_form = function() {
 							var c0=$scope.degree;
 							var c1=$scope.course;
@@ -160,10 +181,11 @@ $(document).on({
 							var c3=$scope.year;
 							var c4=$scope.intern;
 							var c5=$scope.col_pin;
+							var c6=$scope.experience_year;
 							$http({
 								method : "POST",
 								url : "candidate_submit_gra.php",
-								data: "degree="+c0+"&course="+c1+"&college="+c2+"&year="+c3+"&intern="+c4+"&col_pin="+c5,
+								data: "degree="+c0+"&course="+c1+"&college="+c2+"&year="+c3+"&intern="+c4+"&col_pin="+c5+"&exp_year="+c6,
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).then(function mySuccess(response) {
 								flag = response.data;
@@ -187,6 +209,23 @@ $(document).on({
 								mCtrl.$setValidity('pinvalid', true);
 							} else {
 								mCtrl.$setValidity('pinvalid', false);
+							}
+							return value;
+						}
+						mCtrl.$parsers.push(myValidation);
+					}
+				};
+});
+myApp.directive('expyearDir', function() {
+				return {
+					require: 'ngModel',
+					link: function(scope, element, attr, mCtrl) {
+						function myValidation(value) {
+							var patt = new RegExp("^[0-9]+$");
+							if (patt.test(value)) {
+								mCtrl.$setValidity('yearvalid', true);
+							} else {
+								mCtrl.$setValidity('yearvalid', false);
 							}
 							return value;
 						}
