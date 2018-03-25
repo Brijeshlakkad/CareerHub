@@ -1,12 +1,11 @@
 <?php
 include_once('functions.php');
-include_once("config.php");
 include_once('institute_header.php');
 include_once('institute_functions.php');
 check_session();
 get_details_from_institute();
 ?>
-
+<div class="w3-container">
 <div class="container-fluid well" id="inbox_show">
 <div class="row" align="center">
 	<div class="col-lg-offset-2 col-lg-8">
@@ -21,7 +20,7 @@ get_details_from_institute();
 	</div>
 </div>
 </div>
-
+</div>
 <script>
 	
 var delete_mes=function(pid)
@@ -38,5 +37,4 @@ var delete_mes=function(pid)
 			});
 	}
 </script>
-</body>
-</html>
+<?php require_once('institute_footer.php');?>

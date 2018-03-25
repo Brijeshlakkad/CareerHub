@@ -3,8 +3,7 @@
 require_once('institute_functions.php');
 require_once('functions.php');
 @session_start();
-SessionData();
-
+get_details_from_institute();
 $limit=protect_anything($_POST['limit']);
 $sortby=protect_anything($_POST['sortby']);
 $orderby=protect_anything($_POST['orderby']);

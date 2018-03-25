@@ -10,8 +10,8 @@ if($bits[0]==0)
 }
 ?>
 <div class="w3-container">
-	<section class="content" style="background-color:white;box-shadow: 5px 5px 5px #aaaaaa;">
-        <div class="container-fluid" >
+	<section class="content" style="box-shadow: 5px 5px 5px #aaaaaa;">
+        <div class="container-fluid well" >
 
         <div id="AllContent">
             <div style="height:80vh;">

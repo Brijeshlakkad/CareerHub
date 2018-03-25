@@ -37,7 +37,7 @@ get_details_from_institute();
   <a href="institute_jobpost.php" class="w3-bar-item w3-button">Post new Job</a>
   <a href="institute_manage_jobs.php" class="w3-bar-item w3-button">Manage Jobs</a>
   <a href="#" class="w3-bar-item w3-button">View applications</a>
-  <a href="#" class="w3-bar-item w3-button">Search Candidates</a>
+  <a href="search_candidate.php" class="w3-bar-item w3-button">Search Candidates</a>
   <a href="#" class="w3-bar-item w3-button">Track Profile Visits</a>
   <a href="institute_inbox.php" class="w3-bar-item w3-button">Inbox</a>
 </div>
