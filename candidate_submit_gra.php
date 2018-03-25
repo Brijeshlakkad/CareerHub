@@ -4,6 +4,7 @@ include_once("config.php");
 include_once("candidate_details.php");
 check_session();
 get_details_from_candidate();
+$b_degree=$_POST['degree'];
 $b_course=$_POST['course'];
 $b_college=$_POST['college'];
 $b_year=$_POST['year'];
@@ -17,6 +18,11 @@ date_default_timezone_get("Asia/Kolkata");
 $q4 = date("Y-m-d H:i:s");
 $history="";
 $changed=0;
+if($b_degree!=$degree)
+{
+	$history="Degree";
+	enter_history();
+}
 if($b_course!=$course)
 {
 	$history="Course";
@@ -47,7 +53,7 @@ if($b_colpin!=$col_pin)
 $sql2="UPDATE Candidates SET Progress='$q1',Status_bits='$q2',isUpdated='$q3',Upd_Gra='$q4' where Email='$login_email'";
 $result2=mysqli_query($con,$sql2);
 
-$sql="UPDATE Candidates SET Course='$b_course',College='$b_college',Passing_year='$b_year',Intern='$b_intern',College_pincode='$b_colpin' where Email='$login_email'";
+$sql="UPDATE Candidates SET Degree='$b_degree', Course='$b_course',College='$b_college',Passing_year='$b_year',Intern='$b_intern',College_pincode='$b_colpin' where Email='$login_email'";
 $result1=mysqli_query($con,$sql);
 
 

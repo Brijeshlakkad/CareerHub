@@ -26,7 +26,19 @@ input.ng-touched.ng-valid {
          <h3 class="heading">Graduation Details</h3>
 			<table class="myTable">
 			<div class="form-group">
-			
+			<tr>
+				<td><label for="degree">Degree</label></td>
+				<td><select class="form-control" name="degree" id="degree" ng-model="degree" >
+       <option ng-selected="x.val=='-1'" 
+        ng-repeat="x in degreeOptions" 
+        ng-value="x.val">{{x.name_c}}</option>
+					</select></td>
+				<td>
+					<span style="color:red" id="s_degree" ng-show="myForm.degree.$dirty && myForm.degree.$invalid">
+					<span ng-show="myForm.degree.$error.required">Degree is required</span>
+					</span>
+				</td>
+			</tr>
 			<tr>
 				<td><label for="course">Course</label></td>
 				<td><select class="form-control" name="course" id="course" ng-model="course" >
@@ -106,6 +118,12 @@ $(document).on({
 	var check='<?php echo $course; ?>';
 	var myApp = angular.module("myapp", []);
 	myApp.controller("BrijController", function($scope,$http) {
+		$scope.degreeOptions = [
+				{val : "M.Tech/M.E.", name_c : "M.Tech/M.E."},
+				{val : "B.Tech/B.E", name_c : "B.Tech/B.E"},
+				{val : "MBA", name_c : "MBA"},
+				{val : "BCA", name_c : "BCA"}
+			];
 		$scope.courseOptions = [
 				{val : "Information Technology", name_c : "Information Technology"},
 				{val : "Computer Science", name_c : "Computer Science"},
@@ -118,6 +136,7 @@ $(document).on({
 			];
 		if(check!='-99')
 			{
+				$scope.degree="<?php echo $degree; ?>";
 				$scope.course="<?php echo $course; ?>";
 				$scope.college="<?php echo $college; ?>";
 				$scope.col_pin="<?php echo $col_pin; ?>";
@@ -135,6 +154,7 @@ $(document).on({
                     }
                 };
 			$scope.submit_form = function() {
+							var c0=$scope.degree;
 							var c1=$scope.course;
 							var c2=$scope.college;
 							var c3=$scope.year;
@@ -143,7 +163,7 @@ $(document).on({
 							$http({
 								method : "POST",
 								url : "candidate_submit_gra.php",
-								data: "course="+c1+"&college="+c2+"&year="+c3+"&intern="+c4+"&col_pin="+c5,
+								data: "degree="+c0+"&course="+c1+"&college="+c2+"&year="+c3+"&intern="+c4+"&col_pin="+c5,
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).then(function mySuccess(response) {
 								flag = response.data;

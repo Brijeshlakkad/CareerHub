@@ -24,7 +24,7 @@ function get_details_from_candidate()
 	global $row,$login_id,$login_name,$login_email,$login_mno;
 	global $login_image;
 	global $sbit,$bits,$barV,$squali,$qualis;
-	global $course,$college,$p_year,$intern;
+	global $course,$college,$p_year,$intern,$degree;
 	global $postal_add,$perm_add,$per_pin,$dob,$gender,$col_pin;
 	global $desc,$updated;
 	
@@ -42,6 +42,7 @@ function get_details_from_candidate()
 	$squali=$row['Quali'];
 	$qualis=explode(",/,",$squali);
 	
+	$degree=$row['Degree'];
 	$course=$row['Course'];
 	$p_year=$row['Passing_year'];
 	$intern=$row['Intern'];
