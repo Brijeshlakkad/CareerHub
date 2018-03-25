@@ -3,9 +3,7 @@ include_once('functions.php');
 include_once('index_header.php');
 include_once('candidate_details.php');
 check_session();
-
 get_details_from_candidate();
-
 ?>
 <style>
 input.ng-touched.ng-invalid {
@@ -47,6 +45,36 @@ input.ng-touched.ng-valid {
 				</td>
 			</tr>
 			<tr>
+				<td><label for="country">Country</label></td>
+				<td><input class="form-control" type="text" name="country" id="country" ng-model="country" ng-style="countryStyle"  ng-change="analyze5(country)" required country-dir/></td>
+				<td>
+					<span style="color:red" id="s_country" ng-show="myForm.country.$dirty && myForm.country.$invalid">
+					<span ng-show="myForm.country.$error.required">Country is required</span>
+					<span ng-show="!myForm.country.$error.required && myForm.country.$error.countryvalid">Enter proper input</span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="state">State</label></td>
+				<td><input class="form-control" type="text" name="state" id="state" ng-model="state" ng-style="stateStyle"  ng-change="analyze6(state)" required country-dir/></td>
+				<td>
+					<span style="color:red" id="s_state" ng-show="myForm.state.$dirty && myForm.state.$invalid">
+					<span ng-show="myForm.state.$error.required">State is required</span>
+					<span ng-show="!myForm.state.$error.required && myForm.state.$error.countryvalid">Enter proper input</span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="city">City</label></td>
+				<td><input class="form-control" type="text" name="city" id="city" ng-model="city" ng-style="cityStyle"  ng-change="analyze7(city)" required country-dir/></td>
+				<td>
+					<span style="color:red" id="s_city" ng-show="myForm.city.$dirty && myForm.city.$invalid">
+					<span ng-show="myForm.city.$error.required">City is required</span>
+					<span ng-show="!myForm.city.$error.required && myForm.city.$error.countryvalid">Enter proper input</span>
+					</span>
+				</td>
+			</tr>
+			<tr>
 				<td><label for="per_pin">Pincode</label></td>
 				<td><input class="form-control" type="text" name="per_pin" id="per_pin" ng-model="per_pin" ng-style="pinStyle"  ng-change="analyze3(per_pin)" required pin-dir/></td>
 				<td>
@@ -80,7 +108,7 @@ input.ng-touched.ng-valid {
 			</tr>
 			<tr>
 			<td id="status"></td>
-			<td><input type="button" class="btn btn-success" ng-click="submit_form()" ng-disabled="myForm.postal_add.$invalid ||  myForm.perm_add.$invalid ||  myForm.per_pin.$invalid ||  myForm.gender.$invalid ||  myForm.dob.$invalid " value="Submit"/></td>
+			<td><input type="button" class="btn btn-success" ng-click="submit_form()" ng-disabled="myForm.postal_add.$invalid ||  myForm.perm_add.$invalid ||  myForm.country.$invalid ||  myForm.state.$invalid ||  myForm.city.$invalid ||  myForm.per_pin.$invalid ||  myForm.gender.$invalid ||  myForm.dob.$invalid " value="Submit"/></td>
 			<td></td>
 			</tr>
 			</table>
@@ -106,6 +134,9 @@ input.ng-touched.ng-valid {
 				$scope.per_pin="<?php echo $per_pin; ?>";
 				$scope.gender="<?php echo $gender; ?>";
 				$scope.dob="<?php echo $dob; ?>";
+				$scope.country="<?php echo $country; ?>";
+				$scope.state="<?php echo $state; ?>";
+				$scope.city="<?php echo $city; ?>";
 			}
 		$scope.gender="Male";
 		$scope.address_fun = function() {
@@ -159,18 +190,54 @@ input.ng-touched.ng-valid {
                         $scope.genderStyle["border-color"] = "red";
                     }
                 };
-		
+				$scope.countryStyle = {
+					"border-width":"1.45px"
+                };
+                $scope.analyze5 = function(value) {
+                    if(/^[a-zA-Z]+$/.test(value))
+					{
+                        $scope.countryStyle["border-color"] = "green";
+                    }else {
+                        $scope.countryStyle["border-color"] = "red";
+                    }
+                };
+		$scope.stateStyle = {
+					"border-width":"1.45px"
+                };
+                $scope.analyze6 = function(value) {
+                    if(/^[a-zA-Z]+$/.test(value))
+					{
+                        $scope.stateStyle["border-color"] = "green";
+                    }else {
+                        $scope.stateStyle["border-color"] = "red";
+                    }
+                };
+		$scope.cityStyle = {
+					"border-width":"1.45px"
+                };
+                $scope.analyze7 = function(value) {
+                    if(/^[a-zA-Z]+$/.test(value))
+					{
+                        $scope.cityStyle["border-color"] = "green";
+                    }else {
+                        $scope.cityStyle["border-color"] = "red";
+                    }
+                };
 			$scope.submit_form = function() {
 							var c1=$scope.postal_add;
 							var c2=$scope.perm_add;
 							var c3=$scope.per_pin;
 							var c4=$scope.gender;
 							var c5=$scope.dob;
+							var c6=$scope.country;
+							var c7=$scope.state;
+							var c8=$scope.city;
+				
 							c5=formatDate(c5);
 							$http({
 								method : "POST",
 								url : "candidate_submit_per.php",
-								data: "postal_add="+c1+"&perm_add="+c2+"&per_pin="+c3+"&gender="+c4+"&dob="+c5,
+								data: "postal_add="+c1+"&perm_add="+c2+"&per_pin="+c3+"&gender="+c4+"&dob="+c5+"&country="+c6+"&state="+c7+"&city="+c8,
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).then(function mySuccess(response) {
 								flag = response.data;
@@ -223,6 +290,23 @@ input.ng-touched.ng-valid {
 								mCtrl.$setValidity('addvalid', true);
 							} else {
 								mCtrl.$setValidity('addvalid', false);
+							}
+							return value;
+						}
+						mCtrl.$parsers.push(myValidation);
+					}
+				};
+});
+	myApp.directive('countryDir', function() {
+				return {
+					require: 'ngModel',
+					link: function(scope, element, attr, mCtrl) {
+						function myValidation(value) {
+							var patt = new RegExp("^[a-zA-Z]+$");
+							if (patt.test(value)) {
+								mCtrl.$setValidity('countryvalid', true);
+							} else {
+								mCtrl.$setValidity('countryvalid', false);
 							}
 							return value;
 						}

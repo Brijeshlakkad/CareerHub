@@ -9,6 +9,9 @@ $b_permadd=$_POST['perm_add'];
 $b_pin=$_POST['per_pin'];
 $b_gender=$_POST['gender'];
 $b_dob =$_POST['dob'];
+$b_country=$_POST['country'];
+$b_state=$_POST['state'];
+$b_city=$_POST['city'];
 $for_cmp1=strtotime($b_dob);
 $for_cmp2=strtotime($dob);
 $q1=set_progress('per');
@@ -18,6 +21,21 @@ date_default_timezone_get("Asia/Kolkata");
 $q4 = date("Y-m-d H:i:s");
 $history="";
 $changed=0;
+if($b_country!=$country)
+{
+	$history="Country";
+	enter_history();
+}
+if($b_state!=$state)
+{
+	$history="State";
+	enter_history();
+}
+if($b_city!=$city)
+{
+	$history="City";
+	enter_history();
+}
 if($b_postaladd!=$postal_add)
 {
 	$history="Postal Address";
@@ -42,7 +60,7 @@ if($b_gender!=$gender)
 $sql2="UPDATE Candidates SET Progress='$q1',Status_bits='$q2',isUpdated='$q3',Upd_Per='$q4' where Email='$login_email'";
 $result2=mysqli_query($con,$sql2);
 
-$sql="UPDATE Candidates SET Postal_Add='$b_postaladd',Perm_Add='$b_permadd',Per_Pincode='$b_pin',Gender='$b_gender',DOB='$b_dob' where Email='$login_email'";
+$sql="UPDATE Candidates SET Postal_Add='$b_postaladd',Perm_Add='$b_permadd',Per_Pincode='$b_pin',Gender='$b_gender',DOB='$b_dob', Country='$b_country',State='$b_state',City='$b_city' where Email='$login_email'";
 $result1=mysqli_query($con,$sql);
 
 

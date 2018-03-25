@@ -25,7 +25,7 @@ function get_details_from_candidate()
 	global $login_image;
 	global $sbit,$bits,$barV,$squali,$qualis;
 	global $course,$college,$p_year,$intern,$degree,$exp_year;
-	global $postal_add,$perm_add,$per_pin,$dob,$gender,$col_pin;
+	global $postal_add,$perm_add,$per_pin,$dob,$gender,$col_pin,$country,$state,$city;
 	global $desc,$updated;
 	
 	$login_id=$row['ID'];
@@ -55,6 +55,9 @@ function get_details_from_candidate()
 	$per_pin=$row['Per_pincode'];
 	$dob= date('d/m/Y', strtotime($row['DOB']));
 	$gender=$row['Gender'];
+	$country=$row['Country'];
+	$state=$row['State'];
+	$city=$row['City'];
 	
 	$updated=$row['isUpdated'];
 	$desc=$row['Description'];
