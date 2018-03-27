@@ -181,7 +181,8 @@ function show_cand($m_all)
 			$im=base64_encode($cand_image);
 	?>
 	<div class="row" style="margin: 30px;">
-		<div class="col-lg-offset-2 col-lg-4 col-lg-offset-6">
+		<div class="container" style="margin-top:20px;background-color:white;border-left:3px solid Tomato;border-top:2px solid Tomato;box-shadow: 5px 5px 5px #aaaaaa;">
+		<div class="row">
 		<form method="post" action="institute_get_cand.php">
 		<input type="hidden" name="cand_id" value="<?php echo $cand_id; ?>" />
 			<div id="<?php echo $cand_id."".$cand_name; ?>">
@@ -192,7 +193,7 @@ function show_cand($m_all)
 				<div class="media-body" style="">
 				<div class="row">
 					<div class="col-lg-6">
-						<div class="media-heading"><b><button type="submit" class="btn btn-link"><h5><?php echo $cand_name; ?></h5></button></b></div>
+						<div class="media-heading"><b><h5><?php echo $cand_name; ?></h5></b></div>
 						<div style="margin: 5px;" align="left">
 							<?php echo $desc; ?>
 						</div>
@@ -218,6 +219,10 @@ function show_cand($m_all)
 			</div>
 			</div>
 		</form>
+		</div>
+		<div class="row" style="background-color:Tomato;min-height:40px;color:white;">
+			<button type="submit" class="btn btn-default">View Profile</button>
+		</div>
 		</div>
 	</div>
 	<?php

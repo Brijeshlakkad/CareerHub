@@ -17,6 +17,7 @@ get_details_from_institute();
   <script src="js/jquery.min.js"></script>
   <script src="js/angular.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/inst_history_and_inbox.js"></script>
   <style type="text/css">
     .w3-sidebar a{
     text-decoration: none;
@@ -36,12 +37,13 @@ get_details_from_institute();
   <a href="institute_jobpost.php" class="w3-bar-item w3-button">Post new Job</a>
   <a href="institute_manage_jobs.php" class="w3-bar-item w3-button">Manage Jobs</a>
   <a href="#" class="w3-bar-item w3-button">View applications</a>
-  <a href="#" class="w3-bar-item w3-button">Search Candidates</a>
+  <a href="search_candidate.php" class="w3-bar-item w3-button">Search Candidates</a>
   <a href="#" class="w3-bar-item w3-button">Track Profile Visits</a>
+  <a href="institute_inbox.php" class="w3-bar-item w3-button">Inbox</a>
 </div>
 
 <div id="main">
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-default navbar-static-top navcust myBar">
 <button id="openNav" class="w3-button w3-teal" onclick="w3_open()" style="float: left;height:42px;margin-top:2px;margin-left:0px;">&#9776;</button>
   <div class="container-fluid">
     <div class="navbar-header">
@@ -51,11 +53,10 @@ get_details_from_institute();
         <span class="icon-bar"></span>                        
       </button>
       
-      <a href="institute_profile.php"><img src="images/career-hub-logo.png" style="min-width:130px;min-height:40px;max-width:200px;max-height:55px;margin-left:5px;margin-top:2px;"/>
-      </a>
-      
+       <a href="careerhub.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:200px;height:44px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
+   
     </div>
-
+	  <div class="brij" id="<?php echo $institute_id; ?>"> </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li style="padding-top: 15px;
@@ -66,12 +67,9 @@ get_details_from_institute();
       <ul class="nav navbar-nav navbar-right">
         <li><a href="institute_profile.php">Home</a></li>
         <li><a href="#">Contact Us</a></li>
-        <li><a href="logout.php"><span class="glyphicon glyphicon-user"></span> Sign Out</a></li>
+        <li><a href="logout.php">Sign Out</a></li>
         
       </ul>
     </div>
   </div>
 </nav>
-
-
-
