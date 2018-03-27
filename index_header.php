@@ -3,6 +3,7 @@ $filename=basename($_SERVER['PHP_SELF']);
 if($filename!="index.php")
 {
 include_once('candidate_details.php');
+include_once('institute_details.php');
 }
 ?>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ include_once('candidate_details.php');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="css/customcss.css" rel="stylesheet">
-	<link href="css/please_wait.css" rel="stylesheet">
+	<link href="css/please_wait_2.css" rel="stylesheet">
 	<link href="css/search.css" rel="stylesheet">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
@@ -22,9 +23,14 @@ include_once('candidate_details.php');
 	<script src="js/history_and_inbox.js"></script>
 	<script src="js/get_certificates.js"></script>
 	<script type="text/javascript" src="js/admin_cand.js"></script>
-	<script type="text/javascript" src="js/admin_inst.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
+	<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 	<link href="css/jquery_countdown.css" rel="stylesheet">
+	
+	<link href = "css/jquery-ui.css" rel = "stylesheet">
+    
 </head>
 
 <?php 
@@ -147,17 +153,7 @@ if($filename=="index.php")
         </ul>
       	</li>
 		
-       	<li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Institutes
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a id="admin_all_inst">See all institutes</a></li>
-          <li><a id="admin_wait_inst">Waiting institutes</a></li>
-          <li><a id="admin_appr_inst">Approved institutes</a></li>
-          <li><a id="admin_decl_inst">Declined institutes</a></li>
-          <li><a id="admin_updated_inst">Updated institutes</a></li>
-        </ul>
-      	</li>
+       	<li><a href="admin_institute.php">Institutes</a></li>
        	<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Test Details
         <span class="caret"></span></a>

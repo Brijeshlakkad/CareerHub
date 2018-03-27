@@ -4,6 +4,7 @@ require_once('institute_functions.php');
 require_once('functions.php');
 @session_start();
 get_details_from_institute();
+
 $limit=protect_anything($_POST['limit']);
 $sortby=protect_anything($_POST['sortby']);
 $orderby=protect_anything($_POST['orderby']);
@@ -157,7 +158,7 @@ $total_pages = ceil($total_records / $limit);
 				<td><?php echo strtoupper($res1['state']);?> </td>
 	            <td><?php echo strtoupper($res1['city']);?> </td>
 	            <td><?php echo $res1['max_age'];?> </td>
-	            <td><?php echo $res1['description'];?> </td>
+	            <td><?php echo rtrim(mb_strimwidth($res1['description'] , 0, 50))."...";?> </td>
 				<td><?php echo $res1['posted'];?> </td>
 	            <td><?php echo $res1['last_updated'];?> </td>
 	            <td><button type="button" class="update btn btn-success" id="<?php echo $res1['job_id'];?>">Update</button></td>
@@ -182,20 +183,20 @@ $total_pages = ceil($total_records / $limit);
         <ul class="pagination">
 
         <?php if($page > 1) {?>
-        <li><a id="previous" class="page" > Previous</a></li>
+        <li><a id="previous" class="page" style="background-color:Tomato;color:black;"> Previous</a></li>
         <?php } ?>
 
         <?php
         for($i=1;$i<=$total_pages;++$i)
         {
             ?>
-              <li id="<?php echo $i; ?>" class="page"><a style="background-color:black"><?php echo $i; ?></a> </li>
+              <li id="<?php echo $i; ?>" class="page"><a style="color:Tomato;" id="pageno<?php echo $i; ?>"><?php echo $i; ?></a> </li>
             <?php
         }
         ?>
 
         <?php if($page < $total_pages) {?>
-            <li><a id="next" class="page"> Next</a></li>
+            <li><a id="next" class="page" style="background-color:Tomato;color:black;"> Next</a></li>
         <?php } ?>
 
             </ul>
@@ -204,7 +205,12 @@ $total_pages = ceil($total_records / $limit);
 
 
 <script type="text/javascript">
+var cur_page_id=<?php echo $_POST['page']; ?>;
+$('#pageno'+cur_page_id+'').css({'background-color':'DodgerBlue','color':'black'});
+
 	$(document).ready(function(){
+
+
 
 	$('.page').click(function(){
 		var pageid=$(this).attr('id');

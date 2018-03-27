@@ -11,7 +11,9 @@ $job_result=mysqli_query($con,$sql);
 ?>
 <div class="container-fluid well" >
 <div class="row" ng-app="myapp" ng-controller="BrijController">
-	<div class="col-md-2">
+	<div class="col-md-3">
+	</div>
+	<div class="col-md-3">
 		<span>Select Job/Training :</span>
 		<select class="form-control" name="job" id="job" ng-model="job" >
     	<?php
@@ -21,9 +23,18 @@ $job_result=mysqli_query($con,$sql);
       	<?php }?>
 		</select>
 	</div>
+	<div class="col-md-1">
+	</div>
 	<div class="col-md-2">
-		<span>Degree </span>
-      	<input type="checkbox" name="best_match" ng-change="changed('best_match')" id="best_match" ng-model="best_match" />
+		<span>Match by</span>
+     	<select class="form-control" name="matchby" ng-change="changed(matchby)" id="matchby" ng-model="matchby">
+     	<option value="quali_match">Required skills</option>
+     	<option value="exp_match">Experience year</option>
+     	<option value="location_match">Location</option>
+      	<option value="best_match">Best match</option>
+		</select>
+	</div>
+	<div class="col-md-3">
 	</div>
 </div>
 <div class="row" id="search_result_cand">
@@ -34,12 +45,33 @@ $job_result=mysqli_query($con,$sql);
 var myApp=angular.module("myapp",[]);
 myApp.controller("BrijController", function($scope,$http) {
 	$scope.changed=function(state){
-		var flag;
+		var flag="-99";
+		var jobid=$scope.job;
 		if(state=="best_match")
 			{
 				flag="best_match";
-				var jobid=$scope.job;
-				$.ajax({
+			}
+		else if(state=="quali_match")
+			{
+				flag="quali_match";
+			}
+		else if(state=="exp_match")
+			{
+				flag="exp_match";
+			}
+		else if(state=="location_match")
+			{
+				flag="location_match";
+			}
+		if(flag!="-99")
+			{
+				get_cand_list(flag,jobid);
+			}
+	};
+});
+function get_cand_list(flag,jobid)
+	{
+		$.ajax({
 				type: 'POST', 
 				url: 'get_candidates_filtered.php',
 				data: 'flag='+flag+"&job_id="+jobid,
@@ -48,8 +80,6 @@ myApp.controller("BrijController", function($scope,$http) {
 					$("#search_result_cand").html(data);
 				}
 				});
-			}
-	};
-});
+	}
 </script>
 <?php require_once('institute_footer.php');?>
