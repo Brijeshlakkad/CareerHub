@@ -3,7 +3,6 @@ require_once('functions.php');
 require_once('institute_functions.php');
 check_session(); 
 get_details_from_institute();
-get_job_details();
 function get_job($jobid)
 {
 	global $con,$institute_id,$row_job;

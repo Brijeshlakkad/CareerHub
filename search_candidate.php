@@ -4,7 +4,6 @@ require_once('institute_header.php');
 require_once('institute_functions.php');
 check_session(); 
 get_details_from_institute();
-get_job_details();
 $sql="Select * from jobs where institute_id='$institute_id'";
 $job_result=mysqli_query($con,$sql);
 
