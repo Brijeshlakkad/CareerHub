@@ -16,7 +16,7 @@ def connect_to_database():
 def send_offer_cand(c_id,inst_id,j_id):
 	global cursor,conn
 	connect_to_database()
-	sql="Insert into Offers(FromID,ToID,JobID) values('%s','%s','%s')"%(inst_id,c_id,j_id)
+	sql="Insert into chat(FromUser,ToUserID,Text,role) values('%s','%s','%s','job')"%(inst_id,c_id,j_id)
 	try:
 		cursor.execute(sql)
 		conn.commit()

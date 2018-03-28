@@ -37,6 +37,7 @@ check_session();
 <div class="please_wait_modal"></div>
 <script>
 var formid="-99";
+$body=$("body");
 $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    

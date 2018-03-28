@@ -190,6 +190,7 @@ function show_cand($j_id,$m_all,$based)
 		<form method="post" action="institute_get_cand.php">
 		<div class="row">
 		<input type="hidden" name="cand_id" value="<?php echo $cand_id; ?>" />
+		<input type="hidden" name="job_id" value="<?php echo $j_id; ?>" />
 			<div id="<?php echo $cand_id."".$cand_name; ?>" style="margin: 10px;">
 			<div class="media">
 				<div class="media-left">
