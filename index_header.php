@@ -16,6 +16,7 @@ include_once('institute_details.php');
 	<link href="css/customcss.css" rel="stylesheet">
 	<link href="css/please_wait_2.css" rel="stylesheet">
 	<link href="css/search.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/star_rating.css">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>

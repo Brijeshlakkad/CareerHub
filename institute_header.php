@@ -14,6 +14,7 @@ get_details_from_institute();
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/institute_style.css">
   <link rel="stylesheet" href="css/customcss.css">
+  <link rel="stylesheet" href="css/please_wait_3.css">
   <script src="js/jquery.min.js"></script>
   <script src="js/angular.js"></script>
   <script src="js/bootstrap.min.js"></script>

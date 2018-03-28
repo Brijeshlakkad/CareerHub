@@ -18,7 +18,6 @@ function find_cand_quali($jobid)
 		$arr_job_quali=explode(",",$row_job['required_skills']);
 		$sql="select * from candidates";
 		$res=mysqli_query($con,$sql);
-		$str="";
 		$t=0;
 		while($row=mysqli_fetch_array($res))
 		{
@@ -135,9 +134,14 @@ function find_all_matched($jobid)
 		}
 	return $matched_all;
 }
-function show_cand($m_all)
+function show_cand($j_id,$m_all,$based)
 {
-	global $con;
+	global $con,$row_job;
+	get_job($j_id);
+	?>
+	<div class="row" style="margin-top: 20px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-1"><b>Job:</b></div><div class="col-md-4"><?php echo $row_job['job_title']; ?></div></div>
+	<div class="row" style="margin-top: 10px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-4"><b><?php echo $based; ?></b></div></div>
+	<?php
 	for($i=0;$i<count($m_all);$i++)
 	{
 		$sql="select * from candidates where ID='$m_all[$i]'";
@@ -181,11 +185,12 @@ function show_cand($m_all)
 			$im=base64_encode($cand_image);
 	?>
 	<div class="row" style="margin: 30px;">
-		<div class="container" style="margin-top:20px;background-color:white;border-left:3px solid Tomato;border-top:2px solid Tomato;box-shadow: 5px 5px 5px #aaaaaa;">
-		<div class="row">
+		<div class="container" style="margin-top:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;">
+		
 		<form method="post" action="institute_get_cand.php">
+		<div class="row">
 		<input type="hidden" name="cand_id" value="<?php echo $cand_id; ?>" />
-			<div id="<?php echo $cand_id."".$cand_name; ?>">
+			<div id="<?php echo $cand_id."".$cand_name; ?>" style="margin: 10px;">
 			<div class="media">
 				<div class="media-left">
 				  <img class="img-circle" style="height:100px;" src="data:image/jpeg;base64,<?php echo $im; ?>" />
@@ -193,21 +198,22 @@ function show_cand($m_all)
 				<div class="media-body" style="">
 				<div class="row">
 					<div class="col-lg-6">
-						<div class="media-heading"><b><h5><?php echo $cand_name; ?></h5></b></div>
+						<div class="media-heading"><h5><b><?php echo $cand_name; ?></b></h5></div>
 						<div style="margin: 5px;" align="left">
 							<?php echo $desc; ?>
 						</div>
 					</div>
 					<div class="col-lg-offset-2 col-lg-4">
+						<b>Special skills</b>
 						<table class="myTable">
 							<?php
 									$len=count($qualis);
-									for($i=1;$i<=$len;$i++)
+									for($j=1;$j<=$len;$j++)
 									{
 										?>
 										<tr>
-											<td><?php echo $i; ?></td>
-											<td><?php echo $qualis[$i-1]; ?></td>
+											<td><?php echo $j; ?></td>
+											<td><?php echo $qualis[$j-1]; ?></td>
 										</tr>
 										<?php
 									}
@@ -218,40 +224,78 @@ function show_cand($m_all)
 				</div>
 			</div>
 			</div>
+		
+		</div>
+		<div class="row" style="background-color:rgba(23,139,158,1.00);min-height:40px;color:white;">
+			<span style="vertical-align:middle;line-height: 50px;"><button type="submit" class="btn btn-info" >View Profile</button></span>
+		</div>
 		</form>
-		</div>
-		<div class="row" style="background-color:Tomato;min-height:40px;color:white;">
-			<button type="submit" class="btn btn-default">View Profile</button>
-		</div>
 		</div>
 	</div>
 	<?php
 		}
 	}
 }
-if(isset($_POST['flag']) && isset($_POST['job_id']))
+function no_found()
+{
+	?>
+	<div class="row" align="center" style="margin-top: 80px;">
+	<div id="no_found"><img src="Images/not-found2.png" width="100px" alt="no found" /></div>
+	<br/>
+	<div style="color:gray;">Matches(0)</div>
+	</div>
+	<?php
+}
+if(isset($_POST['flag']))
 {
 	$flag=$_POST['flag'];
-	$jobid=$_POST['job_id'];
-	if($flag=="best_match" )
+	if($flag=="best_match"  && isset($_POST['job_id']))
 	{
+		$jobid=$_POST['job_id'];
 		$m_all=find_all_matched($jobid);
-		show_cand($m_all);
+		if(count($m_all)==0)
+		{
+			no_found();
+		}
+		else
+			show_cand($jobid,$m_all,"Best matches");
 	}
-	else if($flag=="quali_match")
+	else if($flag=="quali_match"  && isset($_POST['job_id']))
 	{
+		$jobid=$_POST['job_id'];
 		$m_all=find_cand_quali($jobid);
-		show_cand($m_all);
+		if(count($m_all)==0)
+		{
+			no_found();
+		}
+		else
+			show_cand($jobid,$m_all,"'Required skills' based matches");
 	}
-	else if($flag=="exp_match")
+	else if($flag=="exp_match"  && isset($_POST['job_id']))
 	{
+		$jobid=$_POST['job_id'];
 		$m_all=find_cand_experience($jobid);
-		show_cand($m_all);
+		if(count($m_all)==0)
+		{
+			no_found();
+		}
+		else
+			show_cand($jobid,$m_all,"'Experience' based matches");
 	}
-	else if($flag=="location_match")
+	else if($flag=="location_match"  && isset($_POST['job_id']))
 	{
+		$jobid=$_POST['job_id'];
 		$m_all=find_cand_location($jobid);
-		show_cand($m_all);
+		if(count($m_all)==0)
+		{
+			no_found();
+		}
+		else
+			show_cand($jobid,$m_all,"'Location' based matches");
+	}
+	else if($flag=="no_found")
+	{
+		no_found();
 	}
 }
 ?>

@@ -1,10 +1,11 @@
 <?php
 include_once('functions.php');
 include_once("config.php");
+include_once("institute_header.php");
 check_session();
-if(isset($_POST['query']))
+if(isset($_POST['cand_id']))
 {
-	$id=$_POST['query'];
+	$id=$_POST['cand_id'];
 	$sql="select * from Candidates where ID='$id'";
 	$result=mysqli_query($con,$sql);
 	if(!$result)
@@ -16,6 +17,8 @@ if(isset($_POST['query']))
 	$login_name=ucwords($row['Name']);
 	$barV=$row['Progress'];
 	$qualis=explode(",/,",$row['Quali']);
+	$degree=$row['Degree'];
+	$exp_year=$row['Experience'];
 	$course=$row['Course'];
 	$p_year=$row['Passing_year'];
 	$intern=$row['Intern'];
@@ -24,26 +27,21 @@ if(isset($_POST['query']))
 	$postal_add=$row['Postal_Add'];
 	$perm_add=$row['Perm_Add'];
 	$per_pin=$row['Per_pincode'];
+	$country=$row['Country'];
+	$state=$row['State'];
+	$city=$row['City'];
 	$dob= date('d/m/Y', strtotime($row['DOB']));
 	$gender=$row['Gender'];
 	$updated=$row['isUpdated'];
 	$desc=$row['Description'];
 ?>
-<script src="js/angular.js"></script>
-<script language="JavaScript">
-   function helper()
-   {
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.type= 'text/javascript';
-      script.src= 'js/admin_cand.js';
-      head.appendChild(script);
-   }
-helper();
-   </script>
+<div class="container well">
     <div class="row">
-        <div class="col-sm-offset-1 col-sm-7">
-            <div>
+       <div class="col-sm-1">
+       	<button class="btn btn-sm btn-primary" onclick="javascript:history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
+       </div>
+        <div class="col-sm-7">
+            <div class="candidate_id" id="<?php echo $id; ?>">
            		<div class="media">
 				<div class="media-left">
 				  <img class="img-circle" style="height:150px;" src="data:image/jpeg;base64,<?php echo $im; ?>" />
@@ -62,46 +60,7 @@ helper();
 		</div>
 		<div class="col-sm-4" >
 		<div class="row" align="center" id="<?php echo $id; ?>">
-		<?php
-		if(!(count($bits)>1))
-		{
-			?>
-		
-		<form>
-			<input type="hidden" name="flag" />
-			<button type="button" class="btn btn-success" id="approve_cand" >Approve <span class="glyphicon glyphicon-ok"></span></button>
-			<button type="button" class="btn btn-danger" id="decline_cand" >Decline <span class="glyphicon glyphicon-remove"></span></button>
-		</form>
-		
-		<?php
-		}else if((count($bits)>1) && $updated==1 && $bits[1]==1)
-		{
-			?>
-		
-		<form>
-			<input type="hidden" name="flag" />
-			<button type="button" class="btn btn-success" id="approve_cand" >Approve <span class="glyphicon glyphicon-ok"></span></button>
-			<button type="button" class="btn btn-danger" id="decline_cand" >Decline <span class="glyphicon glyphicon-remove"></span></button>
-		</form>
-		
-		<?php
-		}
-		else
-		{
-			if($bits[1]==0)
-			{
-				?>
-				<h2><span style="color:red;">Disapproved <span class="glyphicon glyphicon-remove"></span></span></h2>
-				<?php
-			}
-			else if($bits[1]==1)
-			{
-				?>
-				<h2><span style="color:green;">Approved <span class="glyphicon glyphicon-ok"></span></span></h2>
-				<?php
-			}
-		}
-		?>
+			<button class="btn btn-primary" id="send_offer" >Send a offer <span class="glyphicon glyphicon-send"></span></button>
 		</div>
 		</div>
 	</div>
@@ -164,6 +123,10 @@ helper();
 			<div id="show_gra">
 			<table class="myTable">
 							<tr>
+								<td>Degree</td>
+								<td><?php echo $degree; ?></td>
+							</tr>
+							<tr>
 								<td>Course</td>
 								<td><?php echo $course; ?></td>
 							</tr>
@@ -182,6 +145,10 @@ helper();
 							<tr>
 								<td>Internship/Experience</td>
 								<td><?php echo $intern; ?></td>
+							</tr>
+							<tr>
+								<td>Experience Year</td>
+								<td><?php echo $exp_year; ?></td>
 							</tr>
 			</table>
 			<?php 
@@ -209,6 +176,18 @@ helper();
 								<td><?php echo $perm_add; ?></td>
 							</tr>
 							<tr>
+								<td>Country</td>
+								<td><?php echo $country; ?></td>
+							</tr>
+							<tr>
+								<td>State</td>
+								<td><?php echo $state; ?></td>
+							</tr>
+							<tr>
+								<td>City</td>
+								<td><?php echo $city; ?></td>
+							</tr>
+							<tr>
 								<td>Pincode</td>
 								<td><?php echo $per_pin; ?></td>
 							</tr>
@@ -229,6 +208,24 @@ helper();
 		</div>
 		
 </div>
+</div>
+<script>
+$(document).ready(function(){
+	var cand_id=$("div.candidate_id").attr("id");
+	var inst_id=$("div.brij").attr("id");
+	var j_id=$("")
+	$("#send_offer").click(function(){
+		$.ajax({
+			type: 'POST',
+			url:"send_offer.py",
+			data:"send_offer="+cand_id+"&inst_id="+inst_id,
+			success:function(data){
+				alert(" "+data);
+			}
+		});
+	});
+});
+</script>
 <?php
 }
 ?>
