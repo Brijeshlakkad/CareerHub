@@ -13,7 +13,7 @@ def connect_to_database():
 def send_message(c_id,fromuser,message):
 	global cursor,conn
 	connect_to_database()
-	sql="INSERT INTO chat (FromUser,ToUserID, text, role) VALUES ('%s','%s','%s', 'Institute')"%(fromuser,c_id,message)
+	sql="INSERT INTO chat (FromUser,ToUserID, text, role) VALUES ('%s','%s','%s', 'Candidate')"%(fromuser,c_id,message)
 	try:
 		cursor.execute(sql)
 		conn.commit()
