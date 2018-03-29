@@ -33,6 +33,7 @@ include_once('candidate_details.php');
     
 </head>
 
+
 <?php 
 if($filename=="index.php")
 {
