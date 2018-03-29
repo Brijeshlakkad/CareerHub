@@ -24,3 +24,8 @@
 	  event.preventDefault();
 	  $(this).parent().hide().prev().show().prev().show();    
 	});
+$("#show_institute").click(function(){
+	var inst_id=$(this).children().find("div.inst_id").attr("id");
+	$(this).append("<form method='post' id='myForm' action='show_institute.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
+	$("#myForm").submit();
+});

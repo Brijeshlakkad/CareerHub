@@ -29,6 +29,7 @@ def reload_messages(c_id1):
 				try:
 					cursor.execute(sql_inst)
 					row_inst = cursor.fetchone()
+					inst_id=row_inst['ID']
 					inst_name = row_inst['Bname']
 					inst_image=row_inst['Image']
 					institute_bemail=row_inst['Bemail'];
@@ -53,7 +54,7 @@ def reload_messages(c_id1):
 						job_l3 = row_job['city']
 						job_location = "%s, %s, %s"%(job_l3,job_l2,job_l1)
 						print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4>Job offer</h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
-						<div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s"  class="alert-dismissable fade in"><div class="media"><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5>
+						<a href="#" id="show_institute" class="div_link"><div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s" class="alert-dismissable fade in inst_id"><div class="media"><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5>
 						<h5 id="description_first"><b>Institute description : </b>%s</h5>
 						</div><div class="col-xs-6">
 						<h5><b>Institute Type: </b>%s</h5>
@@ -61,7 +62,7 @@ def reload_messages(c_id1):
                     	<h5><b>Business Contact: </b>%s</h5>
                     	<h5><b>Institute Address: </b>%s</h5>
 						<h5><b>Country: </b>%s</h5>
-						<h5><b>ZIP: </b>%s</h5></div></div></div></div></div></div><div class="col-md-3 pull-right">%s</div></div></div><br/>"""%(divid,divid,filename,inst_name,job_name,institute_descr,institute_type,institute_bemail,institute_contact,institute_address,institute_country,institute_zip,datetime))
+						<h5><b>ZIP: </b>%s</h5></div></div></div></div></div></div><div class="col-md-3 pull-right">%s</div></div></a></div><br/>"""%(divid,inst_id,filename,inst_name,job_name,institute_descr,institute_type,institute_bemail,institute_contact,institute_address,institute_country,institute_zip,datetime))
 					except:
 						print("Try again !")
 				except:
