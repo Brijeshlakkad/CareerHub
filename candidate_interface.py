@@ -7,7 +7,7 @@ import candidate_reload_mess
 import candidate_reload_history
 import candidate_reload_certificate
 import security
-print("Content-type:text/html\r\n\r\n")
+print("Content-type:text/html;Content-type: image/jpeg\r\n\r\n")
 
 form = cgi.FieldStorage()	
 if form.getvalue('hist_reload'):

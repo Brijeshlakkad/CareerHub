@@ -25,7 +25,7 @@ include_once('candidate_details.php');
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
 	<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
+	
 	<link href="css/jquery_countdown.css" rel="stylesheet">
 	
 	<link href = "css/jquery-ui.css" rel = "stylesheet">
