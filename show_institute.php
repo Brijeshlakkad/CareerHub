@@ -1,9 +1,9 @@
 <?php
 include_once('functions.php');
 include_once("config.php");
-include_once("index_header.php");
 include_once("candidate_details.php");
 include_once("get_institute_and_job.php");
+include_once("index_header.php");
 check_session();
 if(isset($_POST['inst_id']) && isset($_POST['job_id']))
 {
@@ -54,7 +54,14 @@ helper();
 		<div class="col-sm-2"></div>
 		<div class="col-sm-3" >
 		<div class="row" style="margin-right: 10px;">
-		<div class="row pull-right" ><button id="accept_offer" class="btn btn-primary">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button></div><br/><br/>
+		<div class="row pull-right" >
+		<?php 
+			
+		?>
+		<button id="accept_offer" class="btn btn-primary">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
+		<button id="confirmed_offer" class="btn btn-primary disabled">Accepted <span class="glyphicon glyphicon-thumbs-up"></span></button>
+		
+		</div><br/><br/>
 		<div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
 			
 		</div>
@@ -145,6 +152,78 @@ helper();
 </div>
 </div>
 </div>
+<div class="modal fade" id="errorModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content alert alert-danger alert-dismissable fade in">
+        <div class="modal-body">
+        <div><a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>try again!</div>
+		</div>
+	</div>
+ </div> 
+</div>
+<div class="please_wait_modal"></div>
+<script>
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+$(document).ready(function(){
+	$("#confirmed_offer").hide();
+	var inst_id="<?php echo $institute_id; ?>";
+	var job_id="<?php echo $jobid; ?>";
+	var cand_id="<?php echo $login_id; ?>";
+	var status;
+	$.ajax({
+			type: 'POST',
+			url:'accept_offer.py',
+			data:"count_id="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
+			success:function(data){
+				status=data;
+				if(status==0)
+					{
+						start_functions();
+						
+					}
+				else
+					{
+						$("#accept_offer").hide();
+						$("#confirmed_offer").show();
+					}
+			}
+		});
+	
+	
+	var start_functions=function(){
+		$("#accept_offer").click(function(){
+			var accept=confirm("You are accepting a job offer");
+			if(accept==true)
+				{
+					$.ajax({
+					type: 'POST',
+					url:'accept_offer.py',
+					data:"cand_id="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
+					success:function(data){
+						if(data==1)
+							{
+								$("#accept_offer").hide();
+								$("#confirmed_offer").show();
+							}
+						else
+							{
+								$("#errorModal").modal("toggle");
+							}
+					}
+				});	
+				}
+			else
+				{
+					
+				}
+		});	
+	};
+});
+</script>
 <?php
 }
 ?>
