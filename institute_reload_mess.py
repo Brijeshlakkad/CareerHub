@@ -23,7 +23,8 @@ def reload_messages(c_id1):
 			time=row["Time"]
 			datetime=time.strftime('%H : %M')
 			text=row['Text']
-			print("""<div id="%s"  class="alert alert-info alert-dismissable fade in" ><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a> %s | <strong>%s </strong> : %s </div><br/>"""%(divid,divid,datetime,fromuser,text))
+			print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4>Verification <span class="glyphicon glyphicon-ok-sign" style="color:green;"><span></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
+				<div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s"  class="alert-dismissable fade in"><strong>%s </strong> : %s </div></div><div class="col-md-3 pull-right">%s</div></div></div><br/>"""%(divid,divid,fromuser,text,datetime))
 	except:
 		conn.rollback()
 		print("Try again !")

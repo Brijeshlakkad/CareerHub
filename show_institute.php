@@ -3,32 +3,14 @@ include_once('functions.php');
 include_once("config.php");
 include_once("index_header.php");
 include_once("candidate_details.php");
+include_once("get_institute_and_job.php");
 check_session();
 if(isset($_POST['inst_id']) && isset($_POST['job_id']))
 {
 	$id=$_POST['inst_id'];
 	$jobid=$_POST['job_id'];
-	$sql="select * from Institutes where ID='$id'";
-	$result=mysqli_query($con,$sql);
-	if(!$result)
-		die("Server is down.");
-	$row_inst=mysqli_fetch_array($result);
-	
-	$im=base64_encode($row_inst['Image']);
-	$bits_inst=explode(",/,",$row_inst['Status_bits']);
-	$institute_id=$row_inst['ID'];
-	$institute_name=$row_inst['Bname'];
-	$institute_email=$row_inst['Bemail'];
-	$institute_contact=$row_inst['Phone'];
-	$sbit_inst=$row_inst['Status_bits'];
-	$bits_inst=explode(",/,",$sbit_inst);
-	$inst_image=$row_inst['Image'];
-	$im=base64_encode($inst_image);
-	$institute_type=$row_inst['institute_type'];
-	$institute_descr=$row_inst['institute_descr'];
-	$institute_address=$row_inst['institute_address'];
-	$institute_country=$row_inst['institute_country'];
-	$institute_zip=$row_inst['institute_zip'];
+	get_institute($id);
+	get_job($id,$jobid);
 ?>
 <script src="js/angular.js"></script>
 <script language="JavaScript">
@@ -42,9 +24,10 @@ if(isset($_POST['inst_id']) && isset($_POST['job_id']))
    }
 helper();
    </script>
+ 
 <div class="container-fluid well">
     <div class="row">
-        <div class="col-sm-offset-1 col-sm-7">
+        <div class="col-sm-offset-1 col-sm-6">
             <div>
            		<div class="media">
 				<div class="media-left">
@@ -52,48 +35,107 @@ helper();
 				</div>
 				<div class="media-body" style="line-height: 25px;">
 			  <br/>
-			  		<h3><b><?php echo $institute_name; ?></b></h3>
-				  <br/>
+					<a class="btn btn-link" id="get_inst"><h3><?php 
+						if($bits_inst[1]==1)
+			{
+				$institute_name.=' <span style="color:green;"><span class="glyphicon glyphicon-ok"></span></span>';
+				
+			}
+						echo $institute_name;
+						?>
+			</h3></a>
+		<div><h4><?php echo $isJob; ?></h4></div>
+			  <br/>
 				<br/>
 				</div>
 			  </div>
             </div>
 		</div>
-		<div class="col-sm-4" >
-		<div class="row" align="center">
-		<?php
-			if($bits_inst[1]==0)
-			{
-				?>
-				<h2><span style="color:red;">Disapproved <span class="glyphicon glyphicon-remove"></span></span></h2>
-				<?php
-			}
-			else if($bits_inst[1]==1)
-			{
-				?>
-				<h2><span style="color:green;">Approved <span class="glyphicon glyphicon-ok"></span></span></h2>
-				<?php
-			}
-		
-		?>
+		<div class="col-sm-2"></div>
+		<div class="col-sm-3" >
+		<div class="row" style="margin-right: 10px;">
+		<div class="row pull-right" ><button id="accept_offer" class="btn btn-primary">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button></div><br/><br/>
+		<div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
+			
 		</div>
 		</div>
 	</div>
   <hr style="border-width: 1px;border-color: rgba(180,180,180,1.00)"/>
 <div class="row">
 <div class="col-sm-offset-1 col-sm-6">
-   <h4>Job Title </h4>
+ 	<div class="row" style="border-bottom: 1px solid rgba(180,180,180,1.00);">
+ 		 <h4><b>Job Details </b></h4>
+ 	</div><br/>
+  	<div class="row">
+  		<div class="col-sm-5">
+			<b>Job Title:</b> 
+		</div>
+		<div class="col-sm-5">
+			<?php echo $job_title;?>
+ 		</div>
+		<div class="col-sm-2"></div>
+	</div>
+	<br/>
+	<div class="row">
+  		<div class="col-sm-5">
+  			<b>Role:</b> 
+		</div>
+		<div class="col-sm-5">
+			<?php echo $job_role;?>
+ 		</div>
+ 		<div class="col-sm-2"></div>
+	</div>
+	<br/><?php if($job_exp!=0)
+		{
+			?>
+	<div class="row">
+  		<div class="col-sm-5">
+  			<b>Experience year:</b>  
+		</div>
+		<div class="col-sm-5">
+			<?php echo $job_exp;?>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+	<br/>
+	<?php
+			
+			}
+	?>
+	<div class="row">
+  		<div class="col-sm-5">
+  			<b>Qualification:</b>  
+		</div>
+		<div class="col-sm-5">
+			<?php echo $job_quali;?>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+	<br/>
+ 	<div class="row">
+  		<div class="col-sm-5">
+  			<b>Required Skills:</b>
+		</div> 
+  		<div class="col-sm-5">
+  			<?php echo $job_skills;?></p>
+ 		</div>
+ 		<div class="col-sm-2"></div>
+	</div>
+ 	<br/>
+	<div class="row">
+  		<div class="col-sm-5">
+  			<b>Vacancy:</b>  
+		</div>
+		<div class="col-sm-5">
+			<?php echo $job_vacancy;?>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+	
 </div>
-<div class="col-sm-5">
-	<h4><b>Institute Details</b></h4>
-</div>
-</div>
-<hr style="border-width: 1px;border-color: rgba(180,180,180,1.00)"/>
-<div class="row">
-<div class="col-sm-offset-1 col-sm-6">
-  	
-</div>
-<div class="col-sm-5">
+<div class="col-sm-2"></div>
+<div class="col-sm-3" style="border-left: 2px solid rgba(180,180,180,1.00);">
+	<p><h4><b>Institute Details</b></h4></p>
 	<p><b>Institute Type:</b> <?php echo $institute_type;?></p>
     <p><b>Business Email:</b> <?php echo $institute_email;?></p>
     <p><b>Business Contact:</b> <?php echo  $institute_contact;?></p>
