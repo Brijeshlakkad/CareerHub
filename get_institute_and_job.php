@@ -26,6 +26,21 @@ function get_institute($id)
 	$institute_country=$row_inst['institute_country'];
 	$institute_zip=$row_inst['institute_zip'];
 }
+function get_all_jobsid($id)
+{
+	global $con;
+	$sql="select job_id from jobs where institute_id='$id'";
+	$res=mysqli_query($con,$sql);
+	if(!$res)
+		die("Server is down.");
+	$i=0;
+	while($row_j=mysqli_fetch_array($res))
+	{
+		$job_arr[$i]=$row_j['job_id'];
+		$i++;
+	}
+	return $job_arr;
+}
 function get_job($id,$jobid)
 {
 	global $con;

@@ -121,7 +121,7 @@ helper();
   			<b>Required Skills:</b>
 		</div> 
   		<div class="col-sm-5">
-  			<?php echo $job_skills;?></p>
+  			<?php echo $job_skills;?>
  		</div>
  		<div class="col-sm-2"></div>
 	</div>

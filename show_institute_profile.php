@@ -9,8 +9,7 @@ if(isset($_POST['inst_id']))
 {
 	$id=$_POST['inst_id'];
 	get_institute($id);
-	get_all_jobid($id);
-	get_job($id,$jobid);
+	$job_arr=get_all_jobsid($id);
 	if($bits_inst[1]==1)
 	{
 		$institute_name.=' <span style="color:green;"><span class="glyphicon glyphicon-ok"></span></span>';		
@@ -41,7 +40,7 @@ helper();
 				</div>
 				<div class="media-body" style="">
 					<?php echo $institute_name;?>
-		<div><h4><?php echo $isJob; ?></h4></div>
+		
 			  <br/>
 				<br/>
 				</div>
@@ -50,36 +49,48 @@ helper();
 		</div>
 		<div class="col-sm-2"></div>
 		<div class="col-sm-3" >
-		<div class="row" style="margin-right: 10px;">
-		<div class="row pull-right" >
-		<?php 
-			
-		?>
-		<button id="accept_offer" class="btn btn-primary">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
-		<button id="confirmed_offer" class="btn btn-primary disabled">Accepted <span class="glyphicon glyphicon-thumbs-up"></span></button>
-		
+		<div style="border-left: 2px solid rgba(180,180,180,1.00);">
+			<div style="margin-left: 10px;">
+				<p><h4><b>Institute Details</b></h4></p>
+				<p><b>Institute Type:</b> <?php echo $institute_type;?></p>
+				<p><b>Business Email:</b> <?php echo $institute_email;?></p>
+				<p><b>Business Contact:</b> <?php echo  $institute_contact;?></p>
+				<p><b>Institute Address:</b> <?php echo $institute_address;?></p>
+				<p><b>Country: </b><?php echo $institute_country;?></p>
+				<p><b>ZIP: </b><?php echo $institute_zip;?></p>	
+			</div>
 		</div><br/><br/>
-		<div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
-			
-		</div>
 		</div>
 	</div>
   <hr style="border-width: 1px;border-color: rgba(180,180,180,1.00)"/>
-<div class="row">
-<div class="col-sm-offset-1 col-sm-6">
- 	<div class="row" style="border-bottom: 1px solid rgba(180,180,180,1.00);">
- 		 <h4><b>Job Details </b></h4>
+<div class="row" style="margin: 20px;">
+ 	<div style="border-bottom: 1px solid rgba(180,180,180,1.00);">
+ 		 <h4><b>Job(s)/Training(s)</b></h4>
  	</div><br/>
+ 	<div style="margin-left: 20px;">
+ 	<?php 
+	for($i=0;$i<count($job_arr);$i++)
+	{
+		get_job($institute_id,$job_arr[$i]);
+	?>
+ 	<br/>
+ 	
   	<div class="row">
-  		<div class="col-sm-5">
-			<b>Job Title:</b> 
-		</div>
-		<div class="col-sm-5">
-			<?php echo $job_title;?>
+		<div class="col-sm-8" style="border-bottom: 1px solid rgba(180,180,180,1.00);border-top: 1px solid rgba(180,180,180,1.00);">
+			<h4><?php echo ucwords($job_title)." details";?></h4>
  		</div>
-		<div class="col-sm-2"></div>
+		<div class="col-sm-4" ></div>
 	</div>
 	<br/>
+	<div class="row">
+  		<div class="col-sm-5">
+  			<b>Job or Training</b> 
+		</div>
+		<div class="col-sm-5">
+			<?php echo $isJob;?>
+ 		</div>
+ 		<div class="col-sm-2"></div>
+	</div><br/>
 	<div class="row">
   		<div class="col-sm-5">
   			<b>Role:</b> 
@@ -121,7 +132,7 @@ helper();
   			<b>Required Skills:</b>
 		</div> 
   		<div class="col-sm-5">
-  			<?php echo $job_skills;?></p>
+  			<?php echo $job_skills;?>
  		</div>
  		<div class="col-sm-2"></div>
 	</div>
@@ -134,19 +145,35 @@ helper();
 			<?php echo $job_vacancy;?>
 		</div>
 		<div class="col-sm-2"></div>
+	</div><br/>
+	<div class="row">
+  		<div class="col-sm-5">
+  			<b>Closing date : </b>  
+		</div>
+		<div class="col-sm-5">
+			<?php echo $job_close; ?>
+		</div>
+		<div class="col-sm-2"></div>
 	</div>
-	
-</div>
-<div class="col-sm-2"></div>
-<div class="col-sm-3" style="border-left: 2px solid rgba(180,180,180,1.00);">
-	<p><h4><b>Institute Details</b></h4></p>
-	<p><b>Institute Type:</b> <?php echo $institute_type;?></p>
-    <p><b>Business Email:</b> <?php echo $institute_email;?></p>
-    <p><b>Business Contact:</b> <?php echo  $institute_contact;?></p>
-    <p><b>Institute Address:</b> <?php echo $institute_address;?></p>
-    <p><b>Country: </b><?php echo $institute_country;?></p>
-    <p><b>ZIP: </b><?php echo $institute_zip;?></p>
-</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-5">
+		</div>
+		<div class="col-sm-5">
+		<?php 
+		?>
+		<button class="btn btn-primary">Apply for job</button>
+		<button class="btn btn-primary disabled">Applied</button>
+		<?php
+		?>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+	<div class="row"></div>
+	<?php
+	}
+		?>
+	</div>
 </div>
 </div>
 <div class="modal fade" id="errorModal" role="dialog">
@@ -165,66 +192,6 @@ $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
-$(document).ready(function(){
-	$("#confirmed_offer").hide();
-	var inst_id="<?php echo $institute_id; ?>";
-	var job_id="<?php echo $jobid; ?>";
-	var cand_id="<?php echo $login_id; ?>";
-	var status;
-	$.ajax({
-			type: 'POST',
-			url:'candidate_interface.py',
-			data:"count_id="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
-			success:function(data){
-				status=data;
-				if(status==0)
-					{
-						start_functions();
-						
-					}
-				else
-					{
-						$("#accept_offer").hide();
-						$("#confirmed_offer").show();
-					}
-			}
-		});
-	
-	
-	var start_functions=function(){
-		$("#accept_offer").click(function(){
-			var accept=confirm("You are accepting a job offer");
-			if(accept==true)
-				{
-					$.ajax({
-					type: 'POST',
-					url:'candidate_interface.py',
-					data:"cand_id="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
-					success:function(data){
-						if(data==1)
-							{
-								$("#accept_offer").hide();
-								$("#confirmed_offer").show();
-							}
-						else
-							{
-								$("#errorModal").modal("toggle");
-							}
-					}
-				});	
-				}
-			else
-				{
-					
-				}
-		});	
-	};
-});
-function get_institute_profile(inst_id)
-{
-	$("#inst_profile_link").parent().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
-	$("#myForm").submit();
-}
 </script>
 <?php
 }
