@@ -5,11 +5,11 @@ include_once("candidate_details.php");
 include_once("get_institute_and_job.php");
 include_once("index_header.php");
 check_session();
-if(isset($_POST['inst_id']) && isset($_POST['job_id']))
+if(isset($_POST['inst_id']))
 {
 	$id=$_POST['inst_id'];
-	$jobid=$_POST['job_id'];
 	get_institute($id);
+	get_all_jobid($id);
 	get_job($id,$jobid);
 	if($bits_inst[1]==1)
 	{

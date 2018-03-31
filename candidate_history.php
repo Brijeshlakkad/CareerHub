@@ -21,7 +21,18 @@ get_details_from_candidate();
 </div>
 </div>
 
+<div class="please_wait_modal"></div>
 <script>
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+	function get_institute_profile(inst_id)
+{
+	$("#inst_profile_link").parent().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
+	$("#myForm").submit();
+}
 	var delete_hist=function(pid)
 	{
 			$.ajax({

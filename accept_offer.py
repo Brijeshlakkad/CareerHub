@@ -4,7 +4,7 @@ import sys
 import os
 import MySQLdb
 import security
-print("Content-type:text/html\r\n\r\n")
+import save_history
 cgitb.enable(display=0, logdir="/path/to/logdir")
 
 def connect_to_database():
@@ -21,22 +21,7 @@ def get_institute(conn,cursor,instid):
 		return result['Bname']
 	except:
 		conn.rollback()
-	
-def create_mess(conn,cursor,instid):
-	inst_name=get_institute(conn,cursor,instid)
-	mess="accepted job offer from %s."%inst_name
-	return mess
-
-def enter_history(conn,cursor,mess,candid,role):
-	if role=="AO":
-		role='Candidate'
-	sql="insert into history(Field,UserID,role) values('%s','%s','%s')"%(mess,candid,role)
-	try:
-		cursor.execute(sql)
-		conn.commit()
-	except:
-		conn.rollback()
-		
+			
 def count_rows(candid,instid,jobid,role):
 	global cursor,conn
 	connect_to_database()
@@ -60,8 +45,8 @@ def accept_offer(candid,instid,jobid,role):
 		try:
 			cursor.execute(sql)
 			conn.commit()
-			mess=create_mess(conn,cursor,instid)
-			enter_history(conn,cursor,mess,candid,role)
+			mess=instid
+			save_history.enter_history(conn,cursor,mess,candid,role)
 			print("1")
 		except:
 			conn.rollback()
@@ -70,18 +55,3 @@ def accept_offer(candid,instid,jobid,role):
 		print("-1")
 	conn.close()
 	
-form = cgi.FieldStorage()
-if form.getvalue('cand_id') and form.getvalue('inst_id') and form.getvalue('job_id'):
-	candid = security.protect_data(form.getvalue('cand_id'))
-	instid = security.protect_data(form.getvalue('inst_id'))
-	jobid = security.protect_data(form.getvalue('job_id'))
-	role="AO"
-	accept_offer(candid,instid,jobid,role)
-
-if form.getvalue('count_id') and form.getvalue('inst_id') and form.getvalue('job_id'):
-	candid= security.protect_data(form.getvalue('count_id'))
-	instid = security.protect_data(form.getvalue('inst_id'))
-	jobid = security.protect_data(form.getvalue('job_id'))
-	role="AO"
-	num=count_rows(candid,instid,jobid,role)
-	print("%s"%num)

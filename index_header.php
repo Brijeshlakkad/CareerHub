@@ -12,7 +12,7 @@ include_once('candidate_details.php');
 <title>Welcome to CareerHub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<link href="css/customcss2.css" rel="stylesheet">
+	<link href="css/customcss.css" rel="stylesheet">
 	<link href="css/please_wait_3.css" rel="stylesheet">
 	<link href="css/search.css" rel="stylesheet">
 	<script src="js/jquery.min.js"></script>

@@ -6,6 +6,7 @@ import MySQLdb
 import candidate_reload_mess
 import candidate_reload_history
 import candidate_reload_certificate
+import accept_offer
 import security
 print("Content-type:text/html;Content-type: image/jpeg\r\n\r\n")
 
@@ -51,3 +52,18 @@ if form.getvalue('certificate_reload'):
 if form.getvalue('certificate_total'):
 	c_id10 = security.protect_data(form.getvalue('certificate_total'))
 	candidate_reload_certificate.certificate_total_count(c_id10)
+	
+if form.getvalue('cand_id') and form.getvalue('inst_id') and form.getvalue('job_id'):
+	candid = security.protect_data(form.getvalue('cand_id'))
+	instid = security.protect_data(form.getvalue('inst_id'))
+	jobid = security.protect_data(form.getvalue('job_id'))
+	role="AO"
+	accept_offer.accept_offer(candid,instid,jobid,role)
+
+if form.getvalue('count_id') and form.getvalue('inst_id') and form.getvalue('job_id'):
+	candid= security.protect_data(form.getvalue('count_id'))
+	instid = security.protect_data(form.getvalue('inst_id'))
+	jobid = security.protect_data(form.getvalue('job_id'))
+	role="AO"
+	num=accept_offer.count_rows(candid,instid,jobid,role)
+	print("%s"%num)
