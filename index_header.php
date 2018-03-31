@@ -14,7 +14,6 @@ include_once('candidate_details.php');
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="css/customcss.css" rel="stylesheet">
 	<link href="css/please_wait_3.css" rel="stylesheet">
-	<link href="css/search.css" rel="stylesheet">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -87,15 +86,6 @@ if($filename=="index.php")
        	{
 			
        		?>
-       	<li>
-			  <div class="box" style="padding-top: 10px;">
-				  <div class="container-1">
-					  <span class="icon"><i class="fa fa-search"></i></span>
-					  <input type="search" id="search" placeholder="Search CareerHub" />
-				  </div>
-				</div>
-       	</li>
-       	
 		<li><a href="candidate_profile.php" >Profile</a></li>
       	<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Work
