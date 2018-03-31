@@ -1,5 +1,4 @@
 $(document).ready(function () {
-   	var add_inbox_script=function(){
 		var $chatOutput = $("#chatOutput");
 		var $chatRefresh = $("#chat_refresh");
 		var $mesDeleteAll= $("#message_all_delete");
@@ -12,12 +11,14 @@ $(document).ready(function () {
 				data: 'delete_all_mess='+parid,
 				success  : function (data)
 				{
-					$chatOutput.html(data);
+					if(data==1)
+						{
 					$(document).ajaxStop(function(){
 						$("#mess_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
-						mess_total_cal();
 					});
-				}
+						}
+				},
+			
 				});
 		};
 		var retrieveMessages=function() {
@@ -51,17 +52,16 @@ $(document).ready(function () {
 			retrieveMessages();
 		});	
 		$mesDeleteAll.click(function(){
-			var r = confirm("Are you sure??");
+			var r = confirm("Are you sure?");
 			if (r == true) {
 				delete_all_mes();
 				mess_total_cal();
+				r=false;
 			} else {
 				
 			}
 			
 		});
-	};
-	var add_hist_script=function(){
 		var $historyOutput = $("#historyOutput");
 		var $historyRefresh = $("#history_refresh");
 		var $historyDeleteAll= $("#history_all_delete");
@@ -74,11 +74,13 @@ $(document).ready(function () {
 				data: 'delete_all_hist='+parid,
 				success  : function (data)
 				{
-					$historyOutput.html(data);
+
+					if(data==1)
+						{
 					$(document).ajaxStop(function(){
 						$("#hist_success").html('All data is cleared.').removeClass("hide").show().fadeOut(1000);
-						hist_total_cal();
-					});
+						});
+						}
 				}
 				});
 		};
@@ -109,10 +111,11 @@ $(document).ready(function () {
 		};
 		hist_total_cal();
 		$historyDeleteAll.click(function(){
-			var r = confirm("Are you sure??");
+			var r = confirm("Are youd sure?");
 			if (r == true) {
 				delete_all_hist();
 				hist_total_cal();
+				r=false;
 			} else {
 				
 			}
@@ -122,7 +125,5 @@ $(document).ready(function () {
 		$historyRefresh.click(function () {
 			retrieveHistory();
 		});
-	};
-	add_inbox_script();
-	add_hist_script();
+	
 });

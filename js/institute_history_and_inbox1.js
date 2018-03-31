@@ -1,5 +1,5 @@
 $(document).ready(function () {
-   	var add_inbox_script=function(){
+	var add_inbox_script=function(){
 		var $chatOutput = $("#chatOutput");
 		var $chatRefresh = $("#chat_refresh");
 		var $mesDeleteAll= $("#message_all_delete");
@@ -8,7 +8,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_interface.py',
+				url: 'institute_interface.py',
 				data: 'delete_all_mess='+parid,
 				success  : function (data)
 				{
@@ -19,14 +19,14 @@ $(document).ready(function () {
 							data=0;
 						}
 						});
-				}
+				},
 				});
 		};
 		var retrieveMessages=function() {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_interface.py',
+				url: 'institute_interface.py',
 				data: 'mess_reload='+parid,
 				success  : function (data)
 				{
@@ -39,7 +39,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_interface.py',
+				url: 'institute_interface.py',
 				data: 'mess_total='+parid,
 				success  : function (data)
 				{
@@ -53,7 +53,7 @@ $(document).ready(function () {
 			retrieveMessages();
 		});	
 		$mesDeleteAll.click(function(){
-			var r = confirm("Are you sure??");
+			var r = confirm("Are you sure?");
 			if (r == true) {
 				delete_all_mes();
 				mess_total_cal();
@@ -73,7 +73,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_interface.py',
+				url: 'institute_interface.py',
 				data: 'delete_all_hist='+parid,
 				success  : function (data)
 				{
@@ -91,7 +91,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_interface.py',
+				url: 'institute_interface.py',
 				data: 'hist_reload='+parid,
 				success  : function (data)
 				{
@@ -104,7 +104,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_interface.py',
+				url: 'institute_interface.py',
 				data: 'hist_total='+parid,
 				success  : function (data)
 				{
@@ -114,7 +114,7 @@ $(document).ready(function () {
 		};
 		hist_total_cal();
 		$historyDeleteAll.click(function(){
-			var r = confirm("Are you sure??");
+			var r = confirm("Are you sure?");
 			if (r == true) {
 				delete_all_hist();
 				hist_total_cal();

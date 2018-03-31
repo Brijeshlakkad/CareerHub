@@ -21,8 +21,13 @@ get_details_from_institute();
 </div>
 </div>
 </div>
+<div class="please_wait_modal"></div>
 <script>
-	
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
 var delete_mes=function(pid)
 	{
 			$.ajax({
@@ -32,7 +37,11 @@ var delete_mes=function(pid)
 				success  : function (data)
 				{
 					$(document).ajaxStop(function(){
+						if(data==1)
+						{
 							$("#mess_success").html('Message deleted.').removeClass("hide").show().fadeOut(1000);
+							data=0;
+						}
 					});
 				}
 			});

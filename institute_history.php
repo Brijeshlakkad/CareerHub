@@ -32,12 +32,16 @@ $(document).on({
 	{
 			$.ajax({
 				type: 'POST', 
-				url: 'candidate_interface.py',
+				url: 'institute_interface.py',
 				data: 'hist_delete='+pid,
 				success  : function (data)
 				{
 					$(document).ajaxStop(function(){
+						if(data==1)
+						{
 							$("#hist_success").html('History deleted.').removeClass("hide").show().fadeOut(1000);
+							data=0;
+						}
 					});
 				}
 			});

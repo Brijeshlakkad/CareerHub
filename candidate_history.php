@@ -28,7 +28,7 @@ $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
-	function get_institute_profile(inst_id)
+function get_institute_profile(inst_id)
 {
 	$("#inst_profile_link").parent().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
 	$("#myForm").submit();
@@ -42,8 +42,13 @@ $(document).on({
 				success  : function (data)
 				{
 					$(document).ajaxStop(function(){
+						if(data==1)
+						{
 							$("#hist_success").html('History deleted.').removeClass("hide").show().fadeOut(1000);
+							data=0;
+						}
 					});
+						
 				}
 			});
 	}

@@ -37,8 +37,10 @@ def delete_message(c_id1):
 	try:
 		cursor.execute(sql)
 		conn.commit()
+		print("1")
 	except:
 		conn.rollback()
+		print("-1")
 	conn.close()
 
 def delete_all_mess(c_id1):
@@ -48,8 +50,10 @@ def delete_all_mess(c_id1):
 	try:
 		cursor.execute(sql)
 		conn.commit()
+		print("1")
 	except:
 		conn.rollback()
+		print("-1")
 	conn.close()
 
 def mess_total_count(c_id1):
