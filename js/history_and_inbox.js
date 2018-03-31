@@ -13,8 +13,10 @@ $(document).ready(function () {
 				success  : function (data)
 				{
 					$chatOutput.html(data);
-					$("#mess_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
-					mess_total_cal();
+					$(document).ajaxStop(function(){
+						$("#mess_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
+						mess_total_cal();
+					});
 				}
 				});
 		};
@@ -73,8 +75,10 @@ $(document).ready(function () {
 				success  : function (data)
 				{
 					$historyOutput.html(data);
-					$("#hist_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
-					hist_total_cal();
+					$(document).ajaxStop(function(){
+						$("#hist_success").html('All data is cleared.').removeClass("hide").show().fadeOut(1000);
+						hist_total_cal();
+					});
 				}
 				});
 		};

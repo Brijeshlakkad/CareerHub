@@ -41,8 +41,9 @@ $(document).on({
 				data: 'hist_delete='+pid,
 				success  : function (data)
 				{
-					$("#hist_success").html('History deleted.').removeClass("hide").show().fadeOut("slow");
-					location.reload();
+					$(document).ajaxStop(function(){
+							$("#hist_success").html('History deleted.').removeClass("hide").show().fadeOut(1000);
+					});
 				}
 			});
 	}

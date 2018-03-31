@@ -31,8 +31,9 @@ var delete_mes=function(pid)
 				data: 'mess_delete='+pid,
 				success  : function (data)
 				{
-					$("#mess_success").html('Message deleted.').removeClass("hide").show().fadeOut("slow");
-					location.reload();
+					$(document).ajaxStop(function(){
+							$("#mess_success").html('Message deleted.').removeClass("hide").show().fadeOut(1000);
+					});
 				}
 			});
 	}
