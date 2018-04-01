@@ -77,7 +77,7 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 		</div>
 		<div class="col-sm-4" >
 		<div class="row" align="center" id="<?php echo $id; ?>">
-			<button class="btn btn-primary" id="send_offer" >Send a offer <span class="glyphicon glyphicon-send"></span></button>
+			<button class="btn btn-primary offer_status" id="send_offer" >Send a offer <span class="glyphicon glyphicon-send"></span></button>
 		</div>
 		</div>
 	</div>
@@ -226,6 +226,15 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 		
 </div>
 </div>
+<div class="modal fade" id="errorModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content alert alert-danger alert-dismissable fade in">
+        <div class="modal-body">
+        <div><a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>Try again!</div>
+		</div>
+	</div>
+ </div> 
+</div>
 <div class="modal fade" id="offerModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content alert alert-success alert-dismissable fade in">
@@ -240,16 +249,81 @@ $(document).ready(function(){
 	var cand_id=$("div.candidate_id").attr("id");
 	var inst_id=$("div.brij").attr("id");
 	var j_id="<?php echo $jobid; ?>";
-	$("#send_offer").click(function(){
+	var check_status=function(){
 		$.ajax({
 			type: 'POST',
 			url:"send_offer.py",
-			data:"send_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+j_id,
+			data:"check_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+j_id,
 			success:function(data){
-				$("#offerModal").modal("toggle");
+				if(data!="-1x")
+					{
+						data=data.trim();
+						if(data=="1x")
+							{
+								$("button.offer_status").attr("id","send_offer");
+								$("#send_offer").html('Send a offer <span class="glyphicon glyphicon-send"></span>').removeClass("btn-default").addClass("btn-primary");
+							}
+						else if(data=="Offer")
+							{ 
+								$("button.offer_status").attr("id","requested_offer")
+								$("#requested_offer").html("<b>Offer requested</b>");
+								$("#requested_offer").removeClass("btn-primary").addClass("btn-default");
+							}
+						else if(data=="Accepted")
+							{
+								$("button.offer_status").attr("id","accepted_offer");
+								$("#accepted_offer").addClass("disabled");
+							}
+					}
+				else
+					{
+						$("#errorModal").modal("toggle");
+					}
 			}
-		});
+		});	
+	};
+	$("button.offer_status").click(function(){
+		var bid=$(this).attr("id");
+		if(bid=="requested_offer")
+			{
+				$.ajax({
+					type: 'POST',
+					url:"send_offer.py",
+					data:"delete_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+j_id,
+					success:function(data){
+						if(data==11)
+							{
+								check_status();
+							}
+						else
+							{
+								$("#errorModal").modal("toggle");
+							}
+					}
+				});
+			}
+		else if(bid=="send_offer")
+			{
+				$.ajax({
+					type: 'POST',
+					url:"send_offer.py",
+					data:"send_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+j_id,
+					success:function(data){
+						if(data==11)
+							{
+								$("#offerModal").modal("toggle");
+								check_status();
+							}
+						else
+							{
+								$("#errorModal").modal("toggle");
+							}
+					}
+				});
+			}
 	});
+	
+	check_status();
 });
 </script>
 <?php

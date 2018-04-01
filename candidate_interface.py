@@ -57,13 +57,12 @@ if form.getvalue('cand_id') and form.getvalue('inst_id') and form.getvalue('job_
 	candid = security.protect_data(form.getvalue('cand_id'))
 	instid = security.protect_data(form.getvalue('inst_id'))
 	jobid = security.protect_data(form.getvalue('job_id'))
-	role="AO"
+	role="Accepted"
 	accept_offer.accept_offer(candid,instid,jobid,role)
 
-if form.getvalue('count_id') and form.getvalue('inst_id') and form.getvalue('job_id'):
-	candid= security.protect_data(form.getvalue('count_id'))
+if form.getvalue('check_offer') and form.getvalue('inst_id') and form.getvalue('job_id'):
+	candid= security.protect_data(form.getvalue('check_offer'))
 	instid = security.protect_data(form.getvalue('inst_id'))
 	jobid = security.protect_data(form.getvalue('job_id'))
-	role="AO"
-	num=accept_offer.count_rows(candid,instid,jobid,role)
-	print("%s"%num)
+	status=accept_offer.check_offer_cand(candid,instid,jobid)
+	print("%s"%status)

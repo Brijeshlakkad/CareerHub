@@ -55,8 +55,8 @@ helper();
 		<?php 
 			
 		?>
-		<button id="accept_offer" class="btn btn-primary">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
-		<button id="confirmed_offer" class="btn btn-primary disabled">Accepted <span class="glyphicon glyphicon-thumbs-up"></span></button>
+		<button class="btn btn-primary offer_status">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
+		
 		
 		</div><br/><br/>
 		<div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
@@ -166,33 +166,50 @@ $(document).on({
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
 $(document).ready(function(){
-	$("#confirmed_offer").hide();
 	var inst_id="<?php echo $institute_id; ?>";
 	var job_id="<?php echo $jobid; ?>";
 	var cand_id="<?php echo $login_id; ?>";
 	var status;
-	$.ajax({
+	var check_status=function(){
+		
+		$.ajax({
 			type: 'POST',
-			url:'candidate_interface.py',
-			data:"count_id="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
+			url:"candidate_interface.py",
+			data:"check_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
 			success:function(data){
-				status=data;
-				if(status==0)
+				if(data!="-1x")
 					{
-						start_functions();
-						
+						data=data.trim();
+						if(data=="1x")
+							{
+								document.location="candidate_inbox.php";
+							}
+						else if(data=="Offer")
+							{ 
+								$("button.offer_status").attr("id","accept_offer");
+								$("#accept_offer").html('<b>Accept Offer</b> <span class="glyphicon glyphicon-thumbs-up"></span>');
+								$("#accept_offer").removeClass("btn-default").addClass("btn-primary");
+							}
+						else if(data=="Accepted")
+							{
+								$("button.offer_status").attr("id","accepted_offer");
+								$("#accepted_offer").html('<b>Offer Accepted</b> <span class="glyphicon glyphicon-thumbs-up"></span>');
+								$("#accepted_offer").removeClass("btn-primary").addClass("btn-default");
+								$("#accepted_offer").addClass("disabled");
+							}
 					}
 				else
 					{
-						$("#accept_offer").hide();
-						$("#confirmed_offer").show();
+						$("#errorModal").modal("toggle");
 					}
 			}
-		});
-	
-	
-	var start_functions=function(){
-		$("#accept_offer").click(function(){
+		});	
+	};
+	check_status();
+	$("button.offer_status").click(function(){
+		var bid=$(this).attr("id");
+		if(bid=="accept_offer")
+			{
 			var accept=confirm("You are accepting a job offer");
 			if(accept==true)
 				{
@@ -203,8 +220,7 @@ $(document).ready(function(){
 					success:function(data){
 						if(data==1)
 							{
-								$("#accept_offer").hide();
-								$("#confirmed_offer").show();
+								check_status();
 							}
 						else
 							{
@@ -217,8 +233,8 @@ $(document).ready(function(){
 				{
 					
 				}
-		});	
-	};
+			}
+	});	
 });
 function get_institute_profile(inst_id)
 {

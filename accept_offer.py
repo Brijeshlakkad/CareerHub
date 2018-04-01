@@ -22,10 +22,10 @@ def get_institute(conn,cursor,instid):
 	except:
 		conn.rollback()
 			
-def count_rows(candid,instid,jobid,role):
+def count_rows(instid,candid,jobid):
 	global cursor,conn
 	connect_to_database()
-	sql="select * from chat where FromUser='%s' and ToUserID='%s' and Text='%s' and role='%s'"%(candid,instid,jobid,role)
+	sql="select * from chat where FromUser='%s' and ToUserID='%s' and Text='%s'"%(instid,candid,jobid)
 	try:
 		cursor.execute(sql)
 		num=cursor.rowcount
@@ -35,13 +35,31 @@ def count_rows(candid,instid,jobid,role):
 		return "-1"
 	conn.close()
 
+def check_offer_cand(c_id,inst_id,j_id):
+	global cursor,conn
+	connect_to_database()
+	sql="select role from chat where FromUser='%s' and ToUserID='%s' and Text='%s'"%(inst_id,c_id,j_id)
+	try:
+		cursor.execute(sql)
+		result=cursor.rowcount
+		if result==1:
+			row=cursor.fetchone()
+			role=row['role']
+			return "%s"%role
+		else:
+			return "1x"
+	except:
+		conn.rollback()
+		return "-1x"
+	conn.close()
+	
 def accept_offer(candid,instid,jobid,role):
 	global cursor,conn
 	connect_to_database()
-	num=count_rows(candid,instid,jobid,role)
+	num=count_rows(instid,candid,jobid)
 	num=int(num)
-	if num==0:
-		sql="insert into chat(FromUser,ToUserID,Text,role) values('%s','%s','%s','%s')"%(candid,instid,jobid,role)
+	if num==1:
+		sql="update chat SET role='%s' where FromUser='%s' and ToUserID='%s' and Text='%s'"%(role,instid,candid,jobid)
 		try:
 			cursor.execute(sql)
 			conn.commit()
