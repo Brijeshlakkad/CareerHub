@@ -10,10 +10,10 @@ def connect_to_database():
 	cursor = conn.cursor ()
 	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
-def reload_messages(c_id1):
+def reload_all(c_id1,role_div):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM chat where ToUserID='%s' and role='Candidate' or role='Offer' ORDER BY Time ASC"%(c_id1)
+	sql="SELECT * FROM chat where ToUserID='%s' and %s ORDER BY Time ASC"%(c_id1,role_div)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -79,6 +79,17 @@ def reload_messages(c_id1):
 	print('<script type="text/javascript" src="js/read_more.js"></script>')
 	conn.close()
 
+def reload_messages(load_inbox,cand_id):
+	if load_inbox=="all":
+		role_div="role='Candidate' or role='Offer'"
+		reload_all(cand_id,role_div)
+	elif load_inbox=="offer":
+		role_div="role='Offer'"
+		reload_all(cand_id,role_div)
+	elif load_inbox=="request":
+		role_div="role='Request'"
+		reload_all(cand_id,role_div)
+
 def delete_message(c_id1):
 	global cursor,conn
 	connect_to_database()
@@ -105,17 +116,28 @@ def delete_all_mess(c_id1):
 		print("-1")
 	conn.close()
 
-def mess_total_count(c_id1):
+def mess_total_count(c_id1,role_div):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM Chat where ToUserID='%s' and role='Candidate' or role='Offer'"%(c_id1)
+	sql="SELECT * FROM Chat where ToUserID='%s' and %s"%(c_id1,role_div)
 	try:
 		cursor.execute(sql)
 		results=cursor.rowcount
 		rownum="%s"%results
-		print(rownum)
+		print("%s"%rownum)
 		conn.commit()
 	except:
 		conn.rollback()
 		print("0")
 	conn.close()
+
+def mess_count_part(load_inbox,cand_id):
+	if load_inbox=="all":
+		role_div="role='Candidate' or role='Offer'"
+		mess_total_count(cand_id,role_div)
+	elif load_inbox=="offer":
+		role_div="role='Offer'"
+		mess_total_count(cand_id,role_div)
+	elif load_inbox=="request":
+		role_div="role='Request'"
+		mess_total_count(cand_id,role_div)
