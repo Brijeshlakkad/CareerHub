@@ -45,6 +45,6 @@ var delete_mes=function(pid)
 					});
 				}
 			});
-	}
+	};
 </script>
 <?php require_once('institute_footer.php');?>

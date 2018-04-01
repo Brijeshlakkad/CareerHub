@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	var add_inbox_script=function(){
+   	var add_inbox_script=function(){
 		var $chatOutput = $("#chatOutput");
 		var $chatRefresh = $("#chat_refresh");
 		var $mesDeleteAll= $("#message_all_delete");
@@ -8,7 +8,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'institute_interface.py',
+				url: 'candidate_interface.py',
 				data: 'delete_all_mess='+parid,
 				success  : function (data)
 				{
@@ -26,7 +26,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'institute_interface.py',
+				url: 'candidate_interface.py',
 				data: 'mess_reload='+parid,
 				success  : function (data)
 				{
@@ -39,7 +39,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'institute_interface.py',
+				url: 'candidate_interface.py',
 				data: 'mess_total='+parid,
 				success  : function (data)
 				{
@@ -73,7 +73,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'institute_interface.py',
+				url: 'candidate_interface.py',
 				data: 'delete_all_hist='+parid,
 				success  : function (data)
 				{
@@ -91,7 +91,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'institute_interface.py',
+				url: 'candidate_interface.py',
 				data: 'hist_reload='+parid,
 				success  : function (data)
 				{
@@ -104,7 +104,7 @@ $(document).ready(function () {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'institute_interface.py',
+				url: 'candidate_interface.py',
 				data: 'hist_total='+parid,
 				success  : function (data)
 				{

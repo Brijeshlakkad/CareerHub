@@ -18,7 +18,7 @@ include_once('candidate_details.php');
 	<script src="js/angular.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/test_details.js"></script>
-	<script src="js/history_and_inbox.js"></script>
+	<script src="js/history_and_inbox1.js"></script>
 	<script src="js/get_certificates.js"></script>
 	<script type="text/javascript" src="js/admin_cand.js"></script>
 	<script type="text/javascript" src="js/admin_inst.js"></script>

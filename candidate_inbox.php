@@ -1,24 +1,41 @@
 <?php
 include_once('functions.php');
 include_once("config.php");
-include_once('index_header.php');
 include_once('candidate_details.php');
+include_once('index_header.php');
 check_session();
 get_details_from_candidate();
 ?>
 
 <div class="container-fluid well" id="inbox_show">
 <div class="row">
-	<div class="col-lg-1"></div>
-	<div class="col-lg-10">
+	<div class="col-sm-3">
+	<br/>
+		<select id="inbox_filter" name="inbox_filter" class="form-control">
+			<option value="all">All</option>
+			<option value="offer">Offers</option>
+			<option value="Request">Requests</option>
+		</select>
+	</div>
+	<div class="col-sm-6">
 		<div id="mess_success" class="alert alert-success hide"></div>
 			<div class="header" align="center">
 				<h1>Inbox</h1><button class="btn btn-primary"  id="chat_refresh"><span class="glyphicon glyphicon-refresh"></span></button>
 			</div>
-			<div id="chatOutput"></div>
 	</div>
-	<div class="col-lg-1">
+	<div class="col-sm-3">
+		<div class="row pull-right" style="margin-right: 5px;">
 		<button class="btn btn-primary"  id="message_all_delete">Clear all <span class="glyphicon glyphicon-trash"></span></button>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+		<div id="chatOutput"></div>
+	</div>
+	<div class="col-sm-1">
+		
 	</div>
 </div>
 </div>
@@ -28,6 +45,11 @@ $body = $("body");
 $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
+});
+$(document).ready(function(){
+    $("#inbox_filter").change(function(){
+		alert("d");
+	});
 });
 var delete_mes=function(pid)
 	{
@@ -44,8 +66,9 @@ var delete_mes=function(pid)
 							data=0;
 						}
 					});
+				}
 			});
-	}
+	};
 </script>
 </body>
 </html>
