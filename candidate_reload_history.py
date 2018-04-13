@@ -13,7 +13,7 @@ def connect_to_database():
 def reload_history(c_id1):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM History where UserID='%s' and role='Candidate' or role='AO' ORDER BY Time DESC"%(c_id1)
+	sql="SELECT * FROM History where UserID='%s' and role='Candidate' or role='Accepted' ORDER BY Time DESC"%(c_id1)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -23,7 +23,7 @@ def reload_history(c_id1):
 			datetime=time.strftime('%H : %M')
 			field=row['Field']
 			role=row['role']
-			if (role=="AO"):
+			if (role=="Accepted"):
 				inst_name=accept_offer.get_institute(conn,cursor,field);
 				field_link="""<a id='inst_profile_link' onclick="get_institute_profile(%s)" class='div_link'>%s</a>"""%(field,inst_name)
 				fdiv="You have <strong>acccepted offer from %s</strong> at %s"%(field_link,datetime)

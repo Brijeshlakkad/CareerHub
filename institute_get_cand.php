@@ -330,3 +330,6 @@ $(document).ready(function(){
 <?php
 }
 ?>
+<?php 
+include_once("institute_footer.php");
+?>
