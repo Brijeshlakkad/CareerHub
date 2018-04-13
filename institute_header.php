@@ -18,7 +18,7 @@ get_details_from_institute();
   <script src="js/jquery.min.js"></script>
   <script src="js/angular.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/institute_history_and_inbox1.js"></script>
+  <script src="js/institute_history_and_inbox.js"></script>
   <style type="text/css">
     .w3-sidebar a{
     text-decoration: none;

@@ -3,7 +3,8 @@ $(document).ready(function () {
 		var $chatOutput = $("#chatOutput");
 		var $chatRefresh = $("#chat_refresh");
 		var $mesDeleteAll= $("#message_all_delete");
-		var $messTotalShow=$("#mess_show_total");
+		var str="all";
+		
 		var delete_all_mes=function(){
 			var parid=$("div.brij").attr('id');
 			$.ajax({
@@ -22,41 +23,54 @@ $(document).ready(function () {
 				}
 				});
 		};
-		var retrieveMessages=function() {
+		var retrieveMessages=function(str) {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'candidate_interface.py',
-				data: 'mess_reload='+parid,
+				data: 'load_inbox='+str+'&mess_reload='+parid,
 				success  : function (data)
 				{
 					$chatOutput.html(data);
-					mess_total_cal();
 				}
 				});
 		};
-		var mess_total_cal =function(){
+		
+		var mess_total_part =function(str,div_id){
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'candidate_interface.py',
-				data: 'mess_total='+parid,
+				data: 'load_inbox='+str+'&mess_total='+parid,
 				success  : function (data)
 				{
-					$messTotalShow.html(data);
+					$("#"+div_id+"").html(data);
 				}
 				});
 		};
-		mess_total_cal();
-		retrieveMessages();
+		var load_all_count=function(){
+			mess_total_part("all","mess_show_total");
+			mess_total_part("all","all_in");
+			mess_total_part("offer","offer_in");
+			mess_total_part("request","request_in");
+		};
+		$("#inbox_filter").change(function(){
+			str=$(this).val();
+			retrieveMessages(str);
+			load_all_count();
+		});
+		
+		load_all_count();
+		retrieveMessages(str);
 		$chatRefresh.click(function () {
-			retrieveMessages();
+			retrieveMessages(str);
+			load_all_count();
 		});	
 		$mesDeleteAll.click(function(){
-			var r = confirm("Are you sure??");
+			var r = confirm("Are you sure?");
 			if (r == true) {
-				delete_all_mes();
-				mess_total_cal();
+				delete_all_mes(str);
+				load_all_count();
 				r=false;
 			} else {
 				
@@ -114,7 +128,7 @@ $(document).ready(function () {
 		};
 		hist_total_cal();
 		$historyDeleteAll.click(function(){
-			var r = confirm("Are you sure??");
+			var r = confirm("Are you sure?");
 			if (r == true) {
 				delete_all_hist();
 				hist_total_cal();
@@ -131,4 +145,10 @@ $(document).ready(function () {
 	};
 	add_inbox_script();
 	add_hist_script();
+	$("#show_institute").click(function(){
+	var inst_id=$(this).children().find("div.inst_id").attr("id");
+	var job_id=$(this).children().find("div.job_id").attr("id");
+	$(this).append("<form method='post' id='myForm' action='show_institute.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /><input type='hidden' name='job_id' value='"+job_id+"' /></form>");
+	$("#myForm").submit();
+	});
 });

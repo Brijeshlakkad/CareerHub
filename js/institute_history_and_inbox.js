@@ -1,8 +1,10 @@
 $(document).ready(function () {
+   	var add_inbox_script=function(){
 		var $chatOutput = $("#chatOutput");
 		var $chatRefresh = $("#chat_refresh");
 		var $mesDeleteAll= $("#message_all_delete");
-		var $messTotalShow=$("#mess_show_total");
+		var str="all";
+		
 		var delete_all_mes=function(){
 			var parid=$("div.brij").attr('id');
 			$.ajax({
@@ -11,57 +13,72 @@ $(document).ready(function () {
 				data: 'delete_all_mess='+parid,
 				success  : function (data)
 				{
-					if(data==1)
-						{
 					$(document).ajaxStop(function(){
-						$("#mess_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
-					});
+						if(data==1)
+						{
+							$("#mess_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
+							data=0;
 						}
-				},
-			
+						});
+				}
 				});
 		};
-		var retrieveMessages=function() {
+		var retrieveMessages=function(str) {
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'institute_interface.py',
-				data: 'mess_reload='+parid,
+				data: 'load_inbox='+str+'&mess_reload='+parid,
 				success  : function (data)
 				{
 					$chatOutput.html(data);
-					mess_total_cal();
 				}
 				});
 		};
-		var mess_total_cal =function(){
+		
+		var mess_total_part =function(str,div_id){
 			var parid=$("div.brij").attr('id');
 			$.ajax({
 				type: 'POST', 
 				url: 'institute_interface.py',
-				data: 'mess_total='+parid,
+				data: 'load_inbox='+str+'&mess_total='+parid,
 				success  : function (data)
 				{
-					$messTotalShow.html(data);
+					$("#"+div_id+"").html(data);
 				}
 				});
 		};
-		mess_total_cal();
-		retrieveMessages();
+		var load_all_count=function(){
+			mess_total_part("all","mess_show_total");
+			mess_total_part("all","all_in");
+			mess_total_part("offer_sent","offer_in");
+			mess_total_part("accepted","request_in");
+		};
+		$("#inbox_filter").change(function(){
+			str=$(this).val();
+			retrieveMessages(str);
+			load_all_count();
+		});
+		
+		load_all_count();
+		retrieveMessages(str);
 		$chatRefresh.click(function () {
-			retrieveMessages();
+			retrieveMessages(str);
+			load_all_count();
 		});	
 		$mesDeleteAll.click(function(){
 			var r = confirm("Are you sure?");
 			if (r == true) {
-				delete_all_mes();
-				mess_total_cal();
+				delete_all_mes(str);
+				load_all_count();
 				r=false;
 			} else {
 				
 			}
 			
 		});
+	};
+	var add_hist_script=function(){
 		var $historyOutput = $("#historyOutput");
 		var $historyRefresh = $("#history_refresh");
 		var $historyDeleteAll= $("#history_all_delete");
@@ -74,13 +91,13 @@ $(document).ready(function () {
 				data: 'delete_all_hist='+parid,
 				success  : function (data)
 				{
-
-					if(data==1)
-						{
 					$(document).ajaxStop(function(){
+						if(data==1)
+						{
 						$("#hist_success").html('All data is cleared.').removeClass("hide").show().fadeOut(1000);
-						});
+							data=0;
 						}
+						});	
 				}
 				});
 		};
@@ -111,7 +128,7 @@ $(document).ready(function () {
 		};
 		hist_total_cal();
 		$historyDeleteAll.click(function(){
-			var r = confirm("Are youd sure?");
+			var r = confirm("Are you sure?");
 			if (r == true) {
 				delete_all_hist();
 				hist_total_cal();
@@ -125,5 +142,7 @@ $(document).ready(function () {
 		$historyRefresh.click(function () {
 			retrieveHistory();
 		});
-	
+	};
+	add_inbox_script();
+	add_hist_script();
 });

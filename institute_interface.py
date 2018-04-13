@@ -22,9 +22,10 @@ if form.getvalue('delete_all_hist'):
 	institute_reload_history.delete_all_history(c_id3)
 	institute_reload_history.reload_history(c_id3)
 
-if form.getvalue('mess_reload'):
+if form.getvalue('mess_reload') and form.getvalue('load_inbox'):
+	load_inbox = security.protect_data(form.getvalue('load_inbox'))
 	c_id4 = security.protect_data(form.getvalue('mess_reload'))
-	institute_reload_mess.reload_messages(c_id4)
+	institute_reload_mess.reload_messages(load_inbox,c_id4)
 
 if form.getvalue('mess_delete'):
 	c_id5 = security.protect_data(form.getvalue('mess_delete'))
@@ -39,14 +40,7 @@ if form.getvalue('hist_total'):
 	c_id7 = security.protect_data(form.getvalue('hist_total'))
 	institute_reload_history.history_total_count(c_id7)
 	
-if form.getvalue('mess_total'):
-	c_id8 = security.protect_data(form.getvalue('mess_total'))
-	institute_reload_mess.mess_total_count(c_id8)
-
-if form.getvalue('certificate_reload'):
-	c_id9 = security.protect_data(form.getvalue('certificate_reload'))
-	institute_reload_certificate.reload_certificate(c_id9)
-	
-if form.getvalue('certificate_total'):
-	c_id10 = security.protect_data(form.getvalue('certificate_total'))
-	institute_reload_certificate.certificate_total_count(c_id10)
+if form.getvalue('load_inbox') and form.getvalue('mess_total'):
+	load_inbox = security.protect_data(form.getvalue('load_inbox'))
+	cand_id = security.protect_data(form.getvalue('mess_total'))
+	institute_reload_mess.mess_count_part(load_inbox,cand_id)

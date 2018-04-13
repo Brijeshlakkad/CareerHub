@@ -272,6 +272,7 @@ $(document).ready(function(){
 						else if(data=="Accepted")
 							{
 								$("button.offer_status").attr("id","accepted_offer");
+								$("#accepted_offer").html('Offer Accepted').removeClass("btn-default").addClass("btn-primary");
 								$("#accepted_offer").addClass("disabled");
 							}
 					}
