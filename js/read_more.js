@@ -1,5 +1,5 @@
 
-	var minimized_elements = $("#description_first");
+	var minimized_elements = $(".description_first");
 	var minimize_character_count = 200;    
 
 	minimized_elements.each(function(){    

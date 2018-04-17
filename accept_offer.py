@@ -45,14 +45,14 @@ def check_offer_cand(c_id,inst_id,j_id):
 		if result==1:
 			row=cursor.fetchone()
 			role=row['role']
-			return "%s"%role
+			return role
 		else:
 			return "1x"
 	except:
 		conn.rollback()
 		return "-1x"
 	conn.close()
-	
+
 def accept_offer(candid,instid,jobid,role):
 	global cursor,conn
 	connect_to_database()

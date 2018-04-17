@@ -13,11 +13,14 @@ def connect_to_database():
 def reload_all(c_id1,role_div):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM chat where ToUserID='%s' and %s ORDER BY Time ASC"%(c_id1,role_div)
+	c_id1=int(c_id1)
+	role_div=str(role_div)
+	sql_mess="SELECT * FROM chat where ToUserID='%s' and %s ORDER BY Time ASC"%(c_id1,role_div)
 	try:
-		cursor.execute(sql)
+		cursor.execute(sql_mess)
 		results = cursor.fetchall()
 		for row in results:
+			c_id2=row['ToUserID']
 			role=row['role']
 			divid=row['ID']
 			time=row["Time"]
@@ -55,8 +58,8 @@ def reload_all(c_id1,role_div):
 						job_l3 = row_job['city']
 						job_location = "%s, %s, %s"%(job_l3,job_l2,job_l1)
 						print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4>Job offer</h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
-						<a href="#" id="show_institute" class="div_link"><div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s" class="alert-dismissable fade in inst_id"><div class="media"><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5>
-						<h5 id="description_first"><b>Institute description : </b>%s</h5>
+						<a  class="div_link"  id="show_institute" style="cursor:pointer;"><div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s" class="alert-dismissable fade in inst_id"><div class="media"><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5>
+						<h5 class="description_first"><b>Institute description : </b>%s</h5>
 						</div><div class="col-xs-6 job_id" id="%s">
 						<h5><b>Institute Type: </b>%s</h5>
                     	<h5><b>Business Email: </b>%s</h5>
@@ -77,11 +80,12 @@ def reload_all(c_id1,role_div):
 		conn.rollback()
 		print("Try again !")
 	print('<script type="text/javascript" src="js/read_more.js"></script>')
+	print('<script type="text/javascript" src="js/show_inst.js"></script>')
 	conn.close()
 
 def reload_messages(load_inbox,cand_id):
 	if load_inbox=="all":
-		role_div="role='Candidate' or role='Offer'"
+		role_div="role='Offer' or role='Request' or role='Candidate' and ToUserID='%s'"%cand_id
 		reload_all(cand_id,role_div)
 	elif load_inbox=="offer":
 		role_div="role='Offer'"
@@ -133,7 +137,7 @@ def mess_total_count(c_id1,role_div):
 
 def mess_count_part(load_inbox,cand_id):
 	if load_inbox=="all":
-		role_div="role='Candidate' or role='Offer'"
+		role_div="role='Offer' or role='Request' or role='Candidate' and ToUserID='%s'"%cand_id
 		mess_total_count(cand_id,role_div)
 	elif load_inbox=="offer":
 		role_div="role='Offer'"

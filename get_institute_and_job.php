@@ -1,25 +1,22 @@
 <?php 
 include_once("functions.php");
 include_once("config.php");
-function get_institute($id)
+function get_institute($inst_id)
 {
-	global $con,$institute_id,$institute_name,$institute_email,$institute_contact,$bits_inst,$im;
+	global $con,$institute_id,$institute_name,$institute_email,$institute_contact,$bits_inst,$inst_im;
 	global $institute_type,$institute_descr,$institute_address,$institute_country,$institute_zip;
-	$sql="select * from Institutes where ID='$id'";
+	$sql="select * from Institutes where ID='$inst_id'";
 	$result=mysqli_query($con,$sql);
 	if(!$result)
 		die("Server is down.");
 	$row_inst=mysqli_fetch_array($result);
-	$im=base64_encode($row_inst['Image']);
-	$bits_inst=explode(",/,",$row_inst['Status_bits']);
+	$inst_im=base64_encode($row_inst['Image']);
 	$institute_id=$row_inst['ID'];
 	$institute_name=$row_inst['Bname'];
 	$institute_email=$row_inst['Bemail'];
 	$institute_contact=$row_inst['Phone'];
 	$sbit_inst=$row_inst['Status_bits'];
 	$bits_inst=explode(",/,",$sbit_inst);
-	$inst_image=$row_inst['Image'];
-	$im=base64_encode($inst_image);
 	$institute_type=$row_inst['institute_type'];
 	$institute_descr=$row_inst['institute_descr'];
 	$institute_address=$row_inst['institute_address'];

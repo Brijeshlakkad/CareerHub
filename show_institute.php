@@ -7,37 +7,24 @@ include_once("index_header.php");
 check_session();
 if(isset($_POST['inst_id']) && isset($_POST['job_id']))
 {
-	$id=$_POST['inst_id'];
+	$inst_id=$_POST['inst_id'];
 	$jobid=$_POST['job_id'];
-	get_institute($id);
-	get_job($id,$jobid);
+	get_institute($inst_id);
+	get_job($inst_id,$jobid);
 	if($bits_inst[1]==1)
 	{
 		$institute_name.=' <span style="color:green;"><span class="glyphicon glyphicon-ok"></span></span>';		
 	}
-	$institute_name="<a id='inst_profile_link' onclick='get_institute_profile(".$institute_id.")' class='div_link'>"."<h3>".$institute_name."</h3>"."</a>";
+	$institute_name="<a id='inst_profile_link' style='cursor: pointer;' onclick='get_institute_profile(".$institute_id.")' class='div_link'>"."<h3>".$institute_name."</h3>"."</a>";
 	
 ?>
-<script src="js/angular.js"></script>
-<script language="JavaScript">
-   function helper()
-   {
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.type= 'text/javascript';
-      script.src= 'js/admin_inst.js';
-      head.appendChild(script);
-   }
-helper();
-   </script>
- 
 <div class="container-fluid well">
     <div class="row">
         <div class="col-sm-offset-1 col-sm-6">
             <div>
            		<div class="media">
 				<div class="media-left">
-				  <img class="img-circle" style="height:150px;" src="data:image/jpeg;base64,<?php echo $im; ?>" />
+				  <img class="img-circle" style="height:150px;" src="data:image/jpeg;base64,<?php echo $inst_im; ?>" />
 				</div>
 				<div class="media-body" style="">
 					<?php echo $institute_name;?>
@@ -238,7 +225,7 @@ $(document).ready(function(){
 });
 function get_institute_profile(inst_id)
 {
-	$("#inst_profile_link").parent().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
+	$("#inst_profile_link").parent().hide().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
 	$("#myForm").submit();
 }
 </script>

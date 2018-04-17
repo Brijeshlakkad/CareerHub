@@ -12,7 +12,7 @@ get_details_from_institute();
 	<br/>
 		<select id="inbox_filter" name="inbox_filter" class="form-control">
 			<option value="all">All</option>
-			<option value="offer_sent">Offers</option>
+			<option value="offer_sent">Offers sent</option>
 			<option value="accepted">Offer Accepted</option>
 		</select>
 	</div>

@@ -47,11 +47,41 @@ def reload_all(inst_id,role_div):
 						job_name = row_job['job_title']
 						print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;">
 						<div class="row" style=""><div class="col-md-9"></div><div class="col-md-3 pull-right">%s</div></div>
-						<div class="row"><div class="col-md-9"><div class="media"><div class="media-left"><img class="img-circle" style="height:60px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4><a  id="show_candidate_link" class="div_link" onclick='get_candidate_profile("%s","%s")'><span id='%s' class='cand_id'><b>%s</b></span></a> accepted Job <span class='job_id' id='%s'>%s</span></h4></div></div></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div></div><br/>"""%(time,filename,cand_id,job_id,cand_id,cand_name,job_id,job_name,divid))
+						<div class="row"><div class="col-md-9"><div class="media"><div class="media-left"><img class="img-circle" style="height:60px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4><a class="btn" id="show_candidate_link" class="div_link" onclick='get_candidate_profile("%s","%s")'><span id='%s' class='cand_id'><h4><b>%s</b></h4></span></a> accepted Job <span class='job_id' id='%s'>%s</span></h4></div></div></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div></div><br/>"""%(time,filename,cand_id,job_id,cand_id,cand_name,job_id,job_name,divid))
 					except:
-						print("Try again !1")
+						print("Try again !")
 				except:
-					print("Try again !2")
+					print("Try again !")
+			elif role=="Offer":
+				fromuser=row["ToUserID"]
+				jobid=row['Text']
+				sql_cand="SELECT * FROM Candidates where ID='%s'"%(fromuser)
+				try:
+					cursor.execute(sql_cand)
+					row_inst = cursor.fetchone()
+					cand_id=row_inst['ID']
+					cand_name = row_inst['Name']
+					cand_image=row_inst['Image']
+					cand_email=row_inst['Email']
+					cand_contact=row_inst['Phone']
+					if not os.path.exists("cand_images"):
+						os.makedirs("cand_images")
+					filename = "cand_images/%s.jpeg"%cand_name
+					with open(filename, 'wb') as f:
+						f.write(cand_image)
+					sql_job="SELECT * FROM jobs where job_id='%s'"%(jobid)
+					try:
+						cursor.execute(sql_job)
+						row_job = cursor.fetchone()
+						job_id = row_job['job_id']
+						job_name = row_job['job_title']
+						print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;">
+						<div class="row" style=""><div class="col-md-9"></div><div class="col-md-3 pull-right">%s</div></div>
+						<div class="row"><div class="col-md-9"><div class="media"><div class="media-left"><img class="img-circle" style="height:60px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4>Job <span class='job_id' id='%s'><b>%s</b></span> offer sent to <a class="btn"  id="show_candidate_link" class="div_link" onclick='get_candidate_profile("%s","%s")'><span id='%s' class='cand_id'><h4><b>%s</b></h4></span></a></h4></div></div></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div></div><br/>"""%(time,filename,job_id,job_name,cand_id,job_id,cand_id,cand_name,divid))
+					except:
+						print("Try again !")
+				except:
+					print("Try again !")
 			else:
 				fromuser=row["FromUser"]
 				text=row['Text']
@@ -67,10 +97,10 @@ def reload_messages(load_inbox,inst_id):
 		role_div="ToUserID='%s' and role='Institute' or FromUser='%s' and role='Offer' or role='Accepted'"%(inst_id,inst_id)
 		reload_all(inst_id,role_div)
 	elif load_inbox=="accepted":
-		role_div="FromUser='%s' and role='Accepted'"
+		role_div="FromUser='%s' and role='Accepted'"%(inst_id)
 		reload_all(inst_id,role_div)
 	elif load_inbox=="offer_sent":
-		role_div="FromUser='%s' and role='Offer'"
+		role_div="FromUser='%s' and role='Offer'"%(inst_id)
 		reload_all(inst_id,role_div)
 
 def delete_message(c_id1):
