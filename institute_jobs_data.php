@@ -205,14 +205,14 @@ $total_pages = ceil($total_records / $limit);
 
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+
 var cur_page_id=<?php echo $_POST['page']; ?>;
+
 $('#pageno'+cur_page_id+'').css({'background-color':'DodgerBlue','color':'black'});
 
-	$(document).ready(function(){
-
-
-
-	$('.page').click(function(){
+	$(".page").click(function(){
 		var pageid=$(this).attr('id');
 			if(pageid=='previous')
 			{
@@ -225,9 +225,9 @@ $('#pageno'+cur_page_id+'').css({'background-color':'DodgerBlue','color':'black'
             } 
              $.fn.filters(pageid);
         });
-    });
+    
 
-    $('.delete').click(function()
+    $(".delete").click(function()
     {
     	var id=$(this).attr('id');
   		$.fn.deletejob(id,<?php echo $page; ?>);
@@ -249,6 +249,8 @@ $('#pageno'+cur_page_id+'').css({'background-color':'DodgerBlue','color':'black'
                 }
                 });
     });
+
+});
 
 </script>
 

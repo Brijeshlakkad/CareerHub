@@ -34,9 +34,9 @@ if($bits[0]==0)
                 </div>
                 <div class="col-md-4">
                 <br/>
-				<div class="media-body" style="line-height: 40px;align:center;"><b><span style="font-size:26px;"><?php echo $institute_name; ?></span></b><br/><?php if(isset($bits[1])){
-                    echo "<span style=\"color:green;font-size:15px;\">&nbsp; Verified<span class=\"glyphicon glyphicon-ok-sign \"><span></span>";
-                    } else {  echo "<span style=\"color:red;font-size:15px;\">&nbsp; Not verified <span class=\"glyphicon glyphicon-remove-sign\"></span></span>"; } ?>
+				<div class="media-body" style="line-height: 40px;align:center;"><b><span style="font-size:26px;"><?php echo $institute_name; ?></span></b><?php if(isset($bits[1])){
+                    echo "<span style=\"color:green;font-size:21px;\"> <span class=\"glyphicon glyphicon-ok-sign \"><span></span>";
+                    } else { /* echo "<span style=\"color:red;font-size:15px;\">&nbsp; Not verified <span class=\"glyphicon glyphicon-remove-sign\"></span></span>";*/ } ?>
                 </div>    
                 </div>
                 
@@ -83,7 +83,7 @@ if($bits[0]==0)
                         <span style="float: right;"><button id="edit_description" class="btn btn-info">Edit <span class="glyphicon glyphicon-edit"></span></button>
                         </span>
                         <hr style="border-color:gray;">
-                        <?php echo $institute_descr;?>
+                        <?php echo nl2br($institute_descr);?>
                         </div>
                     </div>
                  <?php } ?>

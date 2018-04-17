@@ -18,7 +18,16 @@ if(isset($_POST['jobid']))
 		echo '<br/><p style="color:red;text-align:center;font-size:25px;">job not found</p>';
 	}
 	else
-	{?>
+	{
+
+		$check_already_applied="select * from applications where `job_id`='$jobid' and `candidate_id`='$login_id'";
+		$ex_already_applied=mysqli_query($con,$check_already_applied);
+		$count=mysqli_num_rows($ex_already_applied);
+		if($count!=0)
+		{
+			echo "<script>document.getElementById('apply').innerHTML='Already Applied';document.getElementById('apply').style.backgroundColor ='#D2501B';document.getElementById('apply').disabled = true;</script>";
+		}
+	?>
 
 	<div class="w3-container">
 	<section class="content" >
@@ -29,34 +38,83 @@ if(isset($_POST['jobid']))
             
             <div class="well" style="background-color:white;margin:auto;max-width:900px;margin-top:25px;margin-bottom:10px;min-height:85vh;box-shadow: 5px 5px 5px #aaaaaa;">
 
-            	<p style="font-size:20px;color:hsl(0, 0%, 24%);margin-top:5px;"><b><?php echo $res1['job_title'];?></b></p><p>
+            	<p style="font-size:20px;color:#633C2C;margin-top:5px;"><b><?php echo $res1['job_title'];?></b></p><p>
 				by <span style="font-size:17px;color:green;"><?php echo $res1['Bname'];?></p></span>
-				<hr>
-				<p style="font-size:17px;"><b><?php echo ucfirst($res1['job/training']); ?> Summary</b></p>
-				<p><div class="row" style="padding-left:15px;">
-				<div class="col-md-1" style="padding-left:0px;"><span class="glyphicon glyphicon-user"></span><span> <b>Role: </b></span><br/></div> 
-				<div class="col-md-11" style="padding-left:0px;"><span><?php echo strtoupper($res1['role']); ?></span></div>
+				<hr style="border: 1px solid #7E7675;">
+				<p style="font-size:18px;margin-bottom:20px;"><b><?php echo ucfirst($res1['job/training']); ?> Summary</b></p>
+				
+				<p><div class="row">
+				<div class="col-md-8"><span class="glyphicon glyphicon-user"></span><span><b> Role: </b></span><span><?php echo strtoupper($res1['role']); ?></span></div>				
 				</div>
 				</p>
+
 				<p><span class="glyphicon glyphicon-briefcase"></span> <b>Experience Required: </b> <?php if($res1['experience']>0){
 					echo $res1['experience']." Years"; } else { echo "Not required";} ?></p>
 				<p><span class="glyphicon glyphicon-map-marker"></span> <b>Location: </b> <?php echo strtoupper($res1['city'])." ".strtoupper($res1['state'])." ".strtoupper($res1['country']); ?> </p>
 				  	
-				<div class="row" style="padding-left:10px;">
-				<div class="col-md-2" style="padding-left:0px;"><span><b>Key skills: </b></span></div> 
-				<div class="col-md-10" style="padding-left:0px;"><span><?php echo strtoupper($res1['required_skills']); ?></span><br/></div>
+				<p>
+				<div class="row">
+				<div class="col-md-8"><span class="glyphicon glyphicon-th-list"></span><span><b> Key skills: </b></span><span><?php echo strtoupper($res1['required_skills']); ?></span>
+				</div>				
+				</div> 
+				</p>
+
+				<p>
+				<div class="row">
+				<div class="col-md-8"><span class="glyphicon glyphicon-ok"></span><span><b> Vacancy: </b></span><span><?php echo strtoupper($res1['vacancy']); ?></span>
+				</div>				
 				</div>
+				</p>
+
+				<p>
+				<div class="row">
+				<div class="col-md-8"><span class="glyphicon glyphicon-education"></span><span><b> Qualifications: </b></span><span><?php echo strtoupper($res1['qualification']); ?></span>
+				</div>				
+				</div>
+				</p>
+
+				<p>
+				<div class="row">
+				<div class="col-md-8"><span class="glyphicon glyphicon-calendar"></span><span><b> Opening date: </b></span><span><?php echo strtoupper($res1['opening_date']); ?></span>
+				</div>				
+				</div>
+				</p>
+
+				<p>
+				<div class="row">
+				<div class="col-md-8"><span class="glyphicon glyphicon-calendar"></span><span><b> Closing date: </b></span><span><?php echo strtoupper($res1['closing_date']); ?></span>
+				</div>				
+				</div>
+				</p>
+
+				<p>
+				<div class="row">
+				<div class="col-md-8"><span style="font-size:18px;"> &#8377;</span><span><b> &nbsp;Expected Salary: </b></span>
+					<span><?php echo strtoupper($res1['expected_salary']); ?> (P.M. in INR)</span>
+				</div>				
+				</div>				
+				</p>
+
+				<p>
+				<div class="row">
+				<div class="col-md-8"><span class="glyphicon glyphicon-ok"></span>    
+				<span><b> Maximum age: </b></span>
+					<span><?php echo strtoupper($res1['max_age']); ?> years</span>
+				</div>				
+				</div>				
+				</p>
 				<br/>
 				<br/>
 
+				<p style="font-size:16px;"><b><u>Description:</u></b></p>
 				<div class="row" style="padding-left:15px;margin-top:5px;">
 				<div class="col-md-10" style="padding-left:0px;"><span>
-				<?php echo $res1['description'];?>
+				<?php echo nl2br($res1['description']);?>
 				 </span><br/></div>
 				</div>
 				
 				<br/><br/>
-				<p style="text-align:center;"><button class="btn btn-warning" style="width:90px;">Apply</button></p>
+				<p style="text-align:center;"><button class="btn btn-warning" style="min-width:100px;" id="apply">Apply</button></p>
 
             </div>
         </div>
@@ -68,5 +126,21 @@ if(isset($_POST['jobid']))
 
 }
 
-
 ?>
+
+<script type="text/javascript">
+	$('#apply').click(function(){
+		
+		$.ajax({
+			url: 'candidate_apply_job.php',
+			type: 'POST',
+			data:{ 'jobid': <?php echo $jobid; ?> },
+			success: function(result){
+				
+				$('#apply').text(result);
+				$('#apply').css({'background-color':'green','border-color':'green'});
+
+			}
+		});
+	});
+</script>

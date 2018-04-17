@@ -2,7 +2,7 @@
 require_once('institute_functions.php');
 require_once('functions.php');
 @session_start();
-SessionData();
+get_details_from_institute();
 
 $country=strtolower(protect_anything($_POST['country']));
 $state=strtolower(protect_anything($_POST['state']));
@@ -63,7 +63,5 @@ else
 }
 
 }
-/*
-	echo $country.'\n '.$state.'\n '.$city.'\n '.$closing_date.'\n '.$max_age.'\n '.$description.'\n '.$experience.'\n '.$type.'\n '.$title.'\n '.$role.'\n '.$vacancy.'\n '.$salary.'\n '.$qualifications.'\n'.$qualifications.'\n'.$institute_id;
-*/
+
 ?>

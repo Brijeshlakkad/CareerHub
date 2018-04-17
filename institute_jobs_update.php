@@ -225,21 +225,6 @@ else
 			<!-- end div="well" -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		
 <script type="text/javascript">
 

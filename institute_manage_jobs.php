@@ -17,7 +17,7 @@ $uniqroles=mysqli_query($con,$rolevals);
 
         <div class="row" style="background-color:#F1765B;">
         <div class="col-md-1">
-        Limit:<input type="number" min="0" id="limit" value="10" class="form-control" />
+        Limit:<input type="number" min="1" id="limit" value="10" class="form-control" />
         </div>
         <div class="col-md-2">
         Sort by:<select id="sortby" ng-model="sortby" class="form-control">
@@ -163,6 +163,7 @@ $uniqroles=mysqli_query($con,$rolevals);
         var search=$('#search').val();
         var currentpage=1;
         var deljobid=0;
+
         $("#filter").click(function(){
         $.fn.filters(1);
         });
@@ -173,7 +174,7 @@ $uniqroles=mysqli_query($con,$rolevals);
                 
                 type:'POST',
                 data:{
-                    
+                    'page':currentpage,
                     'limit': limit,
                     'sortby': sortby,
                     'orderby': orderby,
@@ -187,6 +188,7 @@ $uniqroles=mysqli_query($con,$rolevals);
                     $('#result').html(result);
                 }
                 });
+
           /* document onload showing data ends */
 
 
