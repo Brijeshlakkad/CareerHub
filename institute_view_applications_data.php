@@ -84,7 +84,7 @@ else if( $searchfor=='candidate_rank' && $search!='')
                 <td><?php echo $res1['Candidate_rank'];?></td>
                 <td><?php echo $res1['job_title'];?></td>
                 <td><?php echo $res1['apply_datetime']; ?></td>
-                <td><button class="btn btn-warning View" id="<?php echo $res1['application_id'];?>">View Candidate</button></td>
+                <td><button class="btn btn-warning View" onclick="get_candidate_profile('<?php echo $res1['candidate_id']; ?>','<?php echo $res1['job_id']; ?>','<?php echo $res1['application_id']; ?>')">View Candidate</button></td>
                 <?php if($res1['status_bit']==-99){?> <td><button class="btn btn-success Accept" id="<?php echo $res1['application_id'];?>">Accept</button></td> <?php  } else if($res1['status_bit']=='1'){ ?> <td><button class="btn btn-success Accepted" readonly="true" disabled>Accepted</button></td> <?php  } ?>
                 
                 <td><button class="btn btn-danger Reject" id="<?php echo $res1['application_id'];?>">Reject</button></td>
@@ -151,19 +151,6 @@ else if( $searchfor=='candidate_rank' && $search!='')
              $.fn.filters(pageid);
         });
 
-    $(".View").click(function(){
-        var viewid=$(this).attr('id');
-        $.ajax({
-            url:'candidate_view_full_job.php',
-            type:'POST',
-            data: {
-                'jobid':viewid
-            },
-            success:function(result){
-                $('#Container').html(result);
-            }
-        });
-    });
     $(".Accept").click(function(){
         var acceptappid=$(this).attr('id');
         $.ajax({

@@ -77,7 +77,26 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 		</div>
 		<div class="col-sm-4" >
 		<div class="row" align="center" id="<?php echo $id; ?>">
+		<?php 
+				if(isset($_POST['app_id']))
+				{
+					$app_id=$_POST['app_id'];
+					$q1="select status_bit from applications where application_id='$app_id' and institute_id='$institute_id'";
+					$ex1=mysqli_query($con,$q1);
+					$row1=mysqli_fetch_array($ex1);
+					$status_bit=$row1['status_bit'];
+					?><?php if($status_bit==-99){?>
+					<button class="btn btn-success Accept" id="<?php echo $app_id;?>">Accept</button><?php  } else if($status_bit=='1'){ ?><button class="btn btn-success Accepted" readonly="true" disabled>Accepted</button><?php  } ?>
+                	<button class="btn btn-danger Reject" id="<?php echo $$app_id;?>">Reject</button>
+					<?php
+				}
+				else
+				{
+		?>
 			<button class="btn btn-primary offer_status" id="send_offer" >Send a offer <span class="glyphicon glyphicon-send"></span></button>
+			<?php
+				}
+			?>
 		</div>
 		</div>
 	</div>
@@ -245,6 +264,36 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
  </div> 
 </div>
 <script>
+	 $(".Accept").click(function(){
+        var acceptappid=$(this).attr('id');
+        $.ajax({
+            url:'institute_application_accept_deny.php',
+            type:'POST',
+            data: {
+                'action':'accept',
+                'application_id':acceptappid
+            },
+            success:function(result){
+                if(result=="11")
+					$("button.Accept").addClass("disabled").html("Accepted");
+            }
+        });
+    });
+    $(".Reject").click(function(){
+        var rejectappid=$(this).attr('id');
+        $.ajax({
+            url:'institute_application_accept_deny.php',
+            type:'POST',
+            data: {
+                'action':'reject',
+                'application_id':rejectappid
+            },
+            success:function(result){
+                alert('Rejected');
+            }
+        });
+    });
+
 $(document).ready(function(){
 	var cand_id=$("div.candidate_id").attr("id");
 	var inst_id=$("div.brij").attr("id");

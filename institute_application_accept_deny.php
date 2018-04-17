@@ -10,13 +10,20 @@ if(isset($_POST['action']) && isset($_POST['application_id'])){
 	{	
 	$q1="update applications set status_bit='1' where application_id=$application_id and institute_id='$institute_id'";
 	$ex1=mysqli_query($con,$q1);
-	
+	if($ex1)
+		echo "11";
+	else
+		echo "00";
 	}
 	else if($action=='reject')
 	{
 	$q1="update applications set status_bit='0' where application_id=$application_id and institute_id='$institute_id'";
 	$ex1=mysqli_query($con,$q1);
-
+	if($ex1)
+		echo "11";
+	else
+		echo "00";
 	}
+	
 }
 ?>
