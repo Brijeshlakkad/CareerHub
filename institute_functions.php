@@ -5,7 +5,7 @@ function get_details_from_institute()
 {
 	global $con,$email,$institute_id,$institute_name,$bits,$im,$institute_type,$institute_descr,$institute_email,$institute_contact,$institute_address,$institute_country,$institute_zip;
 
-$email=$_SESSION['Userid'];
+$email=$_SESSION['BUserid'];
 $ch="select * from institutes where Email='$email'";
 $q=mysqli_query($con,$ch);
 $count=mysqli_num_rows($q);

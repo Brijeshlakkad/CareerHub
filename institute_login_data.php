@@ -9,7 +9,7 @@ $r=mysqli_num_rows($result);
 $row=mysqli_fetch_assoc($result);
 if($r==1)
 {
-	$_SESSION['Userid']=$email;
+	$_SESSION['BUserid']=$email;
 	echo "1";
 	return;
 }
