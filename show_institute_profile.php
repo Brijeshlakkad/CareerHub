@@ -17,18 +17,8 @@ if(isset($_POST['inst_id']))
 	$institute_name="<a id='inst_profile_link' onclick='get_institute_profile(".$institute_id.")' class='div_link'>"."<h3>".$institute_name."</h3>"."</a>";
 	
 ?>
-<script src="js/angular.js"></script>
-<script language="JavaScript">
-   function helper()
-   {
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.type= 'text/javascript';
-      script.src= 'js/admin_inst.js';
-      head.appendChild(script);
-   }
-helper();
-   </script>
+<script src="js/read_more.js"></script>
+
  
 <div class="container-fluid well">
     <div class="row">
@@ -36,13 +26,16 @@ helper();
             <div>
            		<div class="media">
 				<div class="media-left">
-				  <img class="img-circle" style="height:150px;" src="data:image/jpeg;base64,<?php echo $im; ?>" />
+				  <img class="img-circle" style="height:150px;" src="data:image/jpeg;base64,<?php echo $inst_im; ?>" />
 				</div>
 				<div class="media-body" style="">
 					<?php echo $institute_name;?>
 		
 			  <br/>
 				<br/>
+				<div class="description_first">
+					<?php echo $institute_descr; ?>
+				</div>
 				</div>
 			  </div>
             </div>
