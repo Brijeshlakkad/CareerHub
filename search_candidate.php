@@ -49,15 +49,7 @@ $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
-	$.ajax({
-				type: 'POST', 
-				url: 'get_candidates_filtered.php',
-				data: 'flag='+"no_found",
-				success  : function (data)
-				{
-					$("#search_result_cand").html(data);
-				}
-	});
+get_cand_list("random","0");
 var myApp=angular.module("myapp",[]);
 myApp.controller("BrijController", function($scope,$http) {
 	$scope.changed=function(){

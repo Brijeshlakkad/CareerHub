@@ -49,6 +49,143 @@ function find_cand_quali($jobid)
 		}
 	return $matched_quali;
 }
+
+function find_all_random()
+{
+		global $con,$institute_id,$matched_random;
+		$sql="select * from jobs where institute_id='$institute_id'";
+		$result=mysqli_query($con,$sql);
+		if(!$result)
+			die();
+		$matched_random=array();
+		while($row=mysqli_fetch_array($result))
+		{
+			$job_id=$row['job_id'];
+			$m_all=find_all_matched($job_id);
+			if(count($m_all)>0)
+			{
+				for($i=0;$i<count($m_all);$i++)
+				{
+					$ma=$m_all[$i];
+					if(!in_array($ma,$matched_random))
+					{
+						array_push($matched_random,$ma);
+						$ma_arr=explode(" ",$ma);
+						show_cand($job_id,$ma_arr,"random");
+					}
+				}
+			}
+		}
+		
+	
+}
+function show_cand($j_id,$m_all,$based)
+{
+	global $con,$row_job;
+	get_job($j_id);
+	if($based=="random")
+	{
+		$based="";
+	}
+	for($i=0;$i<count($m_all);$i++)
+	{
+		
+		$sql="select * from candidates where ID='$m_all[$i]'";
+		$res=mysqli_query($con,$sql);
+		if($res)
+		{
+			$row=mysqli_fetch_array($res);
+			$cand_id=$row['ID'];
+			$cand_name=$row['Name'];
+			$cand_email=$row['Email'];
+			$cand_mno=$row['Phone'];
+			$cand_image=$row['Image'];
+
+			$sbit=$row['Status_bits'];
+			$bits=explode(",/,",$sbit);
+
+			$barV=$row['Progress'];
+
+			$squali=$row['Quali'];
+			$qualis=explode(",/,",$squali);
+
+			$degree=$row['Degree'];
+			$course=$row['Course'];
+			$p_year=$row['Passing_year'];
+			$intern=$row['Intern'];
+			$college=$row["College"];
+			$col_pin=$row['College_pincode'];
+			$exp_year=$row['Experience'];
+
+			$postal_add=$row['Postal_Add'];
+			$perm_add=$row['Perm_Add'];
+			$per_pin=$row['Per_pincode'];
+			$dob= date('d/m/Y', strtotime($row['DOB']));
+			$gender=$row['Gender'];
+			$country=$row['Country'];
+			$state=$row['State'];
+			$city=$row['City'];
+
+			$updated=$row['isUpdated'];
+			$desc=$row['Description'];
+			$im=base64_encode($cand_image);
+	?>
+	<div class="row" style="margin-top: 20px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-1"><b>Job:</b></div><div class="col-md-4"><?php echo $row_job['job_title']; ?></div></div>
+	<div class="row" style="margin-top: 10px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-4"><b><?php echo $based; ?></b></div></div>
+	<div class="row" style="margin: 30px;">
+	
+		<div class="container" style="margin-top:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;">
+		
+		<form method="post" action="institute_get_cand.php">
+		<div class="row">
+		<input type="hidden" name="cand_id" value="<?php echo $cand_id; ?>" />
+		<input type="hidden" name="job_id" value="<?php echo $j_id; ?>" />
+			<div id="<?php echo $cand_id."".$cand_name; ?>" style="margin: 10px;">
+			<div class="media">
+				<div class="media-left">
+				  <img class="img-circle" style="height:100px;" src="data:image/jpeg;base64,<?php echo $im; ?>" />
+				</div>
+				<div class="media-body" style="">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="media-heading"><h5><b><?php echo $cand_name; ?></b></h5></div>
+						<div style="margin: 5px;" align="left">
+							<?php echo $desc; ?>
+						</div>
+					</div>
+					<div class="col-lg-offset-2 col-lg-4">
+						<b>Special skills</b>
+						<table class="myTable">
+							<?php
+									$len=count($qualis);
+									for($j=1;$j<=$len;$j++)
+									{
+										?>
+										<tr>
+											<td><?php echo $j; ?></td>
+											<td><?php echo $qualis[$j-1]; ?></td>
+										</tr>
+										<?php
+									}
+								?>
+						</table>
+					</div>
+				</div>
+				</div>
+			</div>
+			</div>
+		
+		</div>
+		<div class="row" style="background-color:rgba(23,139,158,1.00);min-height:40px;color:white;">
+			<span style="vertical-align:middle;line-height: 50px;"><button type="submit" class="btn btn-info" >View Profile</button></span>
+		</div>
+		</form>
+		</div>
+	</div>
+	<?php
+		}
+	}
+}
 function find_cand_experience($jobid)
 {
 	global $con,$institute_id,$row_job,$matched_exp;
@@ -80,6 +217,7 @@ function find_cand_experience($jobid)
 	}
 	return $matched_exp;
 }
+
 function find_cand_location($jobid)
 {
 	global $con,$institute_id,$row_job,$matched_location;
@@ -134,109 +272,7 @@ function find_all_matched($jobid)
 		}
 	return $matched_all;
 }
-function show_cand($j_id,$m_all,$based)
-{
-	global $con,$row_job;
-	get_job($j_id);
-	?>
-	<div class="row" style="margin-top: 20px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-1"><b>Job:</b></div><div class="col-md-4"><?php echo $row_job['job_title']; ?></div></div>
-	<div class="row" style="margin-top: 10px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-4"><b><?php echo $based; ?></b></div></div>
-	<?php
-	for($i=0;$i<count($m_all);$i++)
-	{
-		$sql="select * from candidates where ID='$m_all[$i]'";
-		$res=mysqli_query($con,$sql);
-		if($res)
-		{
-			$row=mysqli_fetch_array($res);
-			$cand_id=$row['ID'];
-			$cand_name=$row['Name'];
-			$cand_email=$row['Email'];
-			$cand_mno=$row['Phone'];
-			$cand_image=$row['Image'];
 
-			$sbit=$row['Status_bits'];
-			$bits=explode(",/,",$sbit);
-
-			$barV=$row['Progress'];
-
-			$squali=$row['Quali'];
-			$qualis=explode(",/,",$squali);
-
-			$degree=$row['Degree'];
-			$course=$row['Course'];
-			$p_year=$row['Passing_year'];
-			$intern=$row['Intern'];
-			$college=$row["College"];
-			$col_pin=$row['College_pincode'];
-			$exp_year=$row['Experience'];
-
-			$postal_add=$row['Postal_Add'];
-			$perm_add=$row['Perm_Add'];
-			$per_pin=$row['Per_pincode'];
-			$dob= date('d/m/Y', strtotime($row['DOB']));
-			$gender=$row['Gender'];
-			$country=$row['Country'];
-			$state=$row['State'];
-			$city=$row['City'];
-
-			$updated=$row['isUpdated'];
-			$desc=$row['Description'];
-			$im=base64_encode($cand_image);
-	?>
-	<div class="row" style="margin: 30px;">
-		<div class="container" style="margin-top:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;">
-		
-		<form method="post" action="institute_get_cand.php">
-		<div class="row">
-		<input type="hidden" name="cand_id" value="<?php echo $cand_id; ?>" />
-		<input type="hidden" name="job_id" value="<?php echo $j_id; ?>" />
-			<div id="<?php echo $cand_id."".$cand_name; ?>" style="margin: 10px;">
-			<div class="media">
-				<div class="media-left">
-				  <img class="img-circle" style="height:100px;" src="data:image/jpeg;base64,<?php echo $im; ?>" />
-				</div>
-				<div class="media-body" style="">
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="media-heading"><h5><b><?php echo $cand_name; ?></b></h5></div>
-						<div style="margin: 5px;" align="left">
-							<?php echo $desc; ?>
-						</div>
-					</div>
-					<div class="col-lg-offset-2 col-lg-4">
-						<b>Special skills</b>
-						<table class="myTable">
-							<?php
-									$len=count($qualis);
-									for($j=1;$j<=$len;$j++)
-									{
-										?>
-										<tr>
-											<td><?php echo $j; ?></td>
-											<td><?php echo $qualis[$j-1]; ?></td>
-										</tr>
-										<?php
-									}
-								?>
-						</table>
-					</div>
-				</div>
-				</div>
-			</div>
-			</div>
-		
-		</div>
-		<div class="row" style="background-color:rgba(23,139,158,1.00);min-height:40px;color:white;">
-			<span style="vertical-align:middle;line-height: 50px;"><button type="submit" class="btn btn-info" >View Profile</button></span>
-		</div>
-		</form>
-		</div>
-	</div>
-	<?php
-		}
-	}
-}
 function no_found()
 {
 	?>
@@ -250,7 +286,11 @@ function no_found()
 if(isset($_POST['flag']))
 {
 	$flag=$_POST['flag'];
-	if($flag=="best_match"  && isset($_POST['job_id']))
+	if($flag=="random")
+	{
+		find_all_random();
+	}
+	else if($flag=="best_match"  && isset($_POST['job_id']))
 	{
 		$jobid=$_POST['job_id'];
 		$m_all=find_all_matched($jobid);
