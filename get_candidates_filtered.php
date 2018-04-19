@@ -131,7 +131,6 @@ function show_cand($j_id,$m_all,$based)
 			$im=base64_encode($cand_image);
 	?>
 	<div class="row" style="margin-top: 20px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-1"><b>Job:</b></div><div class="col-md-4"><?php echo $row_job['job_title']; ?></div></div>
-	<div class="row" style="margin-top: 10px;padding: 10px;"><div class="col-md-1"></div><div class="col-md-4"><b><?php echo $based; ?></b></div></div>
 	<div class="row" style="margin: 30px;">
 	
 		<div class="container" style="margin-top:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;">
