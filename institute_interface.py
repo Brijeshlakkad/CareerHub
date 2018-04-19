@@ -5,6 +5,7 @@ import os
 import MySQLdb
 import institute_reload_mess
 import institute_reload_history
+import inst_get_cand_certificates
 import security
 print("Content-type:text/html\r\n\r\n")
 
@@ -44,3 +45,7 @@ if form.getvalue('load_inbox') and form.getvalue('mess_total'):
 	load_inbox = security.protect_data(form.getvalue('load_inbox'))
 	cand_id = security.protect_data(form.getvalue('mess_total'))
 	institute_reload_mess.mess_count_part(load_inbox,cand_id)
+	
+if form.getvalue('get_cand_certificates'):
+	cand_id = security.protect_data(form.getvalue('get_cand_certificates'))
+	inst_get_cand_certificates.reload_cand_certificates(cand_id)

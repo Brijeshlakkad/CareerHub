@@ -19,7 +19,8 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 	$bits=explode(",/,",$row['Status_bits']);
 	
 	$im=base64_encode($row['Image']);
-	$login_name=ucwords($row['Name']);
+	$cand_name=ucwords($row['Name']);
+	$cand_email=ucwords($row['Email']);
 	$barV=$row['Progress'];
 	$qualis=explode(",/,",$row['Quali']);
 	$degree=$row['Degree'];
@@ -65,17 +66,17 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 				</div>
 				<div class="media-body" style="line-height: 25px;">
 			  <br/>
-				  <h4><b><?php echo $login_name; ?></b></h4>
+				  <h4><b><?php echo $cand_name; ?></b></h4>
 				  <br/>
 					<div class="progress" style="width:60%">
 					<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<?php echo $barV; ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $barV.'%'; ?>"><?php echo $barV.'%'; ?>
 					</div>
-				  	</div><br/>
+				  	</div>
 				</div>
 			  </div>
             </div>
 		</div>
-		<div class="col-sm-4" >
+		<div class="col-sm-4">
 		<div class="row" align="center" id="<?php echo $id; ?>">
 		<?php 
 				if(isset($_POST['app_id']))
@@ -101,61 +102,67 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 		</div>
 	</div>
   <hr class="hr-primary" size='30'/>
-   <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
-   <div class="row">
-        <div id="heading_desc">
-        <?php
-				if($qualis[0]!='0')
-				{
-					?>
-        <label>Description</label>
-        </div>
-        <div id="show_desc">
-        
-		<?php 
-					echo $desc;
-				}
-		?>
-		</div>
-	</div>
-   <hr size='30'/>
-    <div class="row">
-        <div id="heading_skills">
-        <?php
-				if($qualis[0]!='0')
-				{
-					?>
-        <label>Qualification Details</label>
-        </div>
-        <div id="show_skills">
-        <table class="myTable">
-        	<?php
-					$len=count($qualis);
-					for($i=1;$i<=$len;$i++)
+  <div class="row" style="padding: 30px;">
+   <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#cand_desc">Description</a></li>
+    <li><a data-toggle="tab" href="#skills">Special skills</a></li>
+    <li><a data-toggle="tab" href="#graduation_info">Graduation Details</a></li>
+    <li><a data-toggle="tab" href="#personal_info">Personal Details</a></li>
+    <li><a data-toggle="tab" href="#certificates" id="show_cand_certificates">Cetificates</a></li>
+  </ul>
+
+  <div class="tab-content" style="padding-left:30px; ">
+    <div id="cand_desc" class="tab-pane fade in active">
+		  <div class="row" style="padding-top: 30px;">
+			<?php
+					if($qualis[0]!='0')
 					{
 						?>
-						<tr>
-							<td><?php echo $i; ?></td>
-							<td><?php echo $qualis[$i-1]; ?></td>
-						</tr>
-						<?php
+			<div id="show_desc">
+
+			<?php 
+						echo $desc;
+			?>
+			</div>
+			
+			<?php
 					}
-				?>
-		</table>
-		<?php 
-					}
-		?>
+			?>
 		</div>
-	</div>
-	 <hr size='30'/>
-		 <div class="row">
-			 <div id="heading_gra">
+    </div>
+    <div id="skills" class="tab-pane fade">
+		  <div class="row" style="padding-top: 30px;">
+			<?php
+					if($qualis[0]!='0')
+					{
+						?>
+			<div id="show_skills">
+			<table class="myTable">
+				<?php
+						$len=count($qualis);
+						for($i=1;$i<=$len;$i++)
+						{
+							?>
+							<tr>
+								<td><?php echo $i; ?></td>
+								<td><?php echo $qualis[$i-1]; ?></td>
+							</tr>
+							<?php
+						}
+					?>
+			</table>
+			</div>
+			<?php 
+						}
+			?>
+		</div>
+    </div>
+    <div id="graduation_info" class="tab-pane fade">
+     <div class="row" style="padding-top: 30px;">
 			<?php
 					if($course!='-99')
 					{
 						?>
-			<label>Graduation Details</label>
-			</div>
 			<div id="show_gra">
 			<table class="myTable">
 							<tr>
@@ -187,20 +194,18 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 								<td><?php echo $exp_year; ?></td>
 							</tr>
 			</table>
+			</div>
 			<?php 
 						}
 			?>
-			</div>
 		</div>
-		<hr size='30'/>
-		<div class="row">
-			<div id="heading_per">
+    </div>
+    <div id="personal_info" class="tab-pane fade">
+      <div class="row" style="padding-top: 30px;">
 			<?php
 					if($gender!='-99')
 					{
 						?>
-			<label>Personal Details</label>
-			</div>
 			<div id="show_per">
 			<table class="myTable">
 							<tr>
@@ -236,13 +241,30 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
 								<td><?php echo $gender; ?></td>
 							</tr>
 			</table>
+			</div>
 			<?php 
 						}
 			?>
-			</div>
 			<hr class="hr-primary" />
 		</div>
-		
+    </div>
+    <div id="certificates" class="tab-pane fade">
+      <div class="row" style="padding-top: 30px;">
+			<?php
+					if($gender!='-99')
+					{
+						?>
+			<div id="show_certificates">
+			
+			
+			</div>
+			<?php 
+						}
+			?>
+			<hr class="hr-primary" />
+		</div>
+    </div>
+  </div>
 </div>
 </div>
 <div class="modal fade" id="errorModal" role="dialog">
@@ -264,6 +286,17 @@ if(isset($_POST['cand_id']) && isset($_POST['job_id']))
  </div> 
 </div>
 <script>
+	$("#show_cand_certificates").click(function(){
+		var cand_id="<?php echo $cand_email; ?>";
+		$.ajax({
+					type: 'POST',
+					url:"institute_interface.py",
+					data:"get_cand_certificates="+cand_id,
+					success:function(data){
+						$("#certificates").html(data);
+					}
+				});
+	});
 	 $(".Accept").click(function(){
         var acceptappid=$(this).attr('id');
         $.ajax({
