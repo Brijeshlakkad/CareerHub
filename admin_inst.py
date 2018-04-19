@@ -26,12 +26,9 @@ class myThread (threading.Thread):
 		elif self.name=="Write_to_chat" and status=="11":
 			fromuser="Admin"
 			if self.flag==1:
-				header="Hurray!!"
-				data="Your profile is varified successfully"
+				message="verified"
 			elif self.flag==0:
-				header="we are sorry to hear!"
-				data="Your profile is rejected"
-			message=''.join([header,data])
+				message="rejected"
 			status1=admin_send_mess_inst.send_message(self.c_id,fromuser,message);
 
 

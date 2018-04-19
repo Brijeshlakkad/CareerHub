@@ -5,10 +5,11 @@ include_once("candidate_details.php");
 include_once("get_institute_and_job.php");
 include_once("index_header.php");
 check_session();
-if(isset($_POST['inst_id']) && isset($_POST['job_id']))
+if(isset($_POST['inst_id']) && isset($_POST['job_id']) && isset($_POST['role_type']))
 {
 	$inst_id=$_POST['inst_id'];
 	$jobid=$_POST['job_id'];
+	$role_type=$_POST['role_type'];
 	get_institute($inst_id);
 	get_job($inst_id,$jobid);
 	if($bits_inst[1]==1)
@@ -40,11 +41,13 @@ if(isset($_POST['inst_id']) && isset($_POST['job_id']))
 		<div class="row" style="margin-right: 10px;">
 		<div class="row pull-right" >
 		<?php 
-			
+			if($role_type=="Offer")
+			{
 		?>
 		<button class="btn btn-primary offer_status">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
-		
-		
+		<?php
+			}
+		?>
 		</div><br/><br/>
 		<div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
 			
@@ -52,6 +55,16 @@ if(isset($_POST['inst_id']) && isset($_POST['job_id']))
 		</div>
 	</div>
   <hr style="border-width: 1px;border-color: rgba(180,180,180,1.00)"/>
+<?php
+if($role_type=="Request_accepted")
+			{
+				?>
+<div class="row alert alert-success">
+	<center><h3>Congratulation, You have got this job.</h3></center>
+</div>
+				<?php
+			}
+?>
 <div class="row">
 <div class="col-sm-offset-1 col-sm-6">
  	<div class="row" style="border-bottom: 1px solid rgba(180,180,180,1.00);">
@@ -152,13 +165,23 @@ $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
+function get_institute_profile(inst_id)
+{
+	$("#inst_profile_link").parent().hide().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
+	$("#myForm").submit();
+}
+</script>
+<?php
+	if($role_type=="Offer")
+	{
+		?>
+<script>
 $(document).ready(function(){
 	var inst_id="<?php echo $institute_id; ?>";
 	var job_id="<?php echo $jobid; ?>";
 	var cand_id="<?php echo $login_id; ?>";
 	var status;
 	var check_status=function(){
-		
 		$.ajax({
 			type: 'POST',
 			url:"candidate_interface.py",
@@ -223,12 +246,8 @@ $(document).ready(function(){
 			}
 	});	
 });
-function get_institute_profile(inst_id)
-{
-	$("#inst_profile_link").parent().hide().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
-	$("#myForm").submit();
-}
 </script>
-<?php
+		<?php
+	}
 }
 ?>

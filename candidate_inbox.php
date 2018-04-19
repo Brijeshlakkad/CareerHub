@@ -14,7 +14,7 @@ get_details_from_candidate();
 		<select id="inbox_filter" name="inbox_filter" class="form-control">
 			<option value="all">All</option>
 			<option value="offer">Offers</option>
-			<option value="Request">Requests</option>
+			<option value="request">Requests</option>
 		</select>
 	</div>
 	<div class="col-sm-6">
