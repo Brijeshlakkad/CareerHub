@@ -13,12 +13,7 @@ if(isset($_POST['action']) && isset($_POST['application_id']) && isset($_POST['c
 	$ex1=mysqli_query($con,$q1);
 	if($ex1)
 	{
-		$q2="insert into chat(FromUser,ToUserID,Text,role) values('$institute_id','$cand_id','$application_id','Request_accepted')";
-		$ex2=mysqli_query($con,$q2);
-		if($ex2)
-			echo "11";
-		else
-			echo "00";
+		echo "11";
 	}
 	else
 		echo "00";

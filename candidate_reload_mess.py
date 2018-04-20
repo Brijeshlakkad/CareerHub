@@ -58,7 +58,7 @@ def reload_all(c_id1,role_div):
 	connect_to_database()
 	c_id1=int(c_id1)
 	role_div=str(role_div)
-	sql_mess="SELECT * FROM chat where ToUserID='%s' and %s ORDER BY Time DESC"%(c_id1,role_div)
+	sql_mess="select Type,ID,ToUserID,FromUser,Time,Text,role from(select 'chat' as Type,ID,ToUserID,FromUser,Time,Text,role from chat where ToUserID='%s' and %s UNION ALL select 'application' as Type,application_id,candidate_id,institute_id,apply_datetime,job_id,status_bit from applications where candidate_id='%s') as Messages ORDER BY Time DESC"%(c_id1,role_div,c_id1)
 	try:
 		cursor.execute(sql_mess)
 		results = cursor.fetchall()
@@ -67,8 +67,9 @@ def reload_all(c_id1,role_div):
 			role=row['role']
 			divid=row['ID']
 			time=row["Time"]
+			type_id=row['Type']
 			datetime=time.strftime('%d-%m-%Y %H : %M %a')
-			if role=="Offer":
+			if role=="Offer" and type_id=='chat':
 				fromuser=row["FromUser"]
 				jobid=row['Text']
 				institute_details(conn,cursor,fromuser)
@@ -80,28 +81,25 @@ def reload_all(c_id1,role_div):
                     	<h5><b>Institute Address: </b>%s</h5>
 						<h5><b>Country: </b>%s</h5>
 						<h5><b>ZIP: </b>%s</h5></div></div></div></div></div></div><div class="col-md-3 pull-right">%s</div></div></a></div><br/>"""%(divid,inst_id,filename,inst_name,job_name,institute_descr,job_id,institute_type,institute_bemail,institute_contact,institute_address,institute_country,institute_zip,datetime))
-			elif role=="Request_accepted":
+			elif type_id=="application" and role_div!="role='Offer'":
 				fromuser=row["FromUser"]
-				app_id=row['Text']
-				sql="select * from applications where application_id='%s'"%(app_id)
-				try:
-					cursor.execute(sql)
-					result=cursor.fetchone()
-					inst_id=result['institute_id']
-					jobid=result['job_id']
-					institute_details(conn,cursor,inst_id)
-					job_details(conn,cursor,jobid)
-					print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4><b>Request Accepted</b></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/><a  class="div_link show_institute" style="cursor:pointer;"><div class="row alert alert-success">
-	<center><h4>Congratulation, You have got this job.</h4></center>
-</div><div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s" class="alert-dismissable fade in inst_id"><div class="media role_type" id='Request_accepted'><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5><h5 class="description_first"><b>Institute description : </b>%s</h5></div><div class="col-xs-6 job_id" id="%s">
+				jobid=row['Text']
+				institute_details(conn,cursor,fromuser)
+				job_details(conn,cursor,jobid)
+				if role=="1":
+					status_div="<div class='row alert alert-success'><center><h4>Congratulation, You have got this job.</h4></center></div>";
+				elif role=="0":
+					status_div="<div class='row alert alert-danger'><center><h4>Rejected</h4></center></div>";
+				elif role=="-99":
+					status_div="<div class='row alert alert-warning'><center><h4>Pending..</h4></center></div>";
+				print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4><b>Request sent</b></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>%s<a  class="div_link show_institute" style="cursor:pointer;"><div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s" class="alert-dismissable fade in inst_id"><div class="media role_type" id='Offer'><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5><h5 class="description_first"><b>Institute description : </b>%s</h5></div><div class="col-xs-6 job_id" id="%s">
 						<h5><b>Institute Type: </b>%s</h5>
                     	<h5><b>Business Email: </b>%s</h5>
                     	<h5><b>Business Contact: </b>%s</h5>
                     	<h5><b>Institute Address: </b>%s</h5>
 						<h5><b>Country: </b>%s</h5>
-						<h5><b>ZIP: </b>%s</h5></div></div></div></div></div></div><div class="col-md-3 pull-right">%s</div></div></a></div><br/>"""%(divid,inst_id,filename,inst_name,job_name,institute_descr,job_id,institute_type,institute_bemail,institute_contact,institute_address,institute_country,institute_zip,datetime))
-				except:
-					print("Try again !")
+						<h5><b>ZIP: </b>%s</h5></div></div></div></div></div></div><div class="col-md-3 pull-right">%s</div></div></a></div><br/>"""%(divid,status_div,inst_id,filename,inst_name,job_name,institute_descr,job_id,institute_type,institute_bemail,institute_contact,institute_address,institute_country,institute_zip,datetime))
+				
 			else:
 				fromuser=row["FromUser"]
 				text=row['Text']
@@ -114,7 +112,7 @@ def reload_all(c_id1,role_div):
 				<div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s"  class="alert-dismissable fade in"><strong>%s </strong> : We are sorry!!Your profile is rejected.</div></div><div class="col-md-3 pull-right">%s</div></div></div><br/>"""%(divid,divid,fromuser,datetime))
 	except:
 		conn.rollback()
-		print("Try again !")
+		print("Try again !2")
 	print('<script type="text/javascript" src="js/read_more.js"></script>')
 	print('<script type="text/javascript" src="js/show_inst.js"></script>')
 	conn.close()
@@ -129,7 +127,7 @@ def reload_messages(load_inbox,cand_id):
 	elif load_inbox=="request":
 		role_div="role='Request'"
 		reload_all(cand_id,role_div)
-		
+
 def delete_message(c_id1):
 	global cursor,conn
 	connect_to_database()
@@ -159,7 +157,7 @@ def delete_all_mess(c_id1):
 def mess_total_count(c_id1,role_div):
 	global cursor,conn
 	connect_to_database()
-	sql="SELECT * FROM Chat where ToUserID='%s' and %s"%(c_id1,role_div)
+	sql="select Type,ID,ToUserID,FromUser,Time,Text,role from(select 'chat' as Type,ID,ToUserID,FromUser,Time,Text,role from chat where ToUserID='%s' and %s UNION ALL select 'application' as Type,application_id,candidate_id,institute_id,apply_datetime,job_id,status_bit from applications where candidate_id='%s') as Messages ORDER BY Time DESC"%(c_id1,role_div,c_id1)
 	try:
 		cursor.execute(sql)
 		results=cursor.rowcount
@@ -173,7 +171,7 @@ def mess_total_count(c_id1,role_div):
 
 def mess_count_part(load_inbox,cand_id):
 	if load_inbox=="all":
-		role_div="role='Offer' or role='Request' or role='Candidate' and ToUserID='%s'"%cand_id
+		role_div="role='Offer' and ToUserID='%s' or role='Request' and ToUserID='%s' or role='Request_accepted' and ToUserID='%s' or role='Candidate' and ToUserID='%s'"%(cand_id,cand_id,cand_id,cand_id)
 		mess_total_count(cand_id,role_div)
 	elif load_inbox=="offer":
 		role_div="role='Offer'"
