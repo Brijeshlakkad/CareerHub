@@ -45,6 +45,7 @@ if(isset($_POST['inst_id']) && isset($_POST['job_id']) && isset($_POST['role_typ
 			{
 		?>
 		<button class="btn btn-primary offer_status">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
+		<button class="btn btn-primary deny_offer">Deny offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
 		<?php
 			}
 		?>
@@ -216,6 +217,19 @@ $(document).ready(function(){
 		});	
 	};
 	check_status();
+	$("button.deny_offer").click(function(){
+		var inst_id="<?php echo $inst_id; ?>";
+		var job_id="<?php echo $jobid; ?>";
+		var cand_id="<?php echo $login_id; ?>";
+		$.ajax({
+					type: 'POST',
+					url:'candidate_interface.py',
+					data:"deny_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
+					success:function(data){
+						location.reload();
+					}
+		});
+	});
 	$("button.offer_status").click(function(){
 		var bid=$(this).attr("id");
 		if(bid=="accept_offer")

@@ -58,7 +58,7 @@ def reload_all(c_id1,role_div):
 	connect_to_database()
 	c_id1=int(c_id1)
 	role_div=str(role_div)
-	sql_mess="SELECT * FROM chat where ToUserID='%s' and %s ORDER BY Time ASC"%(c_id1,role_div)
+	sql_mess="SELECT * FROM chat where ToUserID='%s' and %s ORDER BY Time DESC"%(c_id1,role_div)
 	try:
 		cursor.execute(sql_mess)
 		results = cursor.fetchall()
@@ -91,7 +91,9 @@ def reload_all(c_id1,role_div):
 					jobid=result['job_id']
 					institute_details(conn,cursor,inst_id)
 					job_details(conn,cursor,jobid)
-					print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4><b>Request Accepted</b></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/><a  class="div_link show_institute" style="cursor:pointer;"><div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s" class="alert-dismissable fade in inst_id"><div class="media role_type" id='Request_accepted'><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5><h5 class="description_first"><b>Institute description : </b>%s</h5></div><div class="col-xs-6 job_id" id="%s">
+					print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4><b>Request Accepted</b></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/><a  class="div_link show_institute" style="cursor:pointer;"><div class="row alert alert-success">
+	<center><h4>Congratulation, You have got this job.</h4></center>
+</div><div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s" class="alert-dismissable fade in inst_id"><div class="media role_type" id='Request_accepted'><div class="media-left"><img class="img-circle" style="height:150px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4 class="media-heading"><b>Institute name : </b>%s</h4><div class="row"><div class="col-xs-6"><h5><b>Job Title : </b>%s</h5><h5 class="description_first"><b>Institute description : </b>%s</h5></div><div class="col-xs-6 job_id" id="%s">
 						<h5><b>Institute Type: </b>%s</h5>
                     	<h5><b>Business Email: </b>%s</h5>
                     	<h5><b>Business Contact: </b>%s</h5>

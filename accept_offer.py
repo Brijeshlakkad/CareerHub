@@ -73,3 +73,23 @@ def accept_offer(candid,instid,jobid,role):
 		print("-1")
 	conn.close()
 	
+def deny_offer(candid,instid,jobid,role):
+	global cursor,conn
+	connect_to_database()
+	num=count_rows(instid,candid,jobid)
+	num=int(num)
+	if num==1:
+		sql="delete from chat where role='%s' and FromUser='%s' and ToUserID='%s' and Text='%s'"%(role,instid,candid,jobid)
+		try:
+			cursor.execute(sql)
+			conn.commit()
+			mess=instid
+			role="Deny_offer"
+			save_history.enter_history(conn,cursor,mess,candid,role)
+			print("1")
+		except:
+			conn.rollback()
+			print("-1")
+	else:
+		print("-1")
+	conn.close()
