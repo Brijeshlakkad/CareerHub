@@ -45,7 +45,10 @@ $(document).on({
 function get_test_fun(form_id)
 {
 	formid=form_id;
-	$("#getTestModal").modal("toggle");
+	var status=confirm("Alert! your previous will be automatically deleted after getting result from next test.");
+	if(status==true)
+		$('#ok_get_test').click();
+	else{}
 }
 $("#ok_get_test").click(function(){
 	

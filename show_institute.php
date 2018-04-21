@@ -152,12 +152,12 @@ if($role_type=="Request_accepted")
 </div>
 <div class="modal fade" id="errorModal" role="dialog">
     <div class="modal-dialog">
-      <div class="modal-content alert alert-danger alert-dismissable fade in">
+     	<div class="modal-content alert alert-danger alert-dismissable fade in">
         <div class="modal-body">
         <div><a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>try again!</div>
 		</div>
-	</div>
- </div> 
+		</div>
+ 	</div> 
 </div>
 <div class="please_wait_modal"></div>
 <script>

@@ -30,6 +30,7 @@ def reload_certificate(c_id):
 			solved=row['Attained']
 			solved=int(solved)
 			solved_perc=(solved/total_que)*100
+			timedate=row['Updated_time']
 			sql2="SELECT * FROM Tests where ID='%s'"%(testid)
 			try:
 				cursor.execute(sql2)
@@ -38,6 +39,7 @@ def reload_certificate(c_id):
 				course=result_of_test['Course']
 				str_sub=result_of_test['Subjects']
 				postedby=result_of_test['Postedby']
+				
 				if postedby=="-99":
 					postedby="CareerHub"
 				subjects=str_sub.split("|")
@@ -58,9 +60,7 @@ def reload_certificate(c_id):
 				formid="Form%s"%divid
 				process_solved="""<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="%s" aria-valuemin="0" aria-valuemax="100" style="%s">%.2f%%</div></div>"""%(solved_perc,solved_width,solved_perc)
 				process_right="""<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="%s" aria-valuemin="0" aria-valuemax="100" style="%s">%.2f%%</div></div>"""%(right_perc,right_width,right_perc)
-				print("""<br/><div id="%s" class="alert alert-info" style="padding:30px;"><div class="row"><h3><span class="glyphicon glyphicon-certificate"></span> Certificate <small>approved by %s</small></h3></div><div class="row"><div class="col-lg-6"><table class="myTable"><tr><td>Test name</td><td>%s</td></tr><tr><td>Course</td><td>%s</td></tr><tr><td>Subjects</td><td>%s</td></tr></table></div><div class="col-lg-6"><div class="row">Right Questions :%s</div><div class="row">Total attained Questions :%s</div></div></div><br/><div class="row"><form method="post" name="%s" id="%s" action="take_test.php"><input type='hidden' name="test_id" value="%s" /><input type='hidden' name="retest" value="01" /><button type="button" id="get_test_btn" onclick="get_test_fun('%s')" class="btn btn-primary" >Get again!</button></form></div></div><hr/>"""%(divid,postedby,title,course,sub_string,process_right,process_solved,formid,formid,testid,formid))
-				
-				
+				print("""<br/><div id="%s" class="alert alert-info" style="padding:30px;"><div class="row"><div class="col-md-8"><h3><span class="glyphicon glyphicon-certificate"></span> Certificate <small>approved by %s</small></h3></div><div class="col-md-4">%s</div></div><div class="row"><div class="col-lg-6"><table class="myTable"><tr><td>Test name</td><td>%s</td></tr><tr><td>Course</td><td>%s</td></tr><tr><td>Subjects</td><td>%s</td></tr></table></div><div class="col-lg-6"><div class="row">Right Questions :%s</div><div class="row">Total attained Questions :%s</div></div></div><br/><div class="row"><form method="post" name="%s" id="%s" action="take_test.php"><input type='hidden' name="test_id" value="%s" /><input type='hidden' name="retest" value="01" /><button type="button" id="get_test_btn" onclick="get_test_fun('%s')" class="btn btn-primary" >Get again!</button></form></div></div><hr/>"""%(divid,postedby,timedate,title,course,sub_string,process_right,process_solved,formid,formid,testid,formid))
 			except:
 				conn.rollback()
 				print("Server is taking load...")
