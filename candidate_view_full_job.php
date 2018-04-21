@@ -1,7 +1,6 @@
 <?php 
 include_once('functions.php');
 include_once("config.php");
-
 include_once('candidate_details.php');
 check_session();
 get_details_from_candidate();
@@ -39,7 +38,7 @@ if(isset($_POST['jobid']))
             <div class="well" style="background-color:white;margin:auto;max-width:900px;margin-top:25px;margin-bottom:10px;min-height:85vh;box-shadow: 5px 5px 5px #aaaaaa;">
 
             	<p style="font-size:20px;color:#633C2C;margin-top:5px;"><b><?php echo $res1['job_title'];?></b></p><p>
-				by <span style="font-size:17px;color:green;"><?php echo $res1['Bname'];?></p></span>
+				by <a id='inst_profile_link' style='cursor: pointer;' onclick='get_institute_profile("<?php echo $res1['institute_id'];?>")' class='div_link'><b><?php echo $res1['Bname'];?></b></a></p>
 				<hr style="border: 1px solid #7E7675;">
 				<p style="font-size:18px;margin-bottom:20px;"><b><?php echo ucfirst($res1['job/training']); ?> Summary</b></p>
 				
@@ -129,6 +128,11 @@ if(isset($_POST['jobid']))
 ?>
 
 <script type="text/javascript">
+	function get_institute_profile(inst_id)
+	{
+		$("#inst_profile_link").parent().hide().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
+		$("#myForm").submit();
+	}
 	$('#apply').click(function(){
 		
 		$.ajax({

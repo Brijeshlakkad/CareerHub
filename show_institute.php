@@ -39,29 +39,46 @@ if(isset($_POST['inst_id']) && isset($_POST['job_id']) && isset($_POST['role_typ
 		<div class="col-sm-2"></div>
 		<div class="col-sm-3" >
 		<div class="row" style="margin-right: 10px;">
-		<div class="row pull-right" >
 		<?php 
 			if($role_type=="Offer")
 			{
 		?>
+		<div class="row pull-right" >
 		<button class="btn btn-primary offer_status">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
-		<button class="btn btn-primary deny_offer">Deny offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
+		<button class="btn btn-primary deny_offer">Deny offer <span class="glyphicon glyphicon-thumbs-down"></span></button>
+		</div><div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
 		<?php
 			}
 		?>
-		</div><br/><br/>
-		<div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
+		<br/><br/>
+		
 			
 		</div>
 		</div>
 	</div>
   <hr style="border-width: 1px;border-color: rgba(180,180,180,1.00)"/>
 <?php
-if($role_type=="Request_accepted")
+if($role_type=="Request_accepted" || $role_type=="1" )
 			{
 				?>
 <div class="row alert alert-success">
 	<center><h3>Congratulation, You have got this job.</h3></center>
+</div>
+				<?php
+			}
+	else if($role_type=="-99")
+			{
+				?>
+<div class="row alert alert-warning">
+	<center><h3>Pending..</h3></center>
+</div>
+				<?php
+			}
+	else if($role_type=="0")
+			{
+				?>
+<div class="row alert alert-danger">
+	<center><h3>Sorry, Your request has been rejected.</h3></center>
 </div>
 				<?php
 			}
@@ -208,6 +225,20 @@ $(document).ready(function(){
 								$("#accepted_offer").removeClass("btn-primary").addClass("btn-default");
 								$("#accepted_offer").addClass("disabled");
 							}
+						else if(data=="Denied_offer")
+							{
+								$("button.offer_status").hide();
+								$("button.deny_offer").attr("id","deny_offer");
+								$("button.deny_offer").removeClass("btn-primary").addClass("btn-default");
+								$("#deny_offer").addClass("disabled");
+							}
+						else if(data=="-99")
+							{
+								$("button.offer_status").hide();
+								$("button.deny_offer").attr("id","deny_offer");
+								$("button.deny_offer").removeClass("btn-primary").addClass("btn-default");
+								$("#deny_offer").addClass("disabled");
+							}
 					}
 				else
 					{
@@ -226,7 +257,15 @@ $(document).ready(function(){
 					url:'candidate_interface.py',
 					data:"deny_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+job_id,
 					success:function(data){
-						location.reload();
+						if(data==1)
+							{
+								check_status();
+								$("button.offer_status").hide();
+							}
+						else
+							{
+								$("#errorModal").modal("toggle");
+							}
 					}
 		});
 	});
@@ -245,6 +284,7 @@ $(document).ready(function(){
 						if(data==1)
 							{
 								check_status();
+								$("button.deny_offer").hide();
 							}
 						else
 							{

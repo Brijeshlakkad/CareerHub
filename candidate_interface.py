@@ -66,7 +66,7 @@ if form.getvalue('deny_offer') and form.getvalue('inst_id') and form.getvalue('j
 	candid = security.protect_data(form.getvalue('deny_offer'))
 	instid = security.protect_data(form.getvalue('inst_id'))
 	jobid = security.protect_data(form.getvalue('job_id'))
-	role="Offer"
+	role="Denied_offer"
 	accept_offer.deny_offer(candid,instid,jobid,role)
 
 if form.getvalue('check_offer') and form.getvalue('inst_id') and form.getvalue('job_id'):

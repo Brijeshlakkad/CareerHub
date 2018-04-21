@@ -38,7 +38,7 @@ def count_rows(instid,candid,jobid):
 def check_offer_cand(c_id,inst_id,j_id):
 	global cursor,conn
 	connect_to_database()
-	sql="select role from chat where FromUser='%s' and ToUserID='%s' and Text='%s'"%(inst_id,c_id,j_id)
+	sql="select Type,ID,ToUserID,FromUser,Time,Text,role from(select 'chat' as Type,ID,ToUserID,FromUser,Time,Text,role from chat UNION ALL select 'application' as Type,application_id,candidate_id,institute_id,apply_datetime,job_id,status_bit from applications) as Messages where FromUser='%s' and ToUserID='%s' and Text='%s'"%(inst_id,c_id,j_id)
 	try:
 		cursor.execute(sql)
 		result=cursor.rowcount
@@ -79,7 +79,7 @@ def deny_offer(candid,instid,jobid,role):
 	num=count_rows(instid,candid,jobid)
 	num=int(num)
 	if num==1:
-		sql="delete from chat where role='%s' and FromUser='%s' and ToUserID='%s' and Text='%s'"%(role,instid,candid,jobid)
+		sql="Update chat SET role='%s' where FromUser='%s' and ToUserID='%s' and Text='%s'"%(role,instid,candid,jobid)
 		try:
 			cursor.execute(sql)
 			conn.commit()
