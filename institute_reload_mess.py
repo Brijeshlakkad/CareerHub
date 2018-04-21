@@ -13,7 +13,7 @@ def connect_to_database():
 def reload_all(inst_id,role_div):
 	global cursor,conn
 	connect_to_database()
-	sql="Select * from chat where %s ORDER BY Time ASC"%(role_div)
+	sql="Select * from chat where %s ORDER BY Time DESC"%(role_div)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -77,7 +77,7 @@ def reload_all(inst_id,role_div):
 						job_name = row_job['job_title']
 						print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;">
 						<div class="row" style=""><div class="col-md-9"></div><div class="col-md-3 pull-right">%s</div></div>
-						<div class="row"><div class="col-md-9"><div class="media"><div class="media-left"><img class="img-circle" style="height:60px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4>Job <span class='job_id' id='%s'><b>%s</b></span> offer sent to <a class="btn"  id="show_candidate_link" class="div_link" onclick='get_candidate_profile("%s","%s")'><span id='%s' class='cand_id'><h4><b>%s</b></h4></span></a></h4></div></div></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div></div><br/>"""%(time,filename,job_id,job_name,cand_id,job_id,cand_id,cand_name,divid))
+						<div class="row"><div class="col-md-9"><div class="media"><div class="media-left"><img class="img-circle" style="height:60px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><h4>Job <span class='job_id' id='%s'><b>%s</b> offer sent to <span style='cursor:pointer;' class="show_candidate_link"><span id='%s' class='cand_id'><b>%s</b></span></span></span></h4></div></div></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div></div><br/>"""%(time,filename,job_id,job_name,cand_id,cand_name,divid))
 					except:
 						print("Try again !")
 				except:
@@ -85,8 +85,13 @@ def reload_all(inst_id,role_div):
 			else:
 				fromuser=row["FromUser"]
 				text=row['Text']
-				print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4>Verification <span class="glyphicon glyphicon-ok-sign" style="color:green;"><span></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
-					<div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s"  class="alert-dismissable fade in"><strong>%s </strong> : %s </div></div><div class="col-md-3 pull-right">%s</div></div></div><br/>"""%(divid,divid,fromuser,text,time))
+				if fromuser=="Admin":
+					if text=="verified":
+						print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4>Verification <span class="glyphicon glyphicon-ok-sign" style="color:green;"><span></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
+				<div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s"  class="alert-dismissable fade in"><strong>%s </strong> : Hurray!!Your profile is varified successfully.</div></div><div class="col-md-3 pull-right">%s</div></div></div><br/>"""%(divid,divid,fromuser,time))
+					elif text=="rejected":
+						print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4>Verification <span class="glyphicon glyphicon-remove" style="color:red;"><span></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
+				<div class="row" style="margin-bottom:20px;"><div class="col-md-9"><div id="%s"  class="alert-dismissable fade in"><strong>%s </strong> : We are sorry!!Your profile is rejected.</div></div><div class="col-md-3 pull-right">%s</div></div></div><br/>"""%(divid,divid,fromuser,time))
 	except:
 		conn.rollback()
 		print("Try again !")

@@ -8,6 +8,7 @@ import candidate_reload_history
 import candidate_reload_certificate
 import accept_offer
 import security
+import update_filter_certificate
 print("Content-type:text/html;Content-type: image/jpeg\r\n\r\n")
 
 form = cgi.FieldStorage()	
@@ -75,4 +76,12 @@ if form.getvalue('check_offer') and form.getvalue('inst_id') and form.getvalue('
 	jobid = security.protect_data(form.getvalue('job_id'))
 	status=accept_offer.check_offer_cand(candid,instid,jobid)
 	print("%s"%status)
+
+if form.getvalue('skills[]') and form.getvalue('cand_id'):
+	skills_arr = form.getvalue('skills[]')
+	candid = security.protect_data(form.getvalue('cand_id'))
+	update_filter_certificate.update_filter_panel(skills_arr,candid)
+	
+if form.getvalue('cand_random_test'):
+	candid = security.protect_data(form.getvalue('cand_random_test'))
 	

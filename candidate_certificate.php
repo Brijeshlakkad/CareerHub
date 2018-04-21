@@ -99,7 +99,11 @@ get_details_from_candidate();
   </div>
 <div class="container-fluid well">
 	<div class="row" id="filter_panel" style="margin:10px;padding: 50px;">
-                
+    <div class="row" align="center" style="margin-top: 80px;">
+	<div id="no_found"><img src="Images/not-found2.png" width="100px" alt="no found" /></div>
+	<br/>
+	<div style="color:gray;">Please select your skills to proceed...</div>
+	</div>
 	</div>
 </div>
 <div class="please_wait_modal"></div>
@@ -108,12 +112,13 @@ $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
-	
+
 	var myApp = angular.module("myapp", []);
 	myApp.controller("BrijController", function($scope,$http) {
 	
 	});
 	$(document).ready(function(){
+		
 		var skillarr;
 		$("#add_skills_to_filter").click(function()
 		{
@@ -124,15 +129,16 @@ $(document).on({
 				}
 			else
 				{
-					$("#mySkills").modal('toggle');
+					$("#status_skills").empty();
+					$("#mySkills .close").click();
 					update_filter_certificate(skillarr);
 				}
 		});
 		var update_filter_certificate = function(skills){
-			candid="<?php echo $login_email; ?>";
+			var candid="<?php echo $login_email; ?>";
 			$.ajax({
 				type: 'POST', 
-				url: 'update_filter_certificate.py',
+				url: 'candidate_interface.py',
 				data: skills+"&cand_id="+candid,
 				success  : function (data)
 				{
@@ -141,10 +147,11 @@ $(document).on({
 							$("#filter_panel").html(data);
 						}
 					else
-						$("#status_skills").html("<span style='color:red;'>Error! Try agian..</span>");
+						$("#status_skills").html("<span style='color:red;'>Error! Try again..</span>");
 				}
 			});
 		};
+		/*update_filter_certificate("skills%5B%5D=random");*/
 	});
 </script>
 </body>

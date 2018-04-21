@@ -3,18 +3,11 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-print("Content-type:text/html\r\n\r\n")
-
-
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+import candidate_details
+import config
 
 def update_filter_panel(skillarr1,candid):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	skillarr=list()
 	if type(skillarr1) is str:
 		skillarr.append(skillarr1)
@@ -47,6 +40,8 @@ def update_filter_panel(skillarr1,candid):
 								results_num=cursor.rowcount
 								if results_num==0 and testid not in arr_id:
 									arr_id.append(testid)
+								else:
+									flag-=1
 							except:
 								conn.rollback()
 								print("-1")
@@ -54,7 +49,11 @@ def update_filter_panel(skillarr1,candid):
 							conn.rollback()
 							print("-1")
 		if flag==0:
-			print("-1")
+			print("""<div class="row" align="center" style="margin-top: 80px;">
+	<div id="no_found"><img src="Images/not-found2.png" width="100px" alt="no found" /></div>
+	<br/>
+	<div style="color:gray;">No found(0)</div>
+	</div>""")
 		else:
 			for i in arr_id:
 				sql3="SELECT * FROM Tests where ID='%s'"%(i)
@@ -84,9 +83,13 @@ def update_filter_panel(skillarr1,candid):
 		conn.rollback()
 		print("-1")
 	conn.close()
-
-form = cgi.FieldStorage()
-if form.getvalue('skills[]') and form.getvalue('cand_id'):
-	skills_arr = form.getvalue('skills[]')
-	candid = form.getvalue('cand_id')
-	update_filter_panel(skills_arr,candid)
+	
+def update_filter_random(candid):
+	conn,cursor=config.connect_to_database()
+	try:
+		obj=candidate_details.candidate()
+		obj.candidate_details(conn,cursor,candid)
+		quali=obj.quali_arr
+		print("dd")
+	except:
+		print("Server is taking load!!")

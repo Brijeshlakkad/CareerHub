@@ -4,15 +4,10 @@ import sys
 import os
 import MySQLdb
 import accept_offer
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+import config
 
 def reload_history(c_id1):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM History where UserID='%s' ORDER BY Time DESC"%(c_id1)
 	try:
 		cursor.execute(sql)
@@ -25,11 +20,11 @@ def reload_history(c_id1):
 			role=row['role']
 			if role=="Accepted":
 				inst_name=accept_offer.get_institute(conn,cursor,field)
-				field_link="""<a id='inst_profile_link' onclick="get_institute_profile(%s)" class='div_link'>%s</a>"""%(field,inst_name)
+				field_link="""<a id='inst_profile_link' style="cursor:pointer;" onclick="get_institute_profile(%s)" class='div_link'>%s</a>"""%(field,inst_name)
 				fdiv="You have <strong>acccepted offer from %s</strong> at %s"%(field_link,datetime)
 			elif role=="Deny_offer":
 				inst_name=accept_offer.get_institute(conn,cursor,field)
-				field_link="""<a id='inst_profile_link' onclick="get_institute_profile(%s)" class='div_link'>%s</a>"""%(field,inst_name)
+				field_link="""<a id='inst_profile_link' style="cursor:pointer;" onclick="get_institute_profile(%s)" class='div_link'>%s</a>"""%(field,inst_name)
 				fdiv="You have <strong>denied offer from %s</strong> at %s"%(field_link,datetime)
 			else:
 				fdiv="You have updated <strong> %s</strong> at %s"%(field,datetime)
@@ -40,8 +35,7 @@ def reload_history(c_id1):
 	conn.close()
 
 def delete_history(c_id1):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	c_id1=int(c_id1)
 	sql="DELETE FROM History where ID='%s'"%(c_id1)
 	try:
@@ -54,8 +48,7 @@ def delete_history(c_id1):
 	conn.close()
 
 def delete_all_history(c_id1):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="DELETE FROM History where UserID='%s'"%(c_id1)
 	try:
 		cursor.execute(sql)
@@ -67,8 +60,7 @@ def delete_all_history(c_id1):
 	conn.close()
 	
 def history_total_count(c_id1):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM History where UserID='%s'"%(c_id1)
 	try:
 		cursor.execute(sql)

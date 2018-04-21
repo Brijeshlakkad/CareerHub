@@ -3,16 +3,10 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+import config
 
 def reload_certificate(c_id):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM Results where CandID='%s' ORDER BY Updated_Time DESC"%(c_id)
 	try:
 		cursor.execute(sql)
@@ -70,8 +64,7 @@ def reload_certificate(c_id):
 	conn.close()
 
 def delete_history(c_id1):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="DELETE FROM History where ID='%s'"%(c_id1)
 	try:
 		cursor.execute(sql)
@@ -81,8 +74,7 @@ def delete_history(c_id1):
 	conn.close()
 
 def delete_all_history(c_id1):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="DELETE FROM History where UserID='%s'"%(c_id1)
 	try:
 		cursor.execute(sql)
@@ -92,8 +84,7 @@ def delete_all_history(c_id1):
 	conn.close()
 	
 def certificate_total_count(c_id):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM Results where CandID='%s'"%(c_id)
 	try:
 		cursor.execute(sql)
