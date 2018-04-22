@@ -5,7 +5,7 @@ import os
 import MySQLdb
 import candidate_details
 import config
-
+import no_found
 def update_filter_panel(skillarr1,candid):
 	conn,cursor=config.connect_to_database()
 	skillarr=list()
@@ -49,11 +49,7 @@ def update_filter_panel(skillarr1,candid):
 							conn.rollback()
 							print("-1")
 		if flag==0:
-			print("""<div class="row" align="center" style="margin-top: 80px;">
-	<div id="no_found"><img src="Images/not-found2.png" width="100px" alt="no found" /></div>
-	<br/>
-	<div style="color:gray;">No found(0)</div>
-	</div>""")
+			no_found.no_found()
 		else:
 			for i in arr_id:
 				sql3="SELECT * FROM Tests where ID='%s'"%(i)

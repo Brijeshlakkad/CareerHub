@@ -6,7 +6,7 @@ import MySQLdb
 import config
 
 class candidate:
-	global cand_id,cand_name,cand_image,cand_email,cand_contact,filename,cand_image,quali_str,quali_arr
+	global cand_id,cand_name,cand_image,cand_email,cand_contact,filename,quali_str,quali_arr
 	def candidate_details(self,conn,cursor,cand_id):
 		sql_cand="SELECT * FROM Candidates where ID='%s'"%(cand_id)
 		try:
@@ -19,8 +19,6 @@ class candidate:
 			self.cand_contact=row_inst['Phone']
 			self.quali_str=row_inst['Quali']
 			self.quali_arr=self.quali_str.split(",/,")
-			for i in self.quali_arr:
-				print("%s"%i)
 			if not os.path.exists("cand_images"):
 				os.makedirs("cand_images")
 			self.filename = "cand_images/%s.jpeg"%self.cand_name

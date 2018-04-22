@@ -3,16 +3,10 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+import config
 
 def reload_cand_certificates(c_id):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	numrow=certificate_total_count(cursor,conn,c_id)
 	if numrow>0:
 		sql="SELECT * FROM Results where CandID='%s' ORDER BY Updated_Time DESC"%(c_id)

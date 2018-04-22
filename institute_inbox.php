@@ -46,10 +46,6 @@ $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
-function get_candidate_profile(cand_id,job_id){
-	$("#chatOutput").append("<form method='post' id='myForm_cand' action='institute_get_cand.php'><input type='hidden' name='cand_id' value='"+cand_id+"' /><input type='hidden' name='job_id' value='"+job_id+"' /></form>");
-	$("#myForm_cand").submit();
-}
 var delete_mes=function(pid)
 	{
 			$.ajax({
