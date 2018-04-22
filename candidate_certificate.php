@@ -35,6 +35,7 @@ get_details_from_candidate();
     transform: scale(1.01);
 }
 </style>
+
 <nav class="navbar navbar-default" ng-app="myapp" ng-controller="BrijController" >
   <div class="container-fluid">
     <div id="test_filter" class="row" style="padding-top: 10px;">
@@ -119,7 +120,7 @@ $(document).on({
 	});
 	$(document).ready(function(){
 		
-		var skillarr;
+		var skillarr="random_tests";
 		$("#add_skills_to_filter").click(function()
 		{
 			skillarr= $('input[name="skills[]"]').serialize();
@@ -136,6 +137,11 @@ $(document).on({
 		});
 		var update_filter_certificate = function(skills){
 			var candid="<?php echo $login_email; ?>";
+			if(skills=="random_tests")
+				{
+					skills="random_tests="+candid;
+					skills=skills.toString();
+				}
 			$.ajax({
 				type: 'POST', 
 				url: 'candidate_interface.py',
@@ -151,7 +157,7 @@ $(document).on({
 				}
 			});
 		};
-		/*update_filter_certificate("skills%5B%5D=random");*/
+		update_filter_certificate("random_tests");
 	});
 </script>
 </body>
