@@ -15,7 +15,7 @@ def reload_all(inst_id,role_div):
 		results = cursor.fetchall()
 		rownum=cursor.rowcount
 		if rownum==0:
-			no_found.no_found()
+			no_found.no_found("No found(0)")
 		else:
 			for row in results:
 				role=row['role']

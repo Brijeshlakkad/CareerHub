@@ -4,7 +4,7 @@ import sys
 import os
 import MySQLdb
 import config
-
+import no_found
 def reload_cand_certificates(c_id):
 	conn,cursor=config.connect_to_database()
 	numrow=certificate_total_count(cursor,conn,c_id)
@@ -65,11 +65,7 @@ def reload_cand_certificates(c_id):
 			print("Server is taking load...")
 		conn.close()
 	else:
-		print("""<div class="row" align="center" style="margin-top: 80px;">
-	<div id="no_found"><img src="Images/not-found2.png" width="100px" alt="no found" /></div>
-	<br/>
-	<div style="color:gray;">Ceritificates(0)</div>
-	</div>""")
+		no_found.no_found("Certificates(0)")
 		
 	
 def certificate_total_count(cursor,conn,c_id):
