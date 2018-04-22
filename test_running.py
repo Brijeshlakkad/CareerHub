@@ -3,19 +3,9 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-import security
-print("Content-type:text/html\r\n\r\n")
-cgitb.enable(display=0, logdir="/path/to/logdir")
-
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-
+import config
 def que_reload(testid,cu_id):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Select * FROM Questions where TestID='%s'"%(testid)
 	try:
 		cursor.execute(sql)
@@ -37,18 +27,21 @@ def que_reload(testid,cu_id):
 			ans2="name='%s' value='2'"%(divid)
 			ans3="name='%s' value='3'"%(divid)
 			ans4="name='%s' value='4'"%(divid)
-			print("""<div id="%s" class="panel-body"><div id='question'>%s. %s</div><div id='mcqs' class="form-group"><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div id="%s"></div></div></div>"""%(que_id,i,que,ans1,a1,ans2,a2,ans3,a3,ans4,a4,error))
+			print("""<div id="%s" class="panel-body" style="line-height:30px;"><div id='question'>%s. <strong>%s</strong></div><div id='mcqs' class="form-group"><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div><input type='radio' %s /> %s</div><div id="%s"></div></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>"""%(que_id,i,que,ans1,a1,ans2,a2,ans3,a3,ans4,a4,error))
 		print("""<div id="controls"><button class="btn btn-sm btn-primary" type="button" onclick="check_answers()">Submit</button></div>""")
 	except:
 		conn.rollback()
 		print("-1")
 	conn.close()
-	
-	
-form = cgi.FieldStorage()
-if form.getvalue('que_reload') and form.getvalue('current_id'):
-	testid = form.getvalue('que_reload')
-	current_id = form.getvalue('current_id')
-	testid=security.protect_data(testid)
-	current_id=security.protect_data(current_id)
-	que_reload(testid,current_id)
+def delete_visited_test(running_testid):
+	conn,cursor=config.connect_to_database()
+	sql="delete from visited_test where TestID='%s'"%running_testid
+	cursor.execute(sql)
+	try:
+		cursor.execute(sql)
+		conn.commit()
+		print("11")
+	except:
+		conn.rollback()
+		print("00")
+	conn.close()

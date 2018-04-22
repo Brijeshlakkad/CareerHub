@@ -9,7 +9,9 @@ import candidate_reload_certificate
 import accept_offer
 import security
 import update_filter_certificate
+import test_running
 print("Content-type:text/html;Content-type: image/jpeg\r\n\r\n")
+cgitb.enable(display=0, logdir="/path/to/logdir")
 
 form = cgi.FieldStorage()	
 if form.getvalue('hist_reload'):
@@ -84,4 +86,12 @@ if form.getvalue('skills[]') and form.getvalue('cand_id'):
 	
 if form.getvalue('cand_random_test'):
 	candid = security.protect_data(form.getvalue('cand_random_test'))
+
+if form.getvalue('que_reload') and form.getvalue('current_id'):
+	testid = security.protect_data(form.getvalue('que_reload'))
+	current_id = security.protect_data(form.getvalue('current_id'))
+	test_running.que_reload(testid,current_id)
 	
+if form.getvalue('delete_visited_test'):
+	running_testid = security.protect_data(form.getvalue('delete_visited_test'))
+	test_running.delete_visited_test(running_testid)

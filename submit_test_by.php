@@ -4,6 +4,16 @@ include_once("config.php");
 include_once('index_header.php');
 include_once('candidate_details.php');
 check_session();
+function delete_visited_test($candid,$testid)
+{
+	global $con;
+	$sql="delete from visited_test where TestID='$testid' and CandID='$candid'";
+	$result=mysqli_query($con,$sql);
+	if($result)
+		return "11";
+	else
+		return "00";
+}
 function save_result_to_database($testid,$right,$attained,$total,$duration)
 {
 	global $login_email,$con;
@@ -16,7 +26,8 @@ function save_result_to_database($testid,$right,$attained,$total,$duration)
 		$result2=mysqli_query($con,$sql2);
 		if($result2)
 		{
-			return "11";
+			$status=delete_visited_test($login_email,$testid);
+			return $status;
 		}
 		else
 		{
@@ -29,7 +40,8 @@ function save_result_to_database($testid,$right,$attained,$total,$duration)
 		$result2=mysqli_query($con,$sql2);
 		if($result2)
 		{
-			return "11";
+			$status=delete_visited_test($login_email,$testid);
+			return $status;
 		}
 		else
 		{

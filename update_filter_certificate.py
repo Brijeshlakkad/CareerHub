@@ -21,6 +21,8 @@ def update_filter_panel(skillarr1,candid):
 		flag=0
 		for row in results:
 			subjects=row['Subjects']
+			num_que=row['Total_num']
+			num_que=int(num_que)
 			subarr=subjects.split("|")
 			for i in subarr:
 				i=i.strip()
@@ -38,7 +40,7 @@ def update_filter_panel(skillarr1,candid):
 							try:
 								cursor.execute(sql3)
 								results_num=cursor.rowcount
-								if results_num==0 and testid not in arr_id:
+								if results_num==0 and testid not in arr_id and num_que!=0:
 									arr_id.append(testid)
 								else:
 									flag-=1

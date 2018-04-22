@@ -51,38 +51,31 @@ if(isset($_POST['test_id']))
 			<div class="row">
 			<div class="test_header col-lg-8" id="<?php echo $testid; ?>"><h3><?php echo $title; ?></h3>
 			</div>
-			<div class="col-lg-4 pull-right"><?php 
-		if($res_y=="0"){
-			?>
-			<button class="btn btn-primary" onClick="start_time()" id="start_test" >Start Test</button>
-			<?php
-		}
-			?></div>
-			</div>
-			<div class="row" id="info_about_test" style="padding: 10px;">
-			<br/>
-			<div class="header"><label>Information : </label></div>
-			<table class="myTable table table-hover">
-			<tr>
-				<td>Total Questions</td>
-				<td><?php echo $total_que; ?></td>
-			</tr>
-			<tr>
-				<td>Course</td>
-				<td><?php echo $course; ?></td>
-			</tr>
-			<tr>
-				<td>Subjects</td>
-				<td><?php echo $str_sub; ?></td>
-			</tr>
-			</table>
+			
 			</div>
 			<div class="row" id="taken_test_panel">
 			<div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
 				<form name="myForm" method="post" action="submit_test_by.php">
 					<input type="hidden" name="test_id" value="<?php echo $testid; ?>"/>
 					<div class="questions_of_test" id="-99">
-						
+						<div class="row" id="info_about_test" style="padding: 10px;">
+						<br/>
+						<div class="header"><label>Information : </label></div>
+						<table class="myTable table table-hover">
+						<tr>
+							<td>Total Questions</td>
+							<td><?php echo $total_que; ?></td>
+						</tr>
+						<tr>
+							<td>Course</td>
+							<td><?php echo $course; ?></td>
+						</tr>
+						<tr>
+							<td>Subjects</td>
+							<td><?php echo $str_sub; ?></td>
+						</tr>
+						</table>
+						</div>
 					</div>
 					
 					<div id="status_test">
@@ -116,15 +109,24 @@ if(isset($_POST['test_id']))
 					</span>
 				</span>
 			</div>
+			<br/>
+			
+			<div class="pull-right">
+			<?php 
+		if($res_y=="0"){
+			?>
+			<button class="btn btn-primary" onClick="start_time()" id="start_test" >Start Test</button>
+			<?php
+		}
+			?></div>
 		</div>
 	</div>
 </div>
 <script>
-var test_started="<?php echo $test_started; ?>";
-if(test_started=="1")
+var test_started="<?php echo $res_y; ?>";
+if(test_started!="0")
 {
-	alert(""+test_started);
-	start_time();
+	$("countdown").show();
 }
 function check_answers()
 	{
@@ -139,14 +141,33 @@ function check_answers()
 				
 			}
 	}
-
+function delete_visited_test()
+{
+	var testid=$("div.test_header").attr('id');
+		$.ajax({
+				type: 'POST', 
+				url: 'candidate_interface.py',
+				data: 'delete_visited_test='+testid,
+				success  : function (data)
+				{
+					if(data==11)
+						{
+							
+						}
+					else
+						{
+							
+						}
+				}
+				});
+}
 var queOutput = $("div.questions_of_test");
 var retrieveQuestions=function() {
 			var testid=$("div.test_header").attr('id');
 			var currentid=$("div.questions_of_test").attr('id');
 			$.ajax({
 				type: 'POST', 
-				url: 'test_running.py',
+				url: 'candidate_interface.py',
 				data: 'que_reload='+testid+"&current_id="+currentid,
 				success  : function (data)
 				{
@@ -157,6 +178,7 @@ var retrieveQuestions=function() {
 		
 $("#start_test").click(function(){
 	retrieveQuestions();
+	$("#countdown").show();
 });
 var dur_time="<?php echo $left_dur; ?>";
 function startTimer(duration, display1, display2, display3) {

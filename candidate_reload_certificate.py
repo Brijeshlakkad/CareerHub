@@ -63,26 +63,6 @@ def reload_certificate(c_id):
 		print("Server is taking load...")
 	conn.close()
 
-def delete_history(c_id1):
-	conn,cursor=config.connect_to_database()
-	sql="DELETE FROM History where ID='%s'"%(c_id1)
-	try:
-		cursor.execute(sql)
-		conn.commit()
-	except:
-		conn.rollback()
-	conn.close()
-
-def delete_all_history(c_id1):
-	conn,cursor=config.connect_to_database()
-	sql="DELETE FROM History where UserID='%s'"%(c_id1)
-	try:
-		cursor.execute(sql)
-		conn.commit()
-	except:
-		conn.rollback()
-	conn.close()
-	
 def certificate_total_count(c_id):
 	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM Results where CandID='%s'"%(c_id)
