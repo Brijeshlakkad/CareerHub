@@ -39,7 +39,7 @@ get_details_from_institute();
   <a href="institute_manage_jobs.php" class="w3-bar-item w3-button">Manage Jobs</a>
   <a href="institute_view_applications.php" class="w3-bar-item w3-button">View applications</a>
   <a href="search_candidate.php" class="w3-bar-item w3-button">Search Candidates</a>
-  <a href="#" class="w3-bar-item w3-button">Track Profile Visits</a>
+  <a href="institute_profile_visit.php" class="w3-bar-item w3-button">Track Profile Visits</a>
   <a href="institute_inbox.php" class="w3-bar-item w3-button">Inbox</a>
   <a href="institute_history.php" class="w3-bar-item w3-button">Activity Logs <span class="badge" id="hist_show_total"></span></a>
 </div>

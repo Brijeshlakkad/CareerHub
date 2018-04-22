@@ -10,6 +10,8 @@ import accept_offer
 import security
 import update_filter_certificate
 import test_running
+import add_profile_visit
+
 print("Content-type:text/html;Content-type: image/jpeg\r\n\r\n")
 cgitb.enable(display=0, logdir="/path/to/logdir")
 
@@ -97,3 +99,8 @@ if form.getvalue('que_reload') and form.getvalue('current_id'):
 if form.getvalue('delete_visited_test'):
 	running_testid = security.protect_data(form.getvalue('delete_visited_test'))
 	test_running.delete_visited_test(running_testid)
+
+if form.getvalue('visitor_id') and form.getvalue('profile_id'):
+	visitor_id = security.protect_data(form.getvalue('visitor_id'))
+	profile_id = security.protect_data(form.getvalue('profile_id'))
+	add_profile_visit.add_visitor(visitor_id,profile_id)

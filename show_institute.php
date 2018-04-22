@@ -171,7 +171,7 @@ if($role_type=="Request_accepted" || $role_type=="1" )
     <div class="modal-dialog">
      	<div class="modal-content alert alert-danger alert-dismissable fade in">
         <div class="modal-body">
-        <div><a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>try again!</div>
+        <div><a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>Server is taking too load..</div>
 		</div>
 		</div>
  	</div> 
@@ -185,8 +185,25 @@ $(document).on({
 });
 function get_institute_profile(inst_id)
 {
-	$("#inst_profile_link").parent().hide().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
-	$("#myForm").submit();
+	var cand_id="<?php echo $login_id; ?>";
+	$.ajax({
+		type:"POST",
+		url:"candidate_interface.py",
+		data:"visitor_id="+cand_id+"&profile_id="+inst_id,
+		success:function(data)
+		{
+			if(data==11)
+				{
+					$("#inst_profile_link").parent().hide().append("<form method='post' id='myForm' action='show_institute_profile.php'><input type='hidden' name='inst_id' value='"+inst_id+"' /></form>");
+					$("#myForm").submit();
+				}
+			else
+				{
+					$("#errorModal").modal("toggle");
+				}
+		}
+	});
+	
 }
 </script>
 <?php
