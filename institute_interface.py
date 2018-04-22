@@ -7,6 +7,7 @@ import institute_reload_mess
 import institute_reload_history
 import inst_get_cand_certificates
 import security
+import send_offer
 print("Content-type:text/html\r\n\r\n")
 
 form = cgi.FieldStorage()	
@@ -49,3 +50,25 @@ if form.getvalue('load_inbox') and form.getvalue('mess_total'):
 if form.getvalue('get_cand_certificates'):
 	cand_id = security.protect_data(form.getvalue('get_cand_certificates'))
 	inst_get_cand_certificates.reload_cand_certificates(cand_id)
+
+if form.getvalue('send_offer') and form.getvalue('inst_id') and form.getvalue('job_id'):
+	c_id = security.protect_data(form.getvalue('send_offer'))
+	inst_id=security.protect_data(form.getvalue('inst_id'))
+	j_id=security.protect_data(form.getvalue('job_id'))
+	role="Offer"
+	send_offer.send_offer_cand(c_id,inst_id,j_id,role)
+	
+if form.getvalue('delete_offer') and form.getvalue('inst_id') and form.getvalue('job_id'):
+	c_id = security.protect_data(form.getvalue('delete_offer'))
+	inst_id=security.protect_data(form.getvalue('inst_id'))
+	j_id=security.protect_data(form.getvalue('job_id'))
+	role="Offer"
+	send_offer.delete_offer_cand(c_id,inst_id,j_id,role)
+	
+if form.getvalue('check_offer') and form.getvalue('inst_id') and form.getvalue('job_id'):
+	c_id = security.protect_data(form.getvalue('check_offer'))
+	inst_id=security.protect_data(form.getvalue('inst_id'))
+	j_id=security.protect_data(form.getvalue('job_id'))
+	status=send_offer.check_offer_cand(c_id,inst_id,j_id)
+	status=security.protect_data(status)
+	print("%s"%status)

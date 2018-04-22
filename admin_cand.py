@@ -6,11 +6,6 @@ import threading
 import admin_varify_cand
 import MySQLdb
 import admin_send_mess_cand
-print("Content-type:text/html\r\n\r\n")
-status=""
-def replay(re):
-	global status
-	status=re
 	
 class myThread (threading.Thread):
 	def __init__(self, threadID, name, c_id, flag):
@@ -48,4 +43,3 @@ thread1.start()
 thread1.join()
 thread2.start()
 thread2.join()
-print(status)

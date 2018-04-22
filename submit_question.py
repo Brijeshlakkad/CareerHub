@@ -3,16 +3,10 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+import config
 
 def add_question(testid,que,a1,a2,a3,a4,ans):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	testid=int(testid)
 	sql="Insert into Questions(Question,A1,A2,A3,A4,TestID,Ans) values('%s','%s','%s','%s','%s','%s','%s')"%(que,a1,a2,a3,a4,testid,ans)
 	try:
@@ -43,8 +37,7 @@ def add_question(testid,que,a1,a2,a3,a4,ans):
 	conn.close()
 
 def update_question(queid,que,a1,a2,a3,a4,ans):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Update Questions SET Question='%s',A1='%s',A2='%s',A3='%s',A4='%s',Ans='%s' where ID='%s'"%(que,a1,a2,a3,a4,ans,queid)
 	try:
 		cursor.execute(sql)
@@ -57,8 +50,7 @@ def update_question(queid,que,a1,a2,a3,a4,ans):
 
 
 def show_questions(testid):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Select * FROM Questions where TestID='%s'"%(testid)
 	try:
 		cursor.execute(sql)
@@ -75,8 +67,7 @@ def show_questions(testid):
 	conn.close()
 
 def remove_questions_of_test(testid):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Delete from Questions where TestID='%s'"%(testid)
 	try:
 		cursor.execute(sql)
@@ -88,8 +79,7 @@ def remove_questions_of_test(testid):
 	conn.close()
 
 def remove_question(queid,testid):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Delete from Questions where ID='%s'"%(queid)
 	try:
 		cursor.execute(sql)
@@ -117,8 +107,7 @@ def remove_question(queid,testid):
 	conn.close()
 
 def total_que_num(testid):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Select Total_num From Tests where ID='%s'"%(testid)
 	try:
 		cursor.execute(sql)

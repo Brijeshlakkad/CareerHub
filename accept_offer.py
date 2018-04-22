@@ -5,26 +5,10 @@ import os
 import MySQLdb
 import security
 import save_history
-cgitb.enable(display=0, logdir="/path/to/logdir")
-
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-	
-def get_institute(conn,cursor,instid):
-	sql="select * from institutes where ID='%s'"%(instid)
-	try:
-		cursor.execute(sql)
-		result=cursor.fetchone()
-		return result['Bname']
-	except:
-		conn.rollback()
+import config
 			
 def count_rows(instid,candid,jobid):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="select * from chat where FromUser='%s' and ToUserID='%s' and Text='%s'"%(instid,candid,jobid)
 	try:
 		cursor.execute(sql)
@@ -36,8 +20,7 @@ def count_rows(instid,candid,jobid):
 	conn.close()
 
 def check_offer_cand(c_id,inst_id,j_id):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="select Type,ID,ToUserID,FromUser,Time,Text,role from(select 'chat' as Type,ID,ToUserID,FromUser,Time,Text,role from chat UNION ALL select 'application' as Type,application_id,candidate_id,institute_id,apply_datetime,job_id,status_bit from applications) as Messages where FromUser='%s' and ToUserID='%s' and Text='%s'"%(inst_id,c_id,j_id)
 	try:
 		cursor.execute(sql)
@@ -54,8 +37,7 @@ def check_offer_cand(c_id,inst_id,j_id):
 	conn.close()
 
 def accept_offer(candid,instid,jobid,role):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	num=count_rows(instid,candid,jobid)
 	num=int(num)
 	if num==1:
@@ -74,8 +56,7 @@ def accept_offer(candid,instid,jobid,role):
 	conn.close()
 	
 def deny_offer(candid,instid,jobid,role):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	num=count_rows(instid,candid,jobid)
 	num=int(num)
 	if num==1:

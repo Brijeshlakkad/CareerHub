@@ -334,7 +334,7 @@ $(document).ready(function(){
 	var check_status=function(){
 		$.ajax({
 			type: 'POST',
-			url:"send_offer.py",
+			url:"institute_interface.py",
 			data:"check_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+j_id,
 			success:function(data){
 				if(data!="-1x")
@@ -371,7 +371,7 @@ $(document).ready(function(){
 			{
 				$.ajax({
 					type: 'POST',
-					url:"send_offer.py",
+					url:"institute_interface.py",
 					data:"delete_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+j_id,
 					success:function(data){
 						if(data==11)
@@ -389,7 +389,7 @@ $(document).ready(function(){
 			{
 				$.ajax({
 					type: 'POST',
-					url:"send_offer.py",
+					url:"institute_interface.py",
 					data:"send_offer="+cand_id+"&inst_id="+inst_id+"&job_id="+j_id,
 					success:function(data){
 						if(data==11)

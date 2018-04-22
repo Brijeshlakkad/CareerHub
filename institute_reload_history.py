@@ -4,20 +4,24 @@ import sys
 import os
 import MySQLdb
 import config
-
+import no_found
 def reload_history(c_id1):
 	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM History where UserID='%s' and role='Institute' ORDER BY Time DESC"%(c_id1)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
-		for row in results:
-			divid=row['ID']
-			time=row["Time"]
-			datetime=time.strftime('%H : %M')
-			field=row['Field']
-			fdiv="You have updated <strong> %s</strong> at %s"%(field,datetime)
-			print("""<div id="%s"  class="alert alert-info alert-dismissable fade in" ><a href="#" onclick='delete_hist("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a> %s </div><br/>"""%(divid,divid,fdiv))
+		rownum=cursor.rowcount
+		if rownum==0:
+			no_found.no_found("History(0)")
+		else:
+			for row in results:
+				divid=row['ID']
+				time=row["Time"]
+				datetime=time.strftime('%H : %M')
+				field=row['Field']
+				fdiv="You have updated <strong> %s</strong> at %s"%(field,datetime)
+				print("""<div id="%s"  class="alert alert-info alert-dismissable fade in" ><a href="#" onclick='delete_hist("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a> %s </div><br/>"""%(divid,divid,fdiv))
 	except:
 		conn.rollback()
 		print("Try again !")

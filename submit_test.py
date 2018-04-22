@@ -3,15 +3,10 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+import config
 
 def add_test(title,parid,course,subjects,duration):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Insert into Tests(Title,Course,Subjects,PostedBy,Duration) values('%s','%s','%s','%s','%s')"%(title,course,subjects,parid,duration)
 	try:
 		cursor.execute(sql)
@@ -32,8 +27,7 @@ def add_test(title,parid,course,subjects,duration):
 	conn.close()
 
 def show_tests(postedby):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Select * FROM Tests where Postedby='%s'"%(postedby)
 	try:
 		cursor.execute(sql)
@@ -61,8 +55,7 @@ def show_tests(postedby):
 	conn.close()
 	
 def update_test(testid,title,course,subjects):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Update Tests SET Title='%s',Course='%s',Subjects='%s' where ID='%s'"%(title,course,subjects,testid)
 	try:
 		cursor.execute(sql)
@@ -74,8 +67,7 @@ def update_test(testid,title,course,subjects):
 	conn.close()
 
 def remove_test(testid):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="Delete from Tests where ID='%s'"%(testid)
 	try:
 		cursor.execute(sql)
@@ -87,8 +79,7 @@ def remove_test(testid):
 	conn.close()
 	
 def total_test_num(postedby):
-	global cursor,conn
-	connect_to_database()
+	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM Tests where Postedby='%s'"%(postedby)
 	try:
 		cursor.execute(sql)

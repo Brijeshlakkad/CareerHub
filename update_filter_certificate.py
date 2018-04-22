@@ -51,7 +51,7 @@ def update_filter_panel(skillarr1,candid):
 							conn.rollback()
 							print("-1")
 		if flag==0:
-			no_found.no_found()
+			no_found.no_found("Tests(0)")
 		else:
 			for i in arr_id:
 				sql3="SELECT * FROM Tests where ID='%s'"%(i)
