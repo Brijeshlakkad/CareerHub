@@ -3,32 +3,11 @@ include_once('functions.php');
 include_once("config.php");
 include_once('candidate_details.php');
 check_session();
-function update_table($c_id,$id,$duration)
-{
-	global $con;
-	$sql="Select * from visited_test where CandId='$c_id' and TestID='$id'";
-	$result=mysqli_query($con,$sql);
-	if($result)
-	{
-		$row=mysqli_fetch_array($result);
-		$attempt=$row['Attempt'];
-		$attempt=intval($attempt);
-		$attempt++;
-		$sql="Update visited_test SET Attempt='$attempt',Left_time='$duration' where CandId='$c_id' and TestID='$id'";
-		$res=mysqli_query($con,$sql);
-		if($res)
-		{
-			return "1";
-		}
-		else
-			return "-1";
-	}
-	
-}
+
 function get_detail_of_test($c_id,$id)
 {
 	global $con;
-	$sql="Select * from visited_test where CandId='$c_id' and TestID='$id'";
+	$sql="Select * from visited_test where CandID='$c_id' and TestID='$id'";
 	$res=mysqli_query($con,$sql);
 	if($res)
 	{
@@ -51,7 +30,7 @@ function add_test_to_table($c_id,$id,$left_dur)
 function find_test($c_id,$id)
 {
 	global $con;
-	$sql="Select * from visited_test where CandId='$c_id' and TestID='$id'";
+	$sql="Select * from visited_test where CandID='$c_id' and TestID='$id'";
 	$res=mysqli_query($con,$sql);
 	$num=mysqli_num_rows($res);
 	if($num==1)
@@ -64,7 +43,7 @@ function find_test($c_id,$id)
 function update_duration($c_id,$id,$dur)
 {
 	global $con;
-	$sql="Update visited_test SET Left_time='$dur' where CandId='$c_id' and TestID='$id'";
+	$sql="Update visited_test SET Left_time='$dur' where CandID='$c_id' and TestID='$id'";
 	$res=mysqli_query($con,$sql);
 	if($res)
 	{

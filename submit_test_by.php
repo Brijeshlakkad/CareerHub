@@ -4,112 +4,30 @@ include_once("config.php");
 include_once('index_header.php');
 include_once('candidate_details.php');
 check_session();
-function delete_visited_test($candid,$testid)
-{
-	global $con;
-	$sql="delete from visited_test where TestID='$testid' and CandID='$candid'";
-	$result=mysqli_query($con,$sql);
-	if($result)
-		return "11";
-	else
-		return "00";
-}
-function save_result_to_database($testid,$right,$attained,$total,$duration)
-{
-	global $login_email,$con;
-	$sql="Select * from Results where CandID='$login_email' AND TestID='$testid'";
-	$result=mysqli_query($con,$sql);
-	$num=mysqli_num_rows($result);
-	if($num==0)
-	{
-		$sql2="Insert into Results(CandID,TestID,Rightt,Attained,Total,Left_time) values('$login_email','$testid','$right','$attained','$total','$duration')";
-		$result2=mysqli_query($con,$sql2);
-		if($result2)
-		{
-			$status=delete_visited_test($login_email,$testid);
-			return $status;
-		}
-		else
-		{
-			return "00";
-		}
-	}
-	else
-	{
-		$sql2="Update Results SET Rightt='$right',Attained='$attained',Left_time='$duration' where CandID='$login_email' and TestID='$testid'";
-		$result2=mysqli_query($con,$sql2);
-		if($result2)
-		{
-			$status=delete_visited_test($login_email,$testid);
-			return $status;
-		}
-		else
-		{
-			return "00";
-		}
-	}
-}
 if(isset($_POST['test_id']))
 {
 	$testid=protect_anything($_POST['test_id']);
-	$sql_for_dur="Select * from Visited_test where CandID='$login_email' AND TestID='$testid'";
-	$result_for_dur=mysqli_query($con,$sql_for_dur);
-	if($result_for_dur)
-	{
-		$row_for_dur=mysqli_fetch_array($result_for_dur);
-		$remained_dur=$row_for_dur['Left_time'];
-	}
-	$sql_for_test="Select * from tests where Id='$testid'";
-	$result_for_test=mysqli_query($con,$sql_for_test);
-	if($result_for_test)
-	{
-		$row_for_test=mysqli_fetch_array($result_for_test);
-		$total_dur=$row_for_test['Duration'];
-	}
-	$duration=$total_dur-$remained_dur;
-	$sql="Select * from Tests where ID='$testid'";
+	$sql_test="select * from Tests where ID='$testid'";
+	$result_test=mysqli_query($con,$sql_test);
+	if(!$result_test)
+		die();
+	$row_test=mysqli_fetch_array($result_test);
+	$title=$row_test['Title'];
+	$sql="select * from Results where TestID='$testid'";
 	$result=mysqli_query($con,$sql);
 	if($result)
 	{
 		$row=mysqli_fetch_array($result);
-		$title=$row['Title'];
-		$total_que=$row['Total_num'];
-		$sql2="Select * from Questions where TestID='$testid'";
-		$result2=mysqli_query($con,$sql2);
-		$right=0;
-		$wrong=0;
-		$attained=0;
-		$remained_que=0;
-		$total=mysqli_num_rows($result2);
-		while($row2=mysqli_fetch_array($result2))
-		{
-			$a=$row2['ID'];
-			if(isset($_POST[''.$a]))
-			{
-				$ans_by=$_POST[''.$a];
-				if($row2['Ans']==$ans_by)
-				{
-					$right++;
-				}
-				else
-				{
-					$wrong++;
-				}
-				$attained++;
-			}
-			else
-			{
-				$remained_que++;
-			}
-			
-		}
-		$xx=save_result_to_database($testid,$right,$attained,$total,$duration);
-		if($xx!="11")
-		{
-			
-		}
-	}
-}
+		$right=$row['Rightt'];
+		$attained=$row['Attained'];
+		$total=$row['Total'];
+		$left_dur=$row['Left_time'];
+		$total_dur=$row['Total_time'];
+		$duration=intval($total_dur-$left_dur);
+		$wrong=$total-$right;
+		$remained_que=$total-$attained;
+		$right=$row['Rightt'];
+	
 ?>
 <div class="container-fluid well">
 	<div class="row">
@@ -139,3 +57,7 @@ if(isset($_POST['test_id']))
 </div>
 </body>
 </html>
+<?php
+		}
+}
+?>

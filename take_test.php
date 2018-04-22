@@ -5,6 +5,128 @@ include_once('index_header.php');
 include_once('candidate_details.php');
 include_once('visit_test.php');
 check_session();
+function delete_visited_test($candid,$testid)
+{
+	global $con;
+	$sql="delete from visited_test where TestID='$testid' and CandID='$candid'";
+	$result=mysqli_query($con,$sql);
+	if($result)
+		return "11";
+	else
+		return "00";
+}
+function save_result_to_database($testid,$right,$attained,$total,$remained,$total_dur)
+{
+	global $login_email,$con;
+	$sql="Select * from Results where CandID='$login_email' AND TestID='$testid'";
+	$result=mysqli_query($con,$sql);
+	$num=mysqli_num_rows($result);
+	if($num==0)
+	{
+		$sql2="Insert into Results(CandID,TestID,Rightt,Attained,Total,Left_time,Total_time,Attempt) values('$login_email','$testid','$right','$attained','$total','$remained','$total_dur','1')";
+		$result2=mysqli_query($con,$sql2);
+		if($result2)
+		{
+			$status=delete_visited_test($login_email,$testid);
+			return $status;
+		}
+		else
+		{
+			return "00";
+		}
+	}
+	else
+	{
+		$row_result=mysqli_fetch_array($result);
+		$attempt=$row_result['Attempt'];
+		$attempt++;
+		$sql2="Update Results SET Rightt='$right',Attained='$attained',Left_time='$remained',Total_time='$total_dur',Attempt='$attempt' where CandID='$login_email' and TestID='$testid'";
+		$result2=mysqli_query($con,$sql2);
+		if($result2)
+		{
+			$status=delete_visited_test($login_email,$testid);
+			return $status;
+		}
+		else
+		{
+			return "00";
+		}
+	}
+}
+if(isset($_POST['test_completed']))
+{
+	$testid=protect_anything($_POST['test_completed']);
+	$sql_for_dur="Select * from Visited_test where CandID='$login_email' AND TestID='$testid'";
+	$result_for_dur=mysqli_query($con,$sql_for_dur);
+	if($result_for_dur)
+	{
+		$row_for_dur=mysqli_fetch_array($result_for_dur);
+		$remained_dur=$row_for_dur['Left_time'];
+	}
+	$sql_for_test="Select * from tests where Id='$testid'";
+	$result_for_test=mysqli_query($con,$sql_for_test);
+	if($result_for_test)
+	{
+		$row_for_test=mysqli_fetch_array($result_for_test);
+		$total_dur=$row_for_test['Duration'];
+	}
+	$sql="Select * from Tests where ID='$testid'";
+	$result=mysqli_query($con,$sql);
+	if($result)
+	{
+		$row=mysqli_fetch_array($result);
+		$title=$row['Title'];
+		$total_que=$row['Total_num'];
+		$sql2="Select * from Questions where TestID='$testid'";
+		$result2=mysqli_query($con,$sql2);
+		$right=0;
+		$wrong=0;
+		$attained=0;
+		$remained_que=0;
+		$total=mysqli_num_rows($result2);
+		while($row2=mysqli_fetch_array($result2))
+		{
+			$a=$row2['ID'];
+			if(isset($_POST[''.$a]))
+			{
+				$ans_by=$_POST[''.$a];
+				if($row2['Ans']==$ans_by)
+				{
+					$right++;
+				}
+				else
+				{
+					$wrong++;
+				}
+				$attained++;
+			}
+			else
+			{
+				$remained_que++;
+			}
+			
+		}
+		$xx=save_result_to_database($testid,$right,$attained,$total,$remained_dur,$total_dur);
+		if($xx!="00")
+		{
+			show_result($testid);
+		}
+		else
+		{
+		}
+	}
+}
+function show_result($test_id)
+{
+	$xyz="<form name='test_submit' method='post' action='submit_test_by.php'><input type='hidden' name='test_id' value='$test_id'></form>";
+	?>
+<script>
+	var fields="<?php echo $xyz; ?>";
+	$("body").append(fields);
+	document.test_submit.submit();
+</script>
+	<?php
+}
 global $test_started;
 if(isset($_POST['test_id']))
 {
@@ -27,22 +149,13 @@ if(isset($_POST['test_id']))
 		$str_sub=implode(", ",$sub_arr);
 		$res_y="0";
 		
-		if(isset($_POST['retest']))
-		{
-			$up_bit=update_table($login_email,$testid,$duration);
-			if($up_bit!="1")
-					die("Error!");
-		}
-		else
-		{
-			$res_y=find_test($login_email,$testid);
-			if($res_y=="0")
+		$res_y=find_test($login_email,$testid);
+		if($res_y=="0")
 			{
 				$res_x=add_test_to_table($login_email,$testid,$duration);
 				if($res_x!="1")
 					die("Error!");
 			}
-		}
 		$left_dur=get_detail_of_test($login_email,$testid);
 		?>
 <div class="container-fluid well">
@@ -55,8 +168,8 @@ if(isset($_POST['test_id']))
 			</div>
 			<div class="row" id="taken_test_panel">
 			<div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
-				<form name="myForm" method="post" action="submit_test_by.php">
-					<input type="hidden" name="test_id" value="<?php echo $testid; ?>"/>
+				<form name="myForm" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
+					<input type="hidden" name="test_completed" value="<?php echo $testid; ?>"/>
 					<div class="questions_of_test" id="-99">
 						<div class="row" id="info_about_test" style="padding: 10px;">
 						<br/>
