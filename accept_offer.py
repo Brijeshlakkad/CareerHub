@@ -6,7 +6,7 @@ import MySQLdb
 import security
 import save_history
 import config
-			
+import institute_and_job
 def count_rows(instid,candid,jobid):
 	conn,cursor=config.connect_to_database()
 	sql="select * from chat where FromUser='%s' and ToUserID='%s' and Text='%s'"%(instid,candid,jobid)
@@ -47,7 +47,19 @@ def accept_offer(candid,instid,jobid,role):
 			conn.commit()
 			mess=instid
 			save_history.enter_history(conn,cursor,mess,candid,role)
-			print("1")
+			obj_job=institute_and_job.institute_and_job()
+			obj_job.job_details(conn,cursor,jobid)
+			job_impressions=obj_job.job_impressions
+			job_impressions=int(job_impressions)
+			job_impressions+=10
+			sql_job="UPDATE jobs set job_impressions='%s' where job_id='%s'"%(job_impressions,jobid)
+			try:
+				cursor.execute(sql_job)
+				conn.commit()
+				print("1")
+			except:
+				conn.rollback()
+				print("-1")
 		except:
 			conn.rollback()
 			print("-1")

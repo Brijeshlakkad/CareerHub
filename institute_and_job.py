@@ -7,7 +7,7 @@ import base64
 
 class institute_and_job:
 	global inst_id,inst_name,institute_bemail,institute_contact,institute_type,institute_descr
-	global institute_address,institute_country,institute_zip,filename,inst_impressions
+	global institute_address,institute_country,institute_zip,filename,inst_impressions,job_impressions
 	global job_id,job_name,job_location
 	def institute_details(self,conn,cursor,fromuser):
 		sql_inst="SELECT * FROM institutes where ID='%s'"%(fromuser)
@@ -39,6 +39,7 @@ class institute_and_job:
 			row_job = cursor.fetchone()
 			self.job_id = row_job['job_id']
 			self.job_name = row_job['job_title']
+			self.job_impressions=row_job['job_impressions']
 			job_l1 = row_job['country']
 			job_l2 = row_job['state']
 			job_l3 = row_job['city']

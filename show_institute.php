@@ -43,10 +43,11 @@ if(isset($_POST['inst_id']) && isset($_POST['job_id']) && isset($_POST['role_typ
 			if($role_type=="Offer")
 			{
 		?>
-		<div class="row pull-right" >
+		<div class="row" >
 		<button class="btn btn-primary offer_status">Accept offer <span class="glyphicon glyphicon-thumbs-up"></span></button>
 		<button class="btn btn-primary deny_offer">Deny offer <span class="glyphicon glyphicon-thumbs-down"></span></button>
-		</div><div class="row pull-right"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
+		</div><br/>
+		<div class="row"><h4><b>Closing date : </b><?php echo $job_close; ?></h4></div>
 		<?php
 			}
 		?>
@@ -241,6 +242,7 @@ $(document).ready(function(){
 								$("#accepted_offer").html('<b>Offer Accepted</b> <span class="glyphicon glyphicon-thumbs-up"></span>');
 								$("#accepted_offer").removeClass("btn-primary").addClass("btn-default");
 								$("#accepted_offer").addClass("disabled");
+								$("button.deny_offer").hide();
 							}
 						else if(data=="Denied_offer")
 							{
