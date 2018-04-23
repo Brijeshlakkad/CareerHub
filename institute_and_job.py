@@ -7,7 +7,7 @@ import base64
 
 class institute_and_job:
 	global inst_id,inst_name,institute_bemail,institute_contact,institute_type,institute_descr
-	global institute_address,institute_country,institute_zip,filename
+	global institute_address,institute_country,institute_zip,filename,inst_impressions
 	global job_id,job_name,job_location
 	def institute_details(self,conn,cursor,fromuser):
 		sql_inst="SELECT * FROM institutes where ID='%s'"%(fromuser)
@@ -24,6 +24,7 @@ class institute_and_job:
 			self.institute_address=row_inst['institute_address']
 			self.institute_country=row_inst['institute_country']
 			self.institute_zip=row_inst['institute_zip']
+			self.inst_impressions=row_inst['Impression']
 			if not os.path.exists("Inst_images"):
 				os.makedirs("Inst_images")
 			self.filename = "Inst_images/%s.jpeg"%self.inst_name

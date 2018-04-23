@@ -8,6 +8,7 @@ import institute_reload_history
 import inst_get_cand_certificates
 import security
 import send_offer
+import institute_reload_visits
 print("Content-type:text/html\r\n\r\n")
 
 form = cgi.FieldStorage()	
@@ -72,3 +73,23 @@ if form.getvalue('check_offer') and form.getvalue('inst_id') and form.getvalue('
 	status=send_offer.check_offer_cand(c_id,inst_id,j_id)
 	status=security.protect_data(status)
 	print("%s"%status)
+	
+if form.getvalue('visits_reload'):
+	inst_id = security.protect_data(form.getvalue('visits_reload'))
+	institute_reload_visits.reload_visits(inst_id)
+
+if form.getvalue('visit_delete'):
+	inst_id = security.protect_data(form.getvalue('visit_delete'))
+	institute_reload_visits.delete_visit(inst_id)
+	
+if form.getvalue('delete_all_visits'):
+	inst_id = security.protect_data(form.getvalue('delete_all_visits'))
+	institute_reload_visits.delete_all_visits(inst_id)
+
+if form.getvalue('visits_total'):
+	inst_id = security.protect_data(form.getvalue('visits_total'))
+	institute_reload_visits.visits_total_count(inst_id)
+	
+if form.getvalue('total_impressions'):
+	inst_id = security.protect_data(form.getvalue('total_impressions'))
+	institute_reload_visits.impressions_total_count(inst_id)

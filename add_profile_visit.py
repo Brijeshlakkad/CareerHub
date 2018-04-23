@@ -21,11 +21,23 @@ def add_visitor(visitor_id,profile_id):
 	try:
 		cursor.execute(sql_visit)
 		conn.commit()
-		print("11")
+		obj_inst=institute_and_job.institute_and_job()
+		obj_inst.institute_details(conn,cursor,profile_id)
+		inst_impression=obj_inst.inst_impressions
+		inst_impression=int(inst_impression)
+		inst_impression+=1
+		sql_inst="Update Institutes SET Impression='%s' where ID='%s'"%(inst_impression,profile_id)
+		try:
+			cursor.execute(sql_inst)
+			conn.commit()
+			print("11")
+		except:
+			conn.rollback()
+			print("Server is taking too load..")
 	except:
 		conn.rollback()
 		print("Server is taking too load..")
-		
+
 def count_visits(visitor_id,profile_id):
 	conn,cursor=config.connect_to_database()
 	sql_visit="select * from profile_visit where PersonID='%s' and ProfileID='%s'"%(visitor_id,profile_id)
