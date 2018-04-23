@@ -138,6 +138,10 @@ while($res1=mysqli_fetch_array($ex1)) {
 <br/>
 
 <div class="row" style="padding-left:10px;">
+<div class="col-md-1" style="padding-left:0px;"><span>Job/Training:</span></div> 
+<div class="col-md-11" style="padding-left:0px;"><span><?php echo strtoupper($res1['job/training']); ?></span><br/></div>
+</div>
+<div class="row" style="padding-left:10px;margin-top:5px;">
 <div class="col-md-1" style="padding-left:0px;"><span>Role:</span></div> 
 <div class="col-md-11" style="padding-left:0px;"><span><?php echo strtoupper($res1['role']); ?></span><br/></div>
 </div>

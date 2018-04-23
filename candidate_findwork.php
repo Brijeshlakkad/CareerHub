@@ -35,7 +35,7 @@ $uniqroles=mysqli_query($con,$rolevals);
 <link rel="stylesheet" href="css/suggestion-box.min.css"/>
 <script src="js/suggestion-box.min.js"></script>
 
-<div id="">
+<div id="findwork">
 
 <div class="w3-container">
 	<section class="content" style="background-color:#f5f5f5;box-shadow: 5px 5px 5px #aaaaaa;">
@@ -171,6 +171,13 @@ $uniqroles=mysqli_query($con,$rolevals);
 									<?php
 								}
 							?>
+							<tr id="appendtextbox">
+							<td><input type="checkbox" id="selectotherskill" /></td>
+							<td>Other</td>
+							</tr>
+							<tr id="textboxtoappend">
+							</tr>
+
 							</table>
 							<?php
 								}
@@ -191,13 +198,61 @@ $uniqroles=mysqli_query($con,$rolevals);
 <script>
 var currentpage=1;
 var limit=2;
+var initialst='yes';
+	
+function initialfilters(cur_page)
+{
+		var skillsarr='';
+		var lowsalary=15000;
+		var highsalary=500000;
+		var searchfor='all';
+		var search='';
+		//alert(skillsarr+lowsalary+highsalary+cur_page+limit);
+		$.ajax({
+                url:'candidate_jobs_initial_data.php',
+                type:'POST',
+                data:{
+                	'initial_state':'yes',
+                    'page':cur_page,
+                    'limit': limit,
+                    'job_training':'both',
+                    
+                    'lowsalary':lowsalary,
+                    'highsalary':highsalary,
+                    'searchfor':searchfor,
+                    'search':search,
+                   	
+                    },
+                success:function(result)
+                {  
+                   $('#result').html(result);
+                }
+                });
+	}
+
+
 	 $(document).ready(function () {
 	 	 
-
+	 	$('#otherskill').hide();
+	 	$("#selectotherskill").change(function() {
+    	if(this.checked==true) {
+        	$('#appendtextbox').append('<tr id="otherskillrow"><td><input type="text" name="otherskill" placeholder="Mention skill here" style="max-width:150px;" id="otherskill"/></td></tr>');
+        	
+   		}
+   		else
+   		{
+   			$('#otherskillrow').remove();
+   		}
+		});	
+	 	
 	 	$('#categories').hide();
         $('#roles').hide();
 
-
+       	
+       	/*$.fn.initialfilters=function(cur_page)
+    	{
+    		alert('hello');
+    	}*/
         $('#searchfor').on('change',function(){
             var searchfor=$('#searchfor').val();
             
@@ -230,7 +285,7 @@ var limit=2;
  			range:true,
 		    min: 5000,
 		    max: 500000,
-		    values:[15000,100000],
+		    values:[15000,500000],
 		    slide:function(event,ui){
 		    	$('#range').html(ui.values[0]+' - '+ui.values[1]+' INR');
 		    }
@@ -289,9 +344,11 @@ var limit=2;
 	}
 
     $("#searchbtn").click(function(){
-        
+        initialst='no';
         $.fn.filters(currentpage);
     });
+
+    initialfilters(1);
 
     $.fn.filters=function(cur_page)
     {
@@ -388,7 +445,7 @@ var limit=2;
                 url:'candidate_jobs_find_data.php',
                 type:'POST',
                 data:{
-
+                	'initial_state':'false',
                     'page':current_page_no,
                     'limit': limit,
                     'job_training':send_job_training,

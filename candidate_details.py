@@ -3,21 +3,21 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-import config
 
 class candidate:
-	global cand_id,cand_name,cand_image,cand_email,cand_contact,filename,quali_str,quali_arr
+	global cand_id,cand_name,cand_image,cand_email,cand_contact,filename,quali_str,quali_arr,cand_rank
 	def candidate_details(self,conn,cursor,cand_id):
 		sql_cand="SELECT * FROM Candidates where ID='%s'"%(cand_id)
 		try:
 			cursor.execute(sql_cand)
-			row_inst = cursor.fetchone()
-			self.cand_id=row_inst['ID']
-			self.cand_name = row_inst['Name']
-			self.cand_image=row_inst['Image']
-			self.cand_email=row_inst['Email']
-			self.cand_contact=row_inst['Phone']
-			self.quali_str=row_inst['Quali']
+			row_cand = cursor.fetchone()
+			self.cand_id=row_cand['ID']
+			self.cand_name = row_cand['Name']
+			self.cand_image=row_cand['Image']
+			self.cand_email=row_cand['Email']
+			self.cand_contact=row_cand['Phone']
+			self.cand_rank=row_cand['Candidate_rank']
+			self.quali_str=row_cand['Quali']
 			self.quali_arr=self.quali_str.split(",/,")
 			if not os.path.exists("cand_images"):
 				os.makedirs("cand_images")
