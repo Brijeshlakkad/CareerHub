@@ -1,9 +1,6 @@
 <?php
 $filename=basename($_SERVER['PHP_SELF']);
-if($filename!="index.php")
-{
-include_once('candidate_details.php');
-}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,13 +64,13 @@ if($filename=="index.php")
 		get_details_from_candidate();
 		$set=$login_id;
 	}
-	else if(isset($_SESSION['BUserid']))
-	{
-		$set="";
-	}
 	else if((isset($_SESSION['Admin'])))
 	{
 		$set="-99";
+	}
+	else
+	{
+		$set="User";
 	}
 	?>
   
@@ -178,8 +175,8 @@ if($filename=="index.php")
 			?>
 			
 			<li><a href="index.php">Home</a></li>
-			<li><a href="">Find Work!</a></li>
-			<li><a href="">Hire candidate!</a></li>
+			<li><a href="candidate_findwork.php">Find Work!</a></li>
+			<li><a href="public_hirecand.php">Hire candidate!</a></li>
 			<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
 			<span class="caret"></span></a>
