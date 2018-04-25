@@ -28,7 +28,7 @@ if(isset($_POST['jobid']))
 			echo "<script>document.getElementById('apply').innerHTML='Already Applied';document.getElementById('apply').style.backgroundColor ='#D2501B';document.getElementById('apply').disabled = true;</script>";
 		}
 	?>
-
+<script src="js/predictor_cal.js"></script>
 	<div class="w3-container">
 	<section class="content" >
 
@@ -37,9 +37,12 @@ if(isset($_POST['jobid']))
         <div id="AllContent">
             
             <div class="well" style="background-color:white;margin:auto;max-width:900px;margin-top:25px;margin-bottom:10px;min-height:85vh;box-shadow: 5px 5px 5px #aaaaaa;">
-
+			<div class="row">
+           	<div class="col-lg-6">
             	<p style="font-size:20px;color:#633C2C;margin-top:5px;"><b><?php echo $res1['job_title'];?></b></p><p>
-
+            </div>
+            <div class="col-lg-6"><div class="pull-right job_id" id="<?php echo $res1['job_id'];?>"><button class="btn btn-primary" id="use_predictor">Use Predictor</button></div></div>
+			</div>
 				by <span style="font-size:17px;color:green;"><a class="inst_profile_id" id="<?php echo $res1['institute_id']; ?>"><?php echo $res1['Bname'];?></a></p></span>
 				
 				<hr style="border: 1px solid #7E7675;">

@@ -11,7 +11,7 @@ import security
 import update_filter_certificate
 import test_running
 import add_profile_visit
-
+import predictor_cal
 print("Content-type:text/html;Content-type: image/jpeg\r\n\r\n")
 cgitb.enable(display=0, logdir="/path/to/logdir")
 
@@ -104,3 +104,8 @@ if form.getvalue('visitor_id') and form.getvalue('profile_id'):
 	visitor_id = security.protect_data(form.getvalue('visitor_id'))
 	profile_id = security.protect_data(form.getvalue('profile_id'))
 	add_profile_visit.add_visitor(visitor_id,profile_id)
+	
+if form.getvalue('predictor_id') and form.getvalue('job_id'):
+	cand_id = security.protect_data(form.getvalue('predictor_id'))
+	job_id = security.protect_data(form.getvalue('job_id'))
+	predictor_cal.predictor_cal(cand_id,job_id)

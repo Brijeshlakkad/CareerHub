@@ -1,6 +1,9 @@
 <?php
 $filename=basename($_SERVER['PHP_SELF']);
-
+if($filename!="index.php")
+{
+	include_once("candidate_details.php");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -119,15 +122,7 @@ if($filename=="index.php")
 		else if(isset($_SESSION['Admin']))
        	{
        		?>
-       	<li>
-			  <div class="box" style="padding-top: 10px;">
-				  <div class="container-1">
-					  <span class="icon"><i class="fa fa-search"></i></span>
-					  <input type="search" id="search" placeholder="Search CareerHub" />
-				  </div>
-				</div>
-       	</li>
-       	<li>&nbsp;&nbsp;&nbsp;</li>
+  
        	<li><button class="btn btn-primary btn-sm navbar-btn" style="padding: 10px;" id="refresh">Refresh <span class="glyphicon glyphicon-refresh"></span></button></li>
        	<li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Candidates

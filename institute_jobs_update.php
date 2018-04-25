@@ -10,7 +10,7 @@ else
 {
 
 	$con=mysqli_connect("localhost","root","","mini_project");
-	$email=$_SESSION['Userid'];
+	$email=$_SESSION['BUserid'];
 	$ch="select * from institutes where Email='$email'";
 	$q=mysqli_query($con,$ch);
 	$count=mysqli_num_rows($q);

@@ -6,6 +6,7 @@ import MySQLdb
 import accept_offer
 import config
 import no_found
+import institute_and_job
 def reload_history(c_id1):
 	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM History where UserID='%s' ORDER BY Time DESC"%(c_id1)
@@ -23,11 +24,15 @@ def reload_history(c_id1):
 				field=row['Field']
 				role=row['role']
 				if role=="Accepted":
-					inst_name=accept_offer.get_institute(conn,cursor,field)
+					obj_inst=institute_and_job.institute_and_job()
+					obj_inst.institute_details(conn,cursor,field)
+					inst_name=obj_inst.inst_name
 					field_link="""<a id='inst_profile_link' style="cursor:pointer;" onclick="get_institute_profile(%s)" class='div_link'>%s</a>"""%(field,inst_name)
 					fdiv="You have <strong>acccepted offer from %s</strong> at %s"%(field_link,datetime)
 				elif role=="Deny_offer":
-					inst_name=accept_offer.get_institute(conn,cursor,field)
+					obj_inst=institute_and_job.institute_and_job()
+					obj_inst.institute_details(conn,cursor,field)
+					inst_name=obj_inst.inst_name
 					field_link="""<a id='inst_profile_link' style="cursor:pointer;" onclick="get_institute_profile(%s)" class='div_link'>%s</a>"""%(field,inst_name)
 					fdiv="You have <strong>denied offer from %s</strong> at %s"%(field_link,datetime)
 				else:

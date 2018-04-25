@@ -1,4 +1,5 @@
 <?php require_once('institute_header.php');?>
+<?php $disable_submit=0; ?>
 <div class="w3-container">
 	<section class="content" style="background-color:#f5f5f5;box-shadow: 5px 5px 5px #aaaaaa;">
         <div class="container-fluid">
@@ -68,12 +69,12 @@
 				<p id="roleerror1"></p>
 				</div>
 				<div class="col-md-2">
-					Vacancy: <input type="number" min="1" class="form-control" name="vacancy[]" placeholder="Enter vacancy" id="vacancy1" required/>
+					Vacancy: <input type="number" class="form-control" name="vacancy[]" placeholder="Enter vacancy" id="vacancy1" required/>
 				<p id="vacancyerror1"></p>
 				</div>
 				<div class="col-md-4">
 				Expected Salary(in INR)<br>
-				<input type="number" name="salary[]" min="1" id="salary1" placeholder="you can add salary" class="form-control" />
+				<input type="number" name="salary[]" id="salary1" placeholder="you can add salary" class="form-control" />
 
 				<input type="checkbox" id="salary_checkbox1" class="salary-checked" checked="checked">
 				<span id="salaryerror1"></span>
@@ -137,7 +138,7 @@
 				<div>
 					Experience required(in years):
 					<div class="input-group" style="max-width:185px;">
-						<input type="number" ng-model="experience" class="form-control" min="0" max="100" name="experience" id="experience" placeholder="required experience for job" required />
+						<input type="number" ng-model="experience" class="form-control" name="experience" id="experience" placeholder="required experience for job" required />
 						<span class="input-group-btn"><button type="button" class="btn btn-danger" id="disable-exper">No</button>
 						</span>
 					</div> 
@@ -166,8 +167,7 @@
 				<div style="width:100%;
 				height:100%;max-width:100px;"> 
 				<div class="input-group" >
-				
-				<input type="date" class="form-control" ng-model="closing_date" style="max-width:153px;" min="<?php echo date('Y-m-d');?>" name="closing_date" id="closing_date" required>
+				<input type="date" class="form-control" ng-model="closing_date" style="max-width:153px;" name="closing_date" id="closing_date" required>
 				<span class="input-group-btn"><button type="button" class="btn btn-success" style="height:32px;width:34px;padding-left:10px;"> <span class="glyphicon glyphicon-calendar" ></span> </button>
 				</span>
 				</div>
@@ -180,7 +180,7 @@
 				Maximum Age:
 			   
 			    <div class="input-group" style="max-width:185px;">
-			      <input type="number" ng-model="max_age" min="0" class="form-control" name="max_age" id="max_age" placeholder="Maximum age" required>
+			      <input type="number" ng-model="max_age" class="form-control" name="max_age" id="max_age" placeholder="Maximum age" required>
 			      <span class="input-group-btn"><button type="button" class="btn btn-danger" id="disable-age">No</button>
 				  </span>
 			    </div>
@@ -341,7 +341,6 @@
 	    if(category=='Other')
 	    {
 	    	othercategory=$('#othercategory').val();
-	    	category=othercategory;
 	    }
 
 	    var experience='';
@@ -448,6 +447,9 @@
 				});
 			}//end for
         }
+
+
+
 	}	
 
 		/* for role-salary start*/
@@ -460,7 +462,7 @@
 			{
 
 			i++;
-			$("#mytable").append('<div class="row'+i+'">					   <div class="col-md-4">Role<input type="text" style="min-width:110px;" id="role'+i+'" name="role[]" class="form-control" placeholder="Enter job role" /><p id="roleerror'+i+'"></p></div>						   <div class="col-md-2">	Vacancy: <input type="number" class="form-control" min="1" id="vacancy'+i+'" name="vacancy[]" placeholder="Enter vacancy""/><p id="vacancyerror'+i+'"></p></div><div class="col-md-4">Expected Salary(in INR)<br><input type="number" id="salary'+i+'" name="salary[]" placeholder="you can add salary" min="1" class="form-control" placeholder=""/><input type="checkbox" class="salary-checked" id="salary_checkbox'+i+'" checked="checked"><span id="salaryerror'+i+'"></span></div>									  <div class="col-md-2" style="padding-left:0px;"><br><button type="button" class="btn btn-danger Remove_row" id="'+i+'">Remove</button></div>											<br></div>');
+			$("#mytable").append('<div class="row'+i+'">					   <div class="col-md-4">Role<input type="text" style="min-width:110px;" id="role'+i+'" name="role[]" class="form-control" placeholder="Enter job role" /><p id="roleerror'+i+'"></p></div>						   <div class="col-md-2">	Vacancy: <input type="number" class="form-control" id="vacancy'+i+'" name="vacancy[]" placeholder="Enter vacancy""/><p id="vacancyerror'+i+'"></p></div>    			  							  <div class="col-md-4">Expected Salary(in INR)<br><input type="number" id="salary'+i+'" name="salary[]" placeholder="you can add salary" class="form-control" placeholder=""/><input type="checkbox" class="salary-checked" id="salary_checkbox'+i+'" checked="checked"><span id="salaryerror'+i+'"></span></div>									  <div class="col-md-2" style="padding-left:0px;"><br><button type="button" class="btn btn-danger Remove_row" id="'+i+'">Remove</button></div>											<br></div>');
 		
 			}
 		});
