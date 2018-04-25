@@ -326,13 +326,13 @@ else
 	   	}
 
 	    var experience=$('#experience').val();
-	    var isAgeDisabled = $('#experience').prop('disabled');
-	    if(isAgeDisabled==false && experience=='')
+	    var isExperDisabled = $('#experience').prop('disabled');
+	    if(isExperDisabled==false && experience=='')
 	   	{
 	   		$('#experience-error').html('<span style="color:#c4071d;">Please enter experience required.</span>');
 	   		flag=1;
 	   	}
-	   	else if(isAgeDisabled==true)
+	   	else if(isExperDisabled==true)
 	   	{
 	   		experience=0;
 	   		$('#experience-error').html('');

@@ -6,7 +6,7 @@ $(document).ready(function(){
 		
 		start_cal(cand_id,job_id);
 	});
-	
+	alert("Ss");
 	var start_cal=function(cand_id,job_id){
 		var $result=$("#use_predictor");
 		$.ajax({

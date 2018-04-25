@@ -28,7 +28,7 @@ if(isset($_POST['jobid']))
 			echo "<script>document.getElementById('apply').innerHTML='Already Applied';document.getElementById('apply').style.backgroundColor ='#D2501B';document.getElementById('apply').disabled = true;</script>";
 		}
 	?>
-<script src="js/predictor_cal.js"></script>
+
 	<div class="w3-container">
 	<section class="content" >
 
@@ -41,7 +41,7 @@ if(isset($_POST['jobid']))
            	<div class="col-lg-6">
             	<p style="font-size:20px;color:#633C2C;margin-top:5px;"><b><?php echo $res1['job_title'];?></b></p><p>
             </div>
-            <div class="col-lg-6"><div class="pull-right job_id" id="<?php echo $res1['job_id'];?>"><button class="btn btn-primary" id="use_predictor">Use Predictor</button></div></div>
+            <div class="col-lg-6"><div class="pull-right job_id" id="<?php echo $res1['job_id'];?>"><button class="btn btn-primary use_predictor">Use Predictor</button></div></div>
 			</div>
 				by <span style="font-size:17px;color:green;"><a class="inst_profile_id" id="<?php echo $res1['institute_id']; ?>"><?php echo $res1['Bname'];?></a></p></span>
 				
@@ -135,7 +135,23 @@ if(isset($_POST['jobid']))
 
 <script type="text/javascript">
 
-
+$(".use_predictor").click(function(){
+		var job_id=$(this).parent(".job_id").attr("id");
+		var cand_id=$("div.brij").attr("id");
+		start_cal(cand_id,job_id);
+	});
+	var start_cal=function(cand_id,job_id){
+		var $result=$(".use_predictor");
+		$.ajax({
+			type:"POST",
+			url:"candidate_interface.py",
+			data:"predictor_id="+cand_id+"&job_id="+job_id,
+			success:function(data){
+				$(".use_predictor").removeClass("btn-primary").addClass("btn-default");
+				$result.html(data);
+			}
+		});
+	};
 	$('.inst_profile_id').click(function(){
 		var institute_id=$(this).attr('id');
 

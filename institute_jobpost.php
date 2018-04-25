@@ -111,6 +111,22 @@
 				
 				</div>
 				<!-- Qualification ends -->
+				<br/>
+				
+				<!-- Part/full time starts
+
+				<p><span>Employment type:</span></p>
+				<input type="radio" name="part_or_full_time" ng-model="part_or_full_time" value="part_time" id="part_or_full_time1" ng-required="!part_or_full_time"/>Part time
+				&nbsp;&nbsp;
+				<input type="radio" name="part_or_full_time" ng-model="part_or_full_time" value="full_time" id="part_or_full_time2" ng-required="!part_or_full_time"/>Full time
+				<p id="part_full_error"></p>
+				<span style="color:#c4071d" ng-show="(Jobform.part_or_full_time.$touched && Jobform.part_or_full_time.$invalid)
+				|| (submitclicked && Jobform.part_or_full_time.$invalid)
+				">Please select Employment type.</span>
+				-->
+			
+				<!-- Part/full time ends -->
+
 
 				<!-- required_skills starts -->
 				<div>
@@ -329,7 +345,23 @@
 	    	$('#quali-error').html('');
 	    }
 
-	    
+	    var max_age=$('#max_age').val();
+	    var isAgeDisabled = $('#max_age').prop('disabled');
+	    if(isAgeDisabled==false && max_age=='')
+	   	{
+	   		$('#age-error').html('<span style="color:#c4071d;">Please enter maximum age</span>');
+	   		flag=1;
+	   	}
+	   	else if(isAgeDisabled==true)
+	   	{
+	   		max_age=0;
+	   		$('#age-error').html('');
+	   	}
+	   	else
+	   	{
+	   		$('#age-error').html('');
+	   	}
+
 	   	var type='';
 	   	type=$('input[name=jobtraining]:checked').val();
 
@@ -405,7 +437,6 @@
         {
         	flag=1;
         }
-        
         if(flag==0)
         {
      

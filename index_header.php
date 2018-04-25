@@ -23,8 +23,8 @@ if($filename!="index.php")
 	<script type="text/javascript" src="js/admin_cand.js"></script>
 	<script type="text/javascript" src="js/admin_inst.js"></script>
 	<script type="text/javascript" src="js/bootstrap-show-password.min.js"></script>
-	<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+   <script src = "js/predictor_cal.js"></script>
+    <script src = "js/jquery-ui.js"></script>
 	
 	<link href="css/jquery_countdown.css" rel="stylesheet">
 	
