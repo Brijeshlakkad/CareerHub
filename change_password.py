@@ -11,18 +11,15 @@ from email.mime.text import MIMEText
 class Mail:
 	USERNAME = "Your Email"
 	PASSWORD = "Your password"
-	def send_mail(self,email_ad,mob,name):
+	def send_mail(self,email_ad):
 		SMTPserver = 'smtp.gmail.com'
-		sender =     ''
+		sender =     'brijeshlakkad22@gmail.com'
 		destination = email_ad
 		text_subtype = 'html'
 		content="""\
-		<b>Welcome to the CareerHub</b> <br> \
-		dear %s ,<br> \
-			You have registered your email address successfully <br> \
-			Your Mobile number %s <br> \
-		""" % (name,mob)
-		subject="Sign up successfully"
+		<b>Your Password has changed successfully.</b> <br>
+		"""
+		subject="Password Changed"
 		try:
 			msg = MIMEText(content, text_subtype)
 			msg['Subject']= subject
@@ -32,6 +29,7 @@ class Mail:
 			conn.login(self.USERNAME, self.PASSWORD)
 			try:
 				conn.sendmail(sender, destination, msg.as_string())
+				print("1")
 			finally:
 				conn.quit()
 		except Exception:
@@ -42,21 +40,17 @@ form = cgi.FieldStorage()
 db=pymysql.connect("localhost",'root','','Mini_Project')
 print("Content-type:text/html\r\n\r\n")
 
-if form.getvalue('s_email'):
-	email = form.getvalue('s_email')
-if form.getvalue('s_user'):
-	user = form.getvalue('s_user')
-if form.getvalue('s_mobile'):
-	phone = form.getvalue('s_mobile')
-if form.getvalue('s_password'):
-	password = form.getvalue('s_password')
+if form.getvalue('email'):
+	email = form.getvalue('email')
+if form.getvalue('npass'):
+	npass = form.getvalue('npass')
+
 cursor=db.cursor();
-sql="INSERT INTO Candidates (Name,Email,Phone,Password,Progress) values('%s','%s','%s','%s','20')" % (user,email,phone,password)
+sql="Update Candidates SET Password='%s' where Email='%s'" % (npass,email)
 try:
 	cursor.execute(sql)
 	db.commit()
-	m.send_mail(email,phone,user)
-	print("1")
+	m.send_mail(email)
 except:
 	db.rollback()
 	print("0")

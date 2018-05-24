@@ -9,8 +9,8 @@ from smtplib import SMTP_SSL as SMTP
 from email.mime.text import MIMEText
 
 class Mail:
-	USERNAME = ""
-	PASSWORD = ""
+	USERNAME = "Your Email"
+	PASSWORD = "Your password"
 	def send_mail(self,email_ad,mob,name):
 		SMTPserver = 'smtp.gmail.com'
 		sender =     ''
