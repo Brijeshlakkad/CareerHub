@@ -106,7 +106,7 @@ input.ng-touched.ng-valid {
 			</tr>
 			<tr>
 			<td id="status"></td>
-			<td><input type="button" class="btn btn-success" ng-click="submit_form()" ng-disabled="myForm.course.$invalid ||  myForm.college.$invalid ||  myForm.year.$invalid ||  myForm.intern.$invalid ||  myForm.experience_year.$invalid ||  myForm.degree.$invalid" value="Submit"/></td>
+			<td><input type="button" class="btn btn-success" ng-click="submit_form()" ng-disabled="myForm.course.$invalid ||  myForm.college.$invalid ||  myForm.year.$invalid ||  myForm.intern.$invalid ||  myForm.degree.$invalid" value="Submit"/></td>
 			<td></td>
 			</tr>
 			</table>

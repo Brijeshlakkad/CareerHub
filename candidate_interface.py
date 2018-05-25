@@ -86,10 +86,9 @@ if form.getvalue('skills[]') and form.getvalue('cand_id'):
 	candid = security.protect_data(form.getvalue('cand_id'))
 	update_filter_certificate.update_filter_panel(skills_arr,candid)
 	
-if form.getvalue('random_tests') and form.getvalue('cand_id'):
-	skills_arr = form.getvalue('random_tests')
-	candid = security.protect_data(form.getvalue('cand_id'))
-	print("<div>Fuck you laptop</div>")
+if form.getvalue('visited_tests'):
+	candid = security.protect_data(form.getvalue('visited_tests'))
+	update_filter_certificate.update_filter_visited(candid)
 	
 if form.getvalue('que_reload') and form.getvalue('current_id'):
 	testid = security.protect_data(form.getvalue('que_reload'))

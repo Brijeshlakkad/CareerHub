@@ -7,7 +7,10 @@ import candidate_details
 import config
 import test_details
 import no_found
-def print_on_screen_test(conn,cursor,arr_id):
+
+def print_on_screen_test(conn,cursor,arr_id,status):
+	if status=="visited":
+		print("""<div class="row" style="margin-left:20px;margin-bottom:20px;"><h2>Visited tests</h2></div><hr/>""")
 	for i in arr_id:
 		obj=test_details.test()
 		obj.test_details(conn,cursor,i)
@@ -27,12 +30,12 @@ def update_filter_panel(skillarr1,candid):
 		skillarr.append(skillarr1)
 	else:
 		skillarr=skillarr1
-	sql="SELECT * FROM Tests"
+	flag=0
 	arr_id=[]
+	sql="SELECT * FROM Tests"
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
-		flag=0
 		for row in results:
 			subjects=row['Subjects']
 			num_que=row['Total_num']
@@ -47,41 +50,47 @@ def update_filter_panel(skillarr1,candid):
 					if i.find(j)!=-1:
 						flag+=1
 						testid=row['ID']
-						sql2="SELECT * FROM Tests where ID='%s'"%(testid)
+						sql_result="Select * from results where CandID='%s' AND TestID='%s'"%(candid,testid)
+						testid=int(testid)
 						try:
-							cursor.execute(sql2)
-							sql3="Select * from results where CandID='%s' AND TestID='%s'"%(candid,testid)
-							try:
-								cursor.execute(sql3)
-								results_num=cursor.rowcount
-								if results_num==0 and testid not in arr_id and num_que!=0:
-									arr_id.append(testid)
-								else:
-									flag-=1
-							except:
-								conn.rollback()
-								print("-1")
+							cursor.execute(sql_result)
+							results_num=cursor.rowcount
+							if results_num==0 and testid not in arr_id and num_que!=0:
+								arr_id.append(testid)
+							else:
+								flag-=1
 						except:
 							conn.rollback()
 							print("-1")
+		status="all"
 		if flag==0 or len(arr_id)==0:
 			no_found.no_found("Tests(0)")
 		else:
-			print_on_screen_test(conn,cursor,arr_id)
+			print_on_screen_test(conn,cursor,arr_id,status)
 	except:
 		conn.rollback()
 		print("-1")
 	conn.close()
 	
-def update_filter_random(candid):
+def update_filter_visited(candid):
 	conn,cursor=config.connect_to_database()
 	sql_visit="select TestID from visited_test where CandID='%s'"%candid
+	status="visited"
 	try:
 		cursor.execute(sql_visit)
 		results=cursor.fetchall()
 		arr_id=[]
+		flag=0
 		for row in results:
-			arr_id.append(row['TestID'])
-		print_on_screen_test(conn,cursor,arr_id)
+			testid=row['TestID']
+			flag+=1
+			if testid not in arr_id:
+				arr_id.append(testid)
+			else:
+				flag-=1
+		if flag==0 or len(arr_id)==0:
+			no_found.no_found("Please select your skills to proceed...")
+		else:
+			print_on_screen_test(conn,cursor,arr_id,status)
 	except:
-		print("Server is taking load!!")
+		return "-99"

@@ -29,18 +29,31 @@ if(isset($_POST['jobid']))
 	else
 	{
 
-	$apply="insert into applications(`candidate_id`,`institute_id`,`job_id`)values('$login_id','$inst_id','$jobid')";
-	$ex_apply=mysqli_query($con,$apply);
-	if($ex_apply)
-	{	
+	$closing_date_check="select closing_date from jobs where `job_id`='$jobid'";
+	$ex_closing_dc=mysqli_query($con,$closing_date_check);
 
-		$success=1;
-		echo "Applied";
+	$row1=mysqli_fetch_array($ex_closing_dc);
+	$closing_date=$row1['closing_date'];			
+	$today=date("Y-m-d");
+	if($closing_date<$today)
+	{
+		echo "Closing date already passed";
 	}
 	else
 	{
-		echo "Failed";
-	}
+		$apply="insert into applications(`candidate_id`,`institute_id`,`job_id`)values('$login_id','$inst_id','$jobid')";
+		$ex_apply=mysqli_query($con,$apply);
+		if($ex_apply)
+		{	
+			$success=1;
+			echo "Applied";
+		}
+		else
+		{
+			echo "Failed";
+		}
+	} //else closing date condition
+	
 
 	}
 

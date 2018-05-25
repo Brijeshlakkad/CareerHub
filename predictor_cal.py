@@ -10,7 +10,7 @@ import no_found
 import candidate_details
 
 def application_candidates(conn,cursor,cand_id,inst_id,job_id,cand_list):
-	sql_app="select Type,ID,ToUserID,FromUser,Time,Text,role from(select 'chat' as Type,ID,ToUserID,FromUser,Time,Text,role from chat UNION ALL select 'application' as Type,application_id,candidate_id,institute_id,apply_datetime,job_id,status_bit from applications) as Messages where FromUser='%s' and Text='%s' and role='Accepted' or role='1'"%(inst_id,job_id)
+	sql_app="select Type,ID,ToUserID,FromUser,Time,Text,role from(select 'chat' as Type,ID,ToUserID,FromUser,Time,Text,role from chat UNION ALL select 'application' as Type,application_id,candidate_id,institute_id,apply_datetime,job_id,status_bit from applications) as Messages where FromUser='%s' and Text='%s' and role='Accepted' or FromUser='%s' and Text='%s' and role='1'"%(inst_id,job_id,inst_id,job_id)
 	try:
 		cursor.execute(sql_app)
 		results=cursor.fetchall()
@@ -41,6 +41,18 @@ def get_int(string):
 	else:
 		return "None"
 
+def quali_check(cand_quali_arr,test_quali_arr):
+	length1=len(cand_quali_arr)
+	length2=len(test_quali_arr)
+	total=0
+	total_match=0
+	for i in range(length2):
+		if test_quali_arr[i] in cand_quali_arr:
+			total_match+=10
+		total+=10
+	return total,total_match
+	
+	
 def get_percentage_of_match(conn,cursor,main_cand_id,cand_list):
 	match_list=[]
 	total_list=[]
@@ -51,6 +63,9 @@ def get_percentage_of_match(conn,cursor,main_cand_id,cand_list):
 		cand.candidate_details(conn,cursor,main_cand_id)
 		test_cand=candidate_details.candidate()
 		test_cand.candidate_details(conn,cursor,i)
+		total1,total_match1=quali_check(cand.quali_arr,test_cand.quali_arr)
+		total+=int(total1)
+		total_match+=int(total_match1)
 		if (get_string(cand.course)!="None") and (get_string(test_cand.course)!="None"):
 			if get_string(cand.course)==get_string(test_cand.course):
 				total_match+=5
@@ -85,22 +100,20 @@ def get_percentage_of_match(conn,cursor,main_cand_id,cand_list):
 			elif get_int(cand.cand_rank)>=get_int(test_cand.cand_rank):
 				total_match+=20
 			total+=20
-		if get_int(cand.experience)!="None" and get_int(test_cand.experience)!="None":
-			if get_int(cand.experience)==get_int(test_cand.experience):
-				total_match+=10
-			elif get_int(cand.experience)>=get_int(test_cand.experience):
-				total_match+=20
-			total+=20
+		
 		total_list.append(total)
 		match_list.append(total_match)
 	length=len(match_list)
-	perc_total=0
-	for i in range(length):
-		perc=(int(match_list[i])/int(total_list[i]))*100
-		perc_total+=perc
-	perc_final=perc_total/length
-	return perc_final
-	
+	try:
+		perc_total=0
+		for i in range(length):
+			perc=(int(match_list[i])/int(total_list[i]))*100
+			perc_total+=perc
+		perc_final=perc_total/length
+		return perc_final
+	except:
+		return 0
+		
 def print_on_screen(match):
 	print("""<strong>Your prediction to get job is %.2f%%</strong>"""%(match))
 	
@@ -118,4 +131,3 @@ def predictor_cal(cand_id,job_id):
 		cand_list=state
 		match=get_percentage_of_match(conn,cursor,cand_id,cand_list)
 		print_on_screen(match)
-		

@@ -19,10 +19,10 @@ $q1="select candidates.Candidate_rank,jobs.job_title,applications.*
 from applications 
 JOIN candidates ON candidates.ID=applications.candidate_id 
 JOIN jobs ON jobs.job_id=applications.job_id 
-where applications.institute_id='$institute_id' 
-ORDER BY $sortby $orderby LIMIT $start_from,$limit";
+where applications.institute_id='$institute_id' and status_bit!=0
+ORDER BY $sortby $orderby LIMIT $start_from,$limit ";
 $ex1=mysqli_query($con,$q1);
-$allq1="select candidates.Candidate_rank,jobs.job_title,applications.* from applications JOIN candidates ON candidates.ID=applications.candidate_id JOIN jobs ON jobs.job_id=applications.job_id where applications.institute_id='$institute_id'";
+$allq1="select candidates.Candidate_rank,jobs.job_title,applications.* from applications JOIN candidates ON candidates.ID=applications.candidate_id JOIN jobs ON jobs.job_id=applications.job_id where applications.institute_id='$institute_id' and status_bit!=0";
 $allex1=mysqli_query($con,$allq1);
 $total_records = mysqli_num_rows($allex1); 
 $total_pages = ceil($total_records / $limit);

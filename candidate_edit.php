@@ -90,6 +90,14 @@ $im=base64_encode($login_image);
 	</div>
 </div>
 
+<div class="please_wait_modal"></div>
+<script>
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+</script>
 <script>
 	
 	var myApp = angular.module("myapp", []);

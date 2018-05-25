@@ -16,8 +16,8 @@ if (form.getvalue('forget_email')):
 		SMTPserver = 'smtp.gmail.com'
 		sender =     'brijeshlakkad22@gmail.com'
 		destination = forget_email
-		USERNAME = "Your Email"
-		PASSWORD = "Your password"
+		USERNAME = "brijeshlakkad22@gmail.com"
+		PASSWORD = "214567267bB"
 
 		text_subtype = 'html'
 		content="""\

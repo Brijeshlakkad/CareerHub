@@ -16,9 +16,21 @@ if(isset($_POST['inst_id']))
 	}
 	$institute_name="<a id='inst_profile_link' onclick='get_institute_profile(".$institute_id.")' class='div_link'>"."<h3>".$institute_name."</h3>"."</a>";
 	
-?>
-<script src="js/read_more.js"></script>
 
+
+?>
+<script src="js/angular.js"></script>
+<script language="JavaScript">
+   function helper()
+   {
+      var head= document.getElementsByTagName('head')[0];
+      var script= document.createElement('script');
+      script.type= 'text/javascript';
+      script.src= 'js/admin_inst.js';
+      head.appendChild(script);
+   }
+helper();
+   </script>
  
 <div class="container-fluid well">
     <div class="row">
@@ -33,9 +45,6 @@ if(isset($_POST['inst_id']))
 		
 			  <br/>
 				<br/>
-				<div class="description_first">
-					<?php echo $institute_descr; ?>
-				</div>
 				</div>
 			  </div>
             </div>
@@ -65,6 +74,7 @@ if(isset($_POST['inst_id']))
 	for($i=0;$i<count($job_arr);$i++)
 	{
 		get_job($institute_id,$job_arr[$i]);
+		
 	?>
  	<br/>
  	
@@ -79,6 +89,7 @@ if(isset($_POST['inst_id']))
   		<div class="col-sm-5">
   			<b>Job or Training</b> 
 		</div>
+			
 		<div class="col-sm-5">
 			<?php echo $isJob;?>
  		</div>
@@ -155,9 +166,21 @@ if(isset($_POST['inst_id']))
 		<div class="col-sm-5">
 		<?php 
 		?>
-		<button class="btn btn-primary">Apply for job</button>
-		<button class="btn btn-primary disabled">Applied</button>
+		<button class="btn btn-primary apply_job" id="<?php echo $job_arr[$i]; ?>">Apply for job</button>
+		<button class="btn btn-primary disabled" id="Applied<?php echo $job_arr[$i]; ?>">Applied</button>
+
 		<?php
+		$check_already_applied="select * from applications where `job_id`='$job_arr[$i]' and `candidate_id`='$login_id' and `status_bit`!='0'";
+		$ex_already_applied=mysqli_query($con,$check_already_applied);
+		$count=mysqli_num_rows($ex_already_applied);
+		if($count!=0)
+		{ ?>
+		<script>
+			document.getElementById('<?php echo $job_arr[$i]; ?>').innerHTML='Already Applied';
+			document.getElementById('<?php echo $job_arr[$i] ?>').disabled = true;
+		</script>
+		<?php
+		}
 		?>
 		</div>
 		<div class="col-sm-2"></div>
@@ -179,13 +202,45 @@ if(isset($_POST['inst_id']))
  </div> 
 </div>
 <div class="please_wait_modal"></div>
+
 <script>
+/*
 $body = $("body");
 $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
+*/
 </script>
 <?php
 }
+else{
+	header("location:candidate_profile.php");
+}
 ?>
+
+
+<script>
+$(document).ready(function(){
+	$(".disabled").hide();
+});
+	$('.apply_job').click(function(){
+		var job_id=$(this).attr('id');
+		
+		$.ajax({
+			url: 'candidate_apply_job.php',
+			type: 'POST',
+			data:{ 'jobid': job_id },
+			success: function(result){
+				
+				$('#Applied'+job_id+'').show();
+				$('#Applied'+job_id+'').html(result);
+				$('#'+job_id+'').hide();
+			}
+		});
+
+		
+	});
+
+
+</script>

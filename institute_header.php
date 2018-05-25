@@ -56,7 +56,7 @@ get_details_from_institute();
         <span class="icon-bar"></span>                        
       </button>
       
-       <a href="careerhub.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:200px;height:44px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
+       <a href="institute_profile.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:200px;height:44px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
    
     </div>
 	  <div class="brij" id="<?php echo $institute_id; ?>"> </div>
@@ -69,7 +69,7 @@ get_details_from_institute();
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="institute_profile.php">Home</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="inst_contact_us.php">Contact Us</a></li>
         <li><a href="logout.php">Sign Out</a></li>
         
       </ul>

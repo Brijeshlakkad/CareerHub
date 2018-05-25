@@ -18,12 +18,20 @@ check_session();
 	</div>
 </div>
 </div>
+<div class="please_wait_modal"></div>
+<script>
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+</script>
 <script>
 	var delete_hist=function(pid)
 	{
 			$.ajax({
 				type: 'POST', 
-				url: 'history_and_inbox.py',
+				url: 'candidate_interface.py',
 				data: 'hist_delete='+pid,
 				success  : function (data)
 				{

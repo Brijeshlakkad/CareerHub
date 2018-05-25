@@ -26,9 +26,10 @@ class myThread (threading.Thread):
 		elif self.name=="Write_to_chat" and status=="11":
 			fromuser="Admin"
 			if self.flag==1:
-				message="verified"
+				data="verified"
 			elif self.flag==0:
-				message="rejected"
+				data="rejected"
+			message=data
 			status1=admin_send_mess_inst.send_message(self.c_id,fromuser,message);
 
 

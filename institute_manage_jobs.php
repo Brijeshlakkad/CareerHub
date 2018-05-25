@@ -125,6 +125,17 @@ $uniqroles=mysqli_query($con,$rolevals);
 	</div>
 	</section>
 </div>
+
+
+<div class="please_wait_modal"></div>
+<script>
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+</script>
+
 <script>
        
 

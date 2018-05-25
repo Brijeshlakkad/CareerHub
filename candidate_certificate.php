@@ -107,8 +107,10 @@ get_details_from_candidate();
 	</div>
 	</div>
 </div>
+
 <div class="please_wait_modal"></div>
 <script>
+$body = $("body");
 $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
      ajaxStop: function() { $body.removeClass("loading"); }    
@@ -157,7 +159,24 @@ $(document).on({
 				}
 			});
 		};
-		update_filter_certificate("random_tests");
+		var update_filter_visited = function(){
+			var candid="<?php echo $login_email; ?>";
+			$.ajax({
+				type: 'POST', 
+				url: 'candidate_interface.py',
+				data: "visited_tests="+candid,
+				success  : function (data)
+				{
+					if(data!=-1)
+						{
+							$("#filter_panel").html(data);
+						}
+					else
+						$("#status_skills").html("<span style='color:red;'>Error! Try again..</span>");
+				}
+			});
+		};
+		update_filter_visited();
 	});
 </script>
 </body>

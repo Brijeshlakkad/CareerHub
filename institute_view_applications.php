@@ -65,6 +65,15 @@ require_once('institute_header.php');
     </div>
         
 </div>
+
+<div class="please_wait_modal"></div>
+<script>
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+</script>
 <script>
 	function get_candidate_profile(cand_id,job_id,app_id,status_bit){
 	$("#result").hide().append("<form method='post' id='myForm_cand' action='institute_get_cand.php'><input type='hidden' name='cand_id' value='"+cand_id+"' /><input type='hidden' name='job_id' value='"+job_id+"' /><input type='hidden' name='app_id' value='"+app_id+"' /></form>");

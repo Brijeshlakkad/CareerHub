@@ -67,6 +67,7 @@ $(document).ready(function(){
 		var parid=$(this).closest('div').attr('id');
 		var appr = prompt("Please enter 'Approve' to approve Candidate : "+parid );
 		if (appr.toLowerCase() == "approve") {
+			
 			$.post("admin_cand.py",
 			{
 				id: ""+parid,
@@ -85,11 +86,9 @@ $(document).ready(function(){
 				{
 					alert("Please, try again! later");
 				}
-				else
-					alert("hii");
 			});
 		} else {
-			
+			alert("dd");
 		}
 		});
 	$("#decline_cand").click(function(){

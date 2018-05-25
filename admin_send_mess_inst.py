@@ -3,10 +3,16 @@ import cgi, cgitb
 import sys
 import os
 import MySQLdb
-import config
+
+def connect_to_database():
+	global conn,cursor
+	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
+	cursor = conn.cursor ()
+	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
 def send_message(c_id,fromuser,message):
-	conn,cursor=config.connect_to_database()
+	global cursor,conn
+	connect_to_database()
 	sql="INSERT INTO chat (FromUser,ToUserID, text, role) VALUES ('%s','%s','%s', 'Institute')"%(fromuser,c_id,message)
 	try:
 		cursor.execute(sql)

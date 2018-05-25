@@ -6,6 +6,11 @@ import threading
 import admin_varify_cand
 import MySQLdb
 import admin_send_mess_cand
+print("Content-type:text/html\r\n\r\n")
+status=""
+def replay(re):
+	global status
+	status=re
 	
 class myThread (threading.Thread):
 	def __init__(self, threadID, name, c_id, flag):
@@ -21,12 +26,10 @@ class myThread (threading.Thread):
 		elif self.name=="Write_to_chat" and status=="11":
 			fromuser="Admin"
 			if self.flag==1:
-				header="Hurray!!"
-				data="Your profile is varified successfully"
+				data="verified"
 			elif self.flag==0:
-				header="we are sorry to hear!"
-				data="Your profile is rejected"
-			message=''.join([header,data])
+				data="rejected"
+			message=data
 			status1=admin_send_mess_cand.send_message(self.c_id,fromuser,message);
 
 
@@ -43,3 +46,4 @@ thread1.start()
 thread1.join()
 thread2.start()
 thread2.join()
+print(status)

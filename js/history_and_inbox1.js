@@ -94,7 +94,7 @@ $(document).ready(function () {
 					$(document).ajaxStop(function(){
 						if(data==1)
 						{
-						$("#hist_success").html('All data is cleared.').removeClass("hide").show().fadeOut(1000);
+							$("#hist_success").html('All data is cleared.').removeClass("hide").show().fadeOut("slow");
 							data=0;
 						}
 						});	

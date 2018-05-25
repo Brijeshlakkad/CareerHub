@@ -57,7 +57,7 @@ if($filename=="index.php")
         <span class="icon-bar" style="background-color:white;"></span>    
       </button>
 		
-    <a href="careerhub.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:250px;height:60px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
+    <a href="candidate_profile.php"><img src="Images/career-hub-logo.png" class="img-responsive" style="margin-bottom: 5px; margin-top:5px;width:250px;height:60px;float:left;filter:drop-shadow(0px 0px 3px #ffffff);"/></a>
 
     </div>
 	<?php
@@ -107,15 +107,7 @@ if($filename=="index.php")
           <li><a href="logout.php">Logout</a></li>
         </ul>
       	</li>
-      	<li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="careerhub_support.php">Get Support</a></li>
-          <li><a href="careerhub_feedback.php">Feedback</a></li>
-          <li><a href="careerhub.php">About Us</a></li>
-        </ul>
-      	</li>	
+      	<li><a href="contact_us.php">Contact Us</a></li>
 			<?php
 		}
 		
@@ -170,17 +162,9 @@ if($filename=="index.php")
 			?>
 			
 			<li><a href="index.php">Home</a></li>
-			<li><a href="candidate_findwork.php">Find Work!</a></li>
-			<li><a href="public_hirecand.php">Hire candidate!</a></li>
-			<li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
-			<span class="caret"></span></a>
-			<ul class="dropdown-menu">
-			  <li><a href="careerhub_support.php">Get Support</a></li>
-			  <li><a href="careerhub_feedback.php">Feedback</a></li>
-			  <li><a href="careerhub.php">About Us</a></li>
-			</ul>
-			</li>
+			<li><a href="candidate.php">Find Work!</a></li>
+			<li><a href="institute.php">Hire candidate!</a></li>
+			 <li><a href="contact_us.php">Contact Us</a></li>
 			<li><a href="candidate.php">Login/Signup</a></li>
 			<?php
 		  }

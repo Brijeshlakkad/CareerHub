@@ -69,12 +69,12 @@
 				<p id="roleerror1"></p>
 				</div>
 				<div class="col-md-2">
-					Vacancy: <input type="number" class="form-control" name="vacancy[]" placeholder="Enter vacancy" id="vacancy1" required/>
+					Vacancy: <input type="number" class="form-control" name="vacancy[]" placeholder="Enter vacancy" id="vacancy1" min="0"required/>
 				<p id="vacancyerror1"></p>
 				</div>
 				<div class="col-md-4">
 				Expected Salary(in INR)<br>
-				<input type="number" name="salary[]" id="salary1" placeholder="you can add salary" class="form-control" />
+				<input type="number" name="salary[]" id="salary1" placeholder="you can add salary" class="form-control" min="0" />
 
 				<input type="checkbox" id="salary_checkbox1" class="salary-checked" checked="checked">
 				<span id="salaryerror1"></span>
@@ -154,7 +154,7 @@
 				<div>
 					Experience required(in years):
 					<div class="input-group" style="max-width:185px;">
-						<input type="number" ng-model="experience" class="form-control" name="experience" id="experience" placeholder="required experience for job" required />
+						<input type="number" ng-model="experience" class="form-control" name="experience" id="experience" min="0" placeholder="required experience for job" required />
 						<span class="input-group-btn"><button type="button" class="btn btn-danger" id="disable-exper">No</button>
 						</span>
 					</div> 
@@ -178,12 +178,14 @@
 					</div>
 				</div>
 				<br/>
+				
+				<?php $today_date=date("Y-m-d"); ?>
 				<div>
 				Closing date:
 				<div style="width:100%;
 				height:100%;max-width:100px;"> 
 				<div class="input-group" >
-				<input type="date" class="form-control" ng-model="closing_date" style="max-width:153px;" name="closing_date" id="closing_date" required>
+				<input type="date" class="form-control" ng-model="closing_date" style="max-width:153px;" name="closing_date" id="closing_date" min="<?php echo $today_date; ?>" required>
 				<span class="input-group-btn"><button type="button" class="btn btn-success" style="height:32px;width:34px;padding-left:10px;"> <span class="glyphicon glyphicon-calendar" ></span> </button>
 				</span>
 				</div>
@@ -196,7 +198,7 @@
 				Maximum Age:
 			   
 			    <div class="input-group" style="max-width:185px;">
-			      <input type="number" ng-model="max_age" class="form-control" name="max_age" id="max_age" placeholder="Maximum age" required>
+			      <input type="number" ng-model="max_age" class="form-control" name="max_age" id="max_age" placeholder="Maximum age" min="10" required>
 			      <span class="input-group-btn"><button type="button" class="btn btn-danger" id="disable-age">No</button>
 				  </span>
 			    </div>
@@ -249,7 +251,14 @@
 
 
 
-
+<div class="please_wait_modal"></div>
+<script>
+$body = $("body");
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+</script>
 
 
 
@@ -330,7 +339,7 @@
 				return true;
 			}
 	}
-
+var errorinwhich='none';
 	function checkAll()
 	{
 		var flag=0;
@@ -339,29 +348,31 @@
 	    { 
 	       $('#quali-error').html('<span style="color:#c4071d;">Please select qualifications required.</span>');
 	       flag=1;
+	       errorinwhich='quali';
 	    } 
 	    else
 	    {
 	    	$('#quali-error').html('');
 	    }
 
-	    var max_age=$('#max_age').val();
-	    var isAgeDisabled = $('#max_age').prop('disabled');
-	    if(isAgeDisabled==false && max_age=='')
-	   	{
-	   		$('#age-error').html('<span style="color:#c4071d;">Please enter maximum age</span>');
-	   		flag=1;
-	   	}
-	   	else if(isAgeDisabled==true)
-	   	{
-	   		max_age=0;
-	   		$('#age-error').html('');
-	   	}
-	   	else
-	   	{
-	   		$('#age-error').html('');
-	   	}
 
+	    var max_age=null;
+	    var isagedisabled=$('#max_age').prop('disabled');
+	    if(isagedisabled==false)
+	    {
+	    max_age=$('#max_age').val();
+
+		}
+		else if(isagedisabled==true)
+		{
+			max_age='0';
+		}
+
+		if(max_age==null)
+		{
+			flag=1;
+		}
+		
 	   	var type='';
 	   	type=$('input[name=jobtraining]:checked').val();
 
@@ -391,12 +402,13 @@
 			flag=1;
 		}
 	    var closing_date=$('#closing_date').val();
-	    var max_age=$('#max_age').val();
+
 	    var description=$('#desc').val();
 	    
 	    var country=$('#country').val();
 	    var state=$('#state').val();
 	    var city=$('#city').val();
+	    
 	    var skillsval=checkskills();
 	    var skillsarr=[];
 	    var skills='';
@@ -414,6 +426,7 @@
 	    }
 	    if(skills==''){
 	    	flag=1;
+	    	errorinwhich='skills';
 	    }
 	    var rvsval=checkrvs();
 	    if(rvsval==true)
@@ -431,12 +444,15 @@
         if(qauliarray=='')
         {
         	flag=1;
+        	errorinwhich='qualif';
         }
 
         if(type=='' || jobtitle=='' || category=='' ||closing_date=='' || max_age=='' || description=='' || country=='' || state=='' || city=='')
         {
         	flag=1;
+        	errorinwhich='global';
         }
+
         if(flag==0)
         {
      
