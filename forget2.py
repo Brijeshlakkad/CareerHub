@@ -14,10 +14,10 @@ if (form.getvalue('forget_email')):
 		forget_email = form.getvalue('forget_email')
 		otp = form.getvalue('otp')
 		SMTPserver = 'smtp.gmail.com'
-		sender =     'brijeshlakkad22@gmail.com'
+		sender =     ''
 		destination = forget_email
-		USERNAME = "brijeshlakkad22@gmail.com"
-		PASSWORD = "214567267bB"
+		USERNAME = ""
+		PASSWORD = ""
 
 		text_subtype = 'html'
 		content="""\
