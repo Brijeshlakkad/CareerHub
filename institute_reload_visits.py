@@ -1,15 +1,15 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import config
 import no_found
 import candidate_details
 import institute_and_job
 def reload_visits(inst_id):
 	conn,cursor=config.connect_to_database()
-	sql_visits="select * from profile_visit where ProfileID='%s'"%(inst_id)
+	sql_visits="select VisitID,PersonID,VisitedTime,HowManyTimes from profile_visit where ProfileID='%s'"%(inst_id)
 	try:
 		cursor.execute(sql_visits)
 		results=cursor.fetchall()
@@ -18,10 +18,10 @@ def reload_visits(inst_id):
 			no_found.no_found("Profile visits(0)")
 		else:
 			for row in results:
-				divid=row['VisitID']
-				personid=row['PersonID']
-				time=row['VisitedTime']
-				howmanytimes=row['HowManyTimes']
+				divid=row[0]
+				personid=row[1]
+				time=row[2]
+				howmanytimes=row[3]
 				obj_cand=candidate_details.candidate()
 				obj_cand.candidate_details(conn,cursor,personid)
 				cand_id=obj_cand.cand_id
@@ -38,7 +38,7 @@ def reload_visits(inst_id):
 		conn.rollback()
 		print("Server is taking too load...")
 	conn.close()
-	
+
 def delete_visit(visit_id):
 	conn,cursor=config.connect_to_database()
 	sql="DELETE FROM profile_visit where VisitID='%s'"%(visit_id)
@@ -91,7 +91,7 @@ def visits_all_total_count(inst_id):
 		conn.rollback()
 		print("0")
 	conn.close()
-	
+
 def impressions_total_count(inst_id):
 	conn,cursor=config.connect_to_database()
 	obj_inst=institute_and_job.institute_and_job()

@@ -1,8 +1,8 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import config
 
 def add_test(title,parid,course,subjects,duration):
@@ -16,7 +16,7 @@ def add_test(title,parid,course,subjects,duration):
 			cursor.execute(sql2)
 			results = cursor.fetchall()
 			for row in results:
-				test_id=row['ID']
+				test_id=row[0]
 				print(test_id)
 		except:
 			conn.rollback()
@@ -28,18 +28,18 @@ def add_test(title,parid,course,subjects,duration):
 
 def show_tests(postedby):
 	conn,cursor=config.connect_to_database()
-	sql="Select * FROM Tests where Postedby='%s'"%(postedby)
+	sql="Select ID,Time,Title,Total_num,Course,Subjects FROM Tests where Postedby='%s'"%(postedby)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
 		for row in results:
-			divid=row['ID']
-			time=row["Time"]
+			divid=row[0]
+			time=row[1]
 			datetime=time.strftime('%H : %M')
-			title=row['Title']
-			num=row['Total_num']
-			course=row['Course']
-			str_sub=row['Subjects']
+			title=row[2]
+			num=row[3]
+			course=row[4]
+			str_sub=row[5]
 			subjects=str_sub.split("|")
 			if len(subjects)==1:
 				sub_string=str_sub.strip()
@@ -53,7 +53,7 @@ def show_tests(postedby):
 		conn.rollback()
 		print("-1")
 	conn.close()
-	
+
 def update_test(testid,title,course,subjects):
 	conn,cursor=config.connect_to_database()
 	sql="Update Tests SET Title='%s',Course='%s',Subjects='%s' where ID='%s'"%(title,course,subjects,testid)
@@ -77,7 +77,7 @@ def remove_test(testid):
 		conn.rollback()
 		return "-1"
 	conn.close()
-	
+
 def total_test_num(postedby):
 	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM Tests where Postedby='%s'"%(postedby)

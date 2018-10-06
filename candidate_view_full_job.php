@@ -35,7 +35,7 @@ if(isset($_POST['jobid']))
         <div class="container-fluid" >
 
         <div id="AllContent">
-            
+
             <div class="well" style="background-color:white;margin:auto;max-width:900px;margin-top:25px;margin-bottom:10px;min-height:85vh;box-shadow: 5px 5px 5px #aaaaaa;">
 			<div class="row">
            	<div class="col-lg-6">
@@ -44,51 +44,51 @@ if(isset($_POST['jobid']))
             <div class="col-lg-6"><div class="pull-right job_id" id="<?php echo $res1['job_id'];?>"><button class="btn btn-primary use_predictor">Use Predictor</button></div></div>
 			</div>
 				by <span style="font-size:17px;color:green;"><a class="inst_profile_id" id="<?php echo $res1['institute_id']; ?>"><?php echo $res1['Bname'];?></a></p></span>
-				
+
 				<hr style="border: 1px solid #7E7675;">
 				<p style="font-size:18px;margin-bottom:20px;"><b><?php echo ucfirst($res1['job/training']); ?> Summary</b></p>
-				
+
 				<p><div class="row">
-				<div class="col-md-8"><span class="glyphicon glyphicon-user"></span><span><b> Role: </b></span><span><?php echo strtoupper($res1['role']); ?></span></div>				
+				<div class="col-md-8"><span class="glyphicon glyphicon-user"></span><span><b> Role: </b></span><span><?php echo strtoupper($res1['role']); ?></span></div>
 				</div>
 				</p>
 
 				<p><span class="glyphicon glyphicon-briefcase"></span> <b>Experience Required: </b> <?php if($res1['experience']>0){
 					echo $res1['experience']." Years"; } else { echo "Not required";} ?></p>
 				<p><span class="glyphicon glyphicon-map-marker"></span> <b>Location: </b> <?php echo strtoupper($res1['city'])." ".strtoupper($res1['state'])." ".strtoupper($res1['country']); ?> </p>
-				  	
+
 				<p>
 				<div class="row">
 				<div class="col-md-8"><span class="glyphicon glyphicon-th-list"></span><span><b> Key skills: </b></span><span><?php echo strtoupper($res1['required_skills']); ?></span>
-				</div>				
-				</div> 
+				</div>
+				</div>
 				</p>
 
 				<p>
 				<div class="row">
 				<div class="col-md-8"><span class="glyphicon glyphicon-ok"></span><span><b> Vacancy: </b></span><span><?php echo strtoupper($res1['vacancy']); ?></span>
-				</div>				
+				</div>
 				</div>
 				</p>
 
 				<p>
 				<div class="row">
 				<div class="col-md-8"><span class="glyphicon glyphicon-education"></span><span><b> Qualifications: </b></span><span><?php echo strtoupper($res1['qualification']); ?></span>
-				</div>				
+				</div>
 				</div>
 				</p>
 
 				<p>
 				<div class="row">
 				<div class="col-md-8"><span class="glyphicon glyphicon-calendar"></span><span><b> Opening date: </b></span><span><?php echo strtoupper($res1['opening_date']); ?></span>
-				</div>				
+				</div>
 				</div>
 				</p>
 
 				<p>
 				<div class="row">
 				<div class="col-md-8"><span class="glyphicon glyphicon-calendar"></span><span><b> Closing date: </b></span><span><?php echo strtoupper($res1['closing_date']); ?></span>
-				</div>				
+				</div>
 				</div>
 				</p>
 
@@ -96,17 +96,17 @@ if(isset($_POST['jobid']))
 				<div class="row">
 				<div class="col-md-8"><span style="font-size:18px;"> &#8377;</span><span><b> &nbsp;Expected Salary: </b></span>
 					<span><?php echo strtoupper($res1['expected_salary']); ?> (P.M. in INR)</span>
-				</div>				
-				</div>				
+				</div>
+				</div>
 				</p>
 
 				<p>
 				<div class="row">
-				<div class="col-md-8"><span class="glyphicon glyphicon-ok"></span>    
+				<div class="col-md-8"><span class="glyphicon glyphicon-ok"></span>
 				<span><b> Maximum age: </b></span>
 					<span><?php echo strtoupper($res1['max_age']); ?> years</span>
-				</div>				
-				</div>				
+				</div>
+				</div>
 				</p>
 				<br/>
 				<br/>
@@ -117,7 +117,7 @@ if(isset($_POST['jobid']))
 				<?php echo nl2br($res1['description']);?>
 				 </span><br/></div>
 				</div>
-				
+
 				<br/><br/>
 				<p style="text-align:center;"><button class="btn btn-warning" style="min-width:100px;" id="apply">Apply</button></p>
 
@@ -126,7 +126,7 @@ if(isset($_POST['jobid']))
         </div>
     </section>
     </div>
-	<?php 
+	<?php
 	}
 
 }
@@ -168,13 +168,13 @@ $(".use_predictor").click(function(){
 	});
 
 	$('#apply').click(function(){
-		
+
 		$.ajax({
 			url: 'candidate_apply_job.php',
 			type: 'POST',
 			data:{ 'jobid': <?php echo $jobid; ?> },
 			success: function(result){
-				
+
 				$('#apply').html(result);
 				$('#apply').css({'background-color':'green','border-color':'green'});
 

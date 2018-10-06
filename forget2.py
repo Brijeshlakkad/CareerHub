@@ -1,12 +1,12 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
+#!/usr/bin/python
 import sys
 import os
 import re
-from smtplib import SMTP_SSL as SMTP 
+from smtplib import SMTP_SSL as SMTP
 from email.mime.text import MIMEText
-import cgi, cgitb 
-form = cgi.FieldStorage() 
- 
+import cgi, cgitb
+form = cgi.FieldStorage()
+
 print("Content-type:text/html\r\n\r\n")
 
 if (form.getvalue('forget_email')):
@@ -29,7 +29,7 @@ if (form.getvalue('forget_email')):
 		try:
 			msg = MIMEText(content, text_subtype)
 			msg['Subject']= subject
-			msg['From']   = sender 
+			msg['From']   = sender
 			conn = SMTP(SMTPserver)
 
 			conn.set_debuglevel(False)
@@ -43,4 +43,3 @@ if (form.getvalue('forget_email')):
 			print("0")
 else:
 	print("0")
-	

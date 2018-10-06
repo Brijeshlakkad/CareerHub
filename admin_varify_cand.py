@@ -1,24 +1,19 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
-
-def connect_to_database():
-	global conn,cursor
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+import pymysql
+from config import connect_to_database
 
 def check_already(c_id):
 	global bits,cursor,conn,updated,sbits
-	sql="select * from Candidates where ID='%s'"%c_id;
+	sql="select Status_bits,isUpdated from Candidates where ID='%s'"%c_id;
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchone()
-		sbits=results["Status_bits"]
+		sbits=results[0]
 		bits=sbits.split(",/,")
-		updated=results["isUpdated"]
+		updated=results[1]
 		return len(bits)
 	except:
 		conn.rollback()

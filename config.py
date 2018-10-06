@@ -1,11 +1,10 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import base64
 def connect_to_database():
-	conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "",db = "mini_project")
-	cursor = conn.cursor ()
-	cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+	conn=pymysql.connect("localhost",'root','root','mini_project',8889)
+	cursor = conn.cursor()
 	return conn,cursor

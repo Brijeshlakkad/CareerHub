@@ -1,8 +1,8 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import base64
 import config
 import institute_and_job
@@ -16,9 +16,9 @@ def application_candidates(conn,cursor,cand_id,inst_id,job_id,cand_list):
 		results=cursor.fetchall()
 		cand_id=int(cand_id)
 		for row in results:
-			cand_id2=int(row['ToUserID'])
-			if row['ToUserID'] not in cand_list and cand_id2!=cand_id:
-				cand_list.append(row['ToUserID'])
+			cand_id2=int(row[2])
+			if row[2] not in cand_list and cand_id2!=cand_id:
+				cand_list.append(row[2])
 		return cand_list
 	except:
 		conn.rollback()
@@ -51,8 +51,8 @@ def quali_check(cand_quali_arr,test_quali_arr):
 			total_match+=10
 		total+=10
 	return total,total_match
-	
-	
+
+
 def get_percentage_of_match(conn,cursor,main_cand_id,cand_list):
 	match_list=[]
 	total_list=[]
@@ -100,7 +100,7 @@ def get_percentage_of_match(conn,cursor,main_cand_id,cand_list):
 			elif get_int(cand.cand_rank)>=get_int(test_cand.cand_rank):
 				total_match+=20
 			total+=20
-		
+
 		total_list.append(total)
 		match_list.append(total_match)
 	length=len(match_list)
@@ -113,11 +113,11 @@ def get_percentage_of_match(conn,cursor,main_cand_id,cand_list):
 		return perc_final
 	except:
 		return 0
-		
+
 def print_on_screen(match):
 	print("""<strong>Your prediction to get job is %.2f%%</strong>"""%(match))
-	
-	
+
+
 def predictor_cal(cand_id,job_id):
 	conn,cursor=config.connect_to_database()
 	obj_job=institute_and_job.institute_and_job()

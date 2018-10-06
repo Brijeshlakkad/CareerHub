@@ -1,8 +1,8 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import base64
 import config
 import institute_and_job
@@ -40,7 +40,7 @@ def add_visitor(visitor_id,profile_id):
 
 def count_visits(visitor_id,profile_id):
 	conn,cursor=config.connect_to_database()
-	sql_visit="select * from profile_visit where PersonID='%s' and ProfileID='%s'"%(visitor_id,profile_id)
+	sql_visit="select HowManyTimes from profile_visit where PersonID='%s' and ProfileID='%s'"%(visitor_id,profile_id)
 	try:
 		cursor.execute(sql_visit)
 		rownum=cursor.rowcount
@@ -48,7 +48,7 @@ def count_visits(visitor_id,profile_id):
 			howmanytimes=0
 		else:
 			result=cursor.fetchone()
-			howmanytimes=result['HowManyTimes']
+			howmanytimes=result[0]
 		return rownum,howmanytimes
 	except:
 		conn.rollback()

@@ -1,17 +1,17 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
 import threading
 import admin_varify_inst
-import MySQLdb
+import pymysql
 import admin_send_mess_inst
 print("Content-type:text/html\r\n\r\n")
 status=""
 def replay(re):
 	global status
 	status=re
-	
+
 class myThread (threading.Thread):
 	def __init__(self, threadID, name, c_id, flag):
 		threading.Thread.__init__(self)
@@ -33,7 +33,7 @@ class myThread (threading.Thread):
 			status1=admin_send_mess_inst.send_message(self.c_id,fromuser,message);
 
 
-form = cgi.FieldStorage()	
+form = cgi.FieldStorage()
 if form.getvalue('id'):
 	c_id1 = (int)(form.getvalue('id'))
 if form.getvalue('flag'):

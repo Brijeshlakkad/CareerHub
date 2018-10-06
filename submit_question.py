@@ -1,8 +1,8 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import config
 
 def add_question(testid,que,a1,a2,a3,a4,ans):
@@ -17,7 +17,7 @@ def add_question(testid,que,a1,a2,a3,a4,ans):
 		try:
 			cursor.execute(sql2)
 			results = cursor.fetchone()
-			num=results['Total_num']
+			num=results[0]
 			n=int(num)
 			n+=1
 			sql3="Update Tests SET Total_num='%s' where ID='%s'"%(n,testid)
@@ -51,7 +51,7 @@ def update_question(queid,que,a1,a2,a3,a4,ans):
 
 def show_questions(testid):
 	conn,cursor=config.connect_to_database()
-	sql="Select * FROM Questions where TestID='%s'"%(testid)
+	sql="Select ID,Time,Question FROM Questions where TestID='%s'"%(testid)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -83,7 +83,7 @@ def remove_question(queid,testid):
 	sql="Delete from Questions where ID='%s'"%(queid)
 	try:
 		cursor.execute(sql)
-		sql2="Select Total_num from Tests where ID='%s'"%(testid) 
+		sql2="Select Total_num from Tests where ID='%s'"%(testid)
 		try:
 			cursor.execute(sql2)
 			results = cursor.fetchone()
@@ -112,7 +112,7 @@ def total_que_num(testid):
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchone()
-		num=results['Total_num']
+		num=results[0]
 		print(num)
 	except:
 		conn.rollback()

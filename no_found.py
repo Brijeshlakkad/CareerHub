@@ -1,4 +1,4 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
+#!/usr/bin/python
 import sys
 import os
 def no_found(str_show):

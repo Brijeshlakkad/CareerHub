@@ -1,25 +1,25 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import config
 def que_reload(testid,cu_id):
 	conn,cursor=config.connect_to_database()
-	sql="Select * FROM Questions where TestID='%s'"%(testid)
+	sql="Select ID,Time,Question,A1,A2,A3,A4 FROM Questions where TestID='%s'"%(testid)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
 		i=0
 		for row in results:
-			divid=row['ID']
-			time=row["Time"]
+			divid=row[0]
+			time=row[1]
 			datetime=time.strftime('%H : %M')
-			que=row['Question']
-			a1=row['A1']
-			a2=row['A2']
-			a3=row['A3']
-			a4=row['A4']
+			que=row[2]
+			a1=row[3]
+			a2=row[4]
+			a3=row[5]
+			a4=row[6]
 			i+=1
 			que_id="question%s"%i
 			error="error%s"%i

@@ -1,23 +1,23 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 
 class test:
 	global divid,title,course,postedby,sub_string,num_que,time
 	def test_details(self,conn,cursor,testid):
-		sql_test="SELECT * FROM Tests where ID='%s'"%(testid)
+		sql_test="SELECT ID,Title,Course,Subjects,Postedby,Total_num,`Time` FROM Tests where ID='%s'"%(testid)
 		try:
 			cursor.execute(sql_test)
 			result_of_test = cursor.fetchone()
-			self.divid=result_of_test['ID']
-			self.title=result_of_test['Title']
-			self.course=result_of_test['Course']
-			str_sub=result_of_test['Subjects']
-			self.postedby=result_of_test['Postedby']
-			self.num_que=result_of_test['Total_num']
-			self.time=result_of_test['Time']
+			self.divid=result_of_test[0]
+			self.title=result_of_test[1]
+			self.course=result_of_test[2]
+			str_sub=result_of_test[3]
+			self.postedby=result_of_test[4]
+			self.num_que=result_of_test[5]
+			self.time=result_of_test[6]
 			if self.postedby=="-99":
 				self.postedby="CareerHub"
 			subjects=str_sub.split("|")
@@ -36,3 +36,14 @@ class test:
 		except:
 			conn.rollback()
 			print("Server is taking load...")
+	def test_exists(self,conn,cursor,testid):
+		sql_test="SELECT * FROM Tests where ID='%s'"%(testid)
+		try:
+			cursor.execute(sql_test)
+			num = cursor.rowcount
+			if num==1:
+				return 1
+			else:
+				return -99
+		except:
+			return -99

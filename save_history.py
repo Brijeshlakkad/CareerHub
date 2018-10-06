@@ -1,5 +1,5 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import MySQLdb
+#!/usr/bin/python
+import pymysql
 
 def enter_history(conn,cursor,mess,candid,role):
 	sql="insert into history(Field,UserID,role) values('%s','%s','%s')"%(mess,candid,role)

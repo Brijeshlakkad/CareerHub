@@ -1,14 +1,14 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import submit_test
 import submit_question
 import security
 print("Content-type:text/html\r\n\r\n")
 cgitb.enable(display=0, logdir="/path/to/logdir")
-form = cgi.FieldStorage()	
+form = cgi.FieldStorage()
 if form.getvalue('add_title'):
 	if form.getvalue('parid') and form.getvalue('course') and form.getvalue('subjects') and form.getvalue('time'):
 		title = form.getvalue('add_title')
@@ -40,12 +40,12 @@ if form.getvalue('add_que'):
 		mcq4=security.protect_data(mcq4)
 		ans=security.protect_data(ans)
 		submit_question.add_question(testid,add_que,mcq1,mcq2,mcq3,mcq4,ans)
-		
+
 if form.getvalue('tests_reload'):
 	postedby=form.getvalue('tests_reload')
 	postedby=security.protect_data(postedby)
 	submit_test.show_tests(postedby)
-	
+
 if form.getvalue('questions_reload'):
 	testid=form.getvalue('questions_reload')
 	testid=security.protect_data(testid)
@@ -89,7 +89,7 @@ if form.getvalue('remove_test'):
 		submit_question.remove_questions_of_test(testid)
 	else:
 		print("-1")
-	
+
 if form.getvalue('remove_que') and form.getvalue('test_id'):
 	queid = form.getvalue('remove_que')
 	testid = form.getvalue('test_id')

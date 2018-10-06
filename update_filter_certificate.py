@@ -1,8 +1,8 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import candidate_details
 import config
 import test_details
@@ -13,6 +13,9 @@ def print_on_screen_test(conn,cursor,arr_id,status):
 		print("""<div class="row" style="margin-left:20px;margin-bottom:20px;"><h2>Visited tests</h2></div><hr/>""")
 	for i in arr_id:
 		obj=test_details.test()
+		f=obj.test_exists(conn,cursor,i)
+		if f!=1:
+			continue
 		obj.test_details(conn,cursor,i)
 		divid=obj.divid
 		title=obj.title
@@ -32,13 +35,13 @@ def update_filter_panel(skillarr1,candid):
 		skillarr=skillarr1
 	flag=0
 	arr_id=[]
-	sql="SELECT * FROM Tests"
+	sql="SELECT Subjects,Total_num,ID FROM Tests"
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
 		for row in results:
-			subjects=row['Subjects']
-			num_que=row['Total_num']
+			subjects=row[0]
+			num_que=row[1]
 			num_que=int(num_que)
 			subarr=subjects.split("|")
 			for i in subarr:
@@ -49,7 +52,7 @@ def update_filter_panel(skillarr1,candid):
 					j=j.lower()
 					if i.find(j)!=-1:
 						flag+=1
-						testid=row['ID']
+						testid=row[2]
 						sql_result="Select * from results where CandID='%s' AND TestID='%s'"%(candid,testid)
 						testid=int(testid)
 						try:
@@ -71,7 +74,7 @@ def update_filter_panel(skillarr1,candid):
 		conn.rollback()
 		print("-1")
 	conn.close()
-	
+
 def update_filter_visited(candid):
 	conn,cursor=config.connect_to_database()
 	sql_visit="select TestID from visited_test where CandID='%s'"%candid
@@ -82,7 +85,7 @@ def update_filter_visited(candid):
 		arr_id=[]
 		flag=0
 		for row in results:
-			testid=row['TestID']
+			testid=row[0]
 			flag+=1
 			if testid not in arr_id:
 				arr_id.append(testid)

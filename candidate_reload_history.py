@@ -1,15 +1,15 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import accept_offer
 import config
 import no_found
 import institute_and_job
 def reload_history(c_id1):
 	conn,cursor=config.connect_to_database()
-	sql="SELECT * FROM History where UserID='%s' ORDER BY Time DESC"%(c_id1)
+	sql="SELECT ID,`Time`,Field,role FROM History where UserID='%s' ORDER BY `Time` DESC"%(c_id1)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -18,11 +18,11 @@ def reload_history(c_id1):
 			no_found.no_found("History(0)")
 		else:
 			for row in results:
-				divid=row['ID']
-				time=row["Time"]
+				divid=row[0]
+				time=row[1]
 				datetime=time.strftime('%H : %M')
-				field=row['Field']
-				role=row['role']
+				field=row[2]
+				role=row[3]
 				if role=="Accepted":
 					obj_inst=institute_and_job.institute_and_job()
 					obj_inst.institute_details(conn,cursor,field)
@@ -67,7 +67,7 @@ def delete_all_history(c_id1):
 		conn.rollback()
 		print("-1")
 	conn.close()
-	
+
 def history_total_count(c_id1):
 	conn,cursor=config.connect_to_database()
 	sql="SELECT * FROM History where UserID='%s'"%(c_id1)

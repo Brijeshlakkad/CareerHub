@@ -1,8 +1,8 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import security
 import save_history
 import config
@@ -27,7 +27,7 @@ def check_offer_cand(c_id,inst_id,j_id):
 		result=cursor.rowcount
 		if result==1:
 			row=cursor.fetchone()
-			role=row['role']
+			role=row[6]
 			return role
 		else:
 			return "1x"
@@ -66,7 +66,7 @@ def accept_offer(candid,instid,jobid,role):
 	else:
 		print("-1")
 	conn.close()
-	
+
 def deny_offer(candid,instid,jobid,role):
 	conn,cursor=config.connect_to_database()
 	num=count_rows(instid,candid,jobid)

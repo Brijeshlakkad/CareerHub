@@ -1,14 +1,14 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import config
 import test_details
 import no_found
 def reload_certificate(c_id):
 	conn,cursor=config.connect_to_database()
-	sql="SELECT * FROM Results where CandID='%s' ORDER BY Updated_Time DESC"%(c_id)
+	sql="SELECT ID,Updated_time,TestID,Rightt,Total,Attained FROM Results where CandID='%s' ORDER BY Updated_time DESC"%(c_id)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -17,19 +17,19 @@ def reload_certificate(c_id):
 			no_found.no_found("Certificates(0)")
 		else:
 			for row in results:
-				divid=row['ID']
-				time=row["Updated_time"]
+				divid=row[0]
+				time=row[1]
 				datetime=time.strftime('%H : %M')
-				testid=row['TestID']
-				right=row['Rightt']
-				total_que=row['Total']
+				testid=row[2]
+				right=row[3]
+				total_que=row[4]
 				total_que=int(total_que)
 				right=int(right)
 				right_perc=((right)/total_que)*100
-				solved=row['Attained']
+				solved=row[5]
 				solved=int(solved)
 				solved_perc=(solved/total_que)*100
-				timedate=row['Updated_time']
+				timedate=row[1]
 				obj=test_details.test()
 				obj.test_details(conn,cursor,testid)
 				title=obj.title

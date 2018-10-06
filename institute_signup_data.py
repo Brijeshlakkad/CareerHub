@@ -1,11 +1,11 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
+#!/usr/bin/python
 import pymysql
-import cgi, cgitb 
+import cgi, cgitb
 import sys
 import os
 import re
 
-from smtplib import SMTP_SSL as SMTP 
+from smtplib import SMTP_SSL as SMTP
 from email.mime.text import MIMEText
 
 class Mail:
@@ -26,7 +26,7 @@ class Mail:
 		try:
 			msg = MIMEText(content, text_subtype)
 			msg['Subject']= subject
-			msg['From']   = sender 
+			msg['From']   = sender
 			conn = SMTP(SMTPserver)
 			conn.set_debuglevel(False)
 			conn.login(self.USERNAME, self.PASSWORD)
@@ -64,5 +64,5 @@ try:
 except:
 	db.rollback()
 	print("0")
-	
+
 db.close()

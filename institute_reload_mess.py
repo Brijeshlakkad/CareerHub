@@ -1,15 +1,15 @@
-#!C:\Users\RAJ\AppData\Local\Programs\Python\Python36\python
-import cgi, cgitb 
+#!/usr/bin/python
+import cgi, cgitb
 import sys
 import os
-import MySQLdb
+import pymysql
 import config
 import candidate_details
 import institute_and_job
 import no_found
 def reload_all(inst_id,role_div):
 	conn,cursor=config.connect_to_database()
-	sql="Select * from chat where %s ORDER BY Time DESC"%(role_div)
+	sql="Select ID,role,Time,ToUserID,Text,FromUser from chat where %s ORDER BY Time DESC"%(role_div)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -18,13 +18,13 @@ def reload_all(inst_id,role_div):
 			no_found.no_found("Inbox(0)")
 		else:
 			for row in results:
-				role=row['role']
-				divid=row['ID']
-				time=row["Time"]
+				role=row[1]
+				divid=row[0]
+				time=row[2]
 				datetime=time.strftime('%H : %M')
 				if role=="Offer" or role=="Accepted":
-					fromuser=row["ToUserID"]
-					jobid=row['Text']
+					fromuser=row[3]
+					jobid=row[4]
 					obj_cand=candidate_details.candidate()
 					obj_cand.candidate_details(conn,cursor,fromuser)
 					obj_job=institute_and_job.institute_and_job()
@@ -40,8 +40,8 @@ def reload_all(inst_id,role_div):
 						<hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
 							<div class="row"><div class="col-md-9"><div class="media"><div class="media-left"><img class="img-circle" style="height:60px;" src="%s" /></div><div class="media-body" style="line-height: 25px;"><div id='status_div'>%s</div></div></div></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div></div><br/>"""%(status_header,time,obj_cand.filename,status_div,divid))
 				else:
-					fromuser=row["FromUser"]
-					text=row['Text']
+					fromuser=row[5]
+					text=row[4]
 					if fromuser=="Admin":
 						if text=="verified":
 							print("""<div style="margin:20px;padding:20px;background-color:white;border-left:3px solid rgba(23,139,158,1.00);border-top:2px solid rgba(23,139,158,1.00);box-shadow: 5px 5px 5px #aaaaaa;"><div class="row"><div class="col-md-9"><h4>Verification <span class="glyphicon glyphicon-ok-sign" style="color:green;"><span></h4></div><div class="col-md-3"><a href="#" onclick='delete_mes("%s")' class="close" data-dismiss="alert" aria-label="close">&times;</a></div></div><hr style="border-width:2px;border-color:rgbs(180,180,180,1.00);"/>
@@ -103,7 +103,7 @@ def mess_total_count(c_id1,role_div):
 		conn.rollback()
 		print("0")
 	conn.close()
-	
+
 def mess_count_part(load_inbox,inst_id):
 	if load_inbox=="all":
 		role_div="ToUserID='%s' and role='Institute' or FromUser='%s' and role='Offer' or role='Accepted'"%(inst_id,inst_id)
