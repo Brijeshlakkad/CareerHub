@@ -56,10 +56,10 @@ def show_questions(testid):
 		cursor.execute(sql)
 		results = cursor.fetchall()
 		for row in results:
-			divid=row['ID']
-			time=row["Time"]
+			divid=row[0]
+			time=row[1]
 			datetime=time.strftime('%H : %M')
-			que=row['Question']
+			que=row[2]
 			print("""<div id="%s" class='style_prevu_kit que_div' style="padding:40px;"><div class="row"><h2>%s</h2><span class="pull-right"><form action="edit_question.php" method="post" ><input type="hidden" name="que_id" value="%s" /><button class="btn btn-sm btn-primary" type="submit" >Edit <span class="glyphicon glyphicon-pencil"></span></button></form></span><span class="pull-right"><button class="btn btn-sm btn-danger" onclick="remove_que(%s,%s)" >Delete <span class="glyphicon glyphicon-trash"></span></button></span></div><div class="row"><div class="col-md-offset-5 col-md-5 col-md-offset-2"> <span class="glyphicon glyphicon-time"></span> Posted on %s</div></div></div><hr/><hr/>"""%(divid,que,divid,divid,testid,time))
 	except:
 		conn.rollback()
@@ -87,7 +87,7 @@ def remove_question(queid,testid):
 		try:
 			cursor.execute(sql2)
 			results = cursor.fetchone()
-			num=results['Total_num']
+			num=results[0]
 			n=int(num)
 			n-=1
 			sql3="Update Tests SET Total_num='%s' where ID='%s'"%(n,testid)

@@ -23,18 +23,18 @@ input.ng-touched.ng-valid {
 if(isset($_POST['que_id']))
 {
 	$queid=$_POST['que_id'];
-	$sql="Select * from Questions where ID='$queid'";
+	$sql="Select Question,A1,A2,A3,A4,Ans,Time from Questions where ID='$queid'";
 	$result=mysqli_query($con,$sql);
 	if($result)
 	{
 		$row=mysqli_fetch_array($result);
-		$que=$row['Question'];
-		$a1=$row['A1'];
-		$a2=$row['A2'];
-		$a3=$row['A3'];
-		$a4=$row['A4'];
-		$ans=$row['Ans'];
-		$time=$row['Time'];
+		$que=$row[0];
+		$a1=$row[1];
+		$a2=$row[2];
+		$a3=$row[3];
+		$a4=$row[4];
+		$ans=$row[5];
+		$time=$row[6];
 			?>
 
 <div class="col-lg-8" ng-app="myapp" ng-controller="BrijController">
@@ -89,7 +89,7 @@ if(isset($_POST['que_id']))
 				</td>
 			</tr>
 			</div>
-			
+
 			<div class="form-group">
 			<tr>
 				<td><label for="mcq4">MCQ 4</label></td>
@@ -108,7 +108,7 @@ if(isset($_POST['que_id']))
 				<td>
 				<select class="form-control" ng-model="ans" name="ans" id="ans" required>
 				<option
-				ng-repeat="x in ansOptions" 
+				ng-repeat="x in ansOptions"
 				ng-value="x.val">{{x.name_c}}</option>
 				</select></td>
 				<td>
@@ -128,10 +128,10 @@ if(isset($_POST['que_id']))
 			<td><input type="submit" ng-click="update_question()" id="update_que" value="Update question" class="btn btn-success" ng-disabled="QueForm.que.$invalid ||  QueForm.mcq1.$invalid ||  QueForm.mcq2.$invalid ||  QueForm.mcq3.$invalid ||  QueForm.mcq4.$invalid ||  QueForm.ans.$invalid" /></td>
 			<td></td>
 			</tr>
-			
+
 	</table>
 	</form>
-</div>	
+</div>
 <div class="col-lg-2">
 </div>
 
@@ -170,7 +170,7 @@ var myApp = angular.module("myapp",[]);
 			var ans=$scope.ans;
 			var queid="<?php echo $queid; ?>";
 			$.ajax({
-				type: 'POST', 
+				type: 'POST',
 				url: 'submit_test_and_questions.py',
 				data: 'que_id='+queid+'&update_que='+question+'&mcq1='+mcq1+'&mcq2='+mcq2+'&mcq3='+mcq3+'&mcq4='+mcq4+'&ans='+ans,
 				success  : function (data)
@@ -183,7 +183,7 @@ var myApp = angular.module("myapp",[]);
 						$("#status_que").html("<span style='color:red;'>Error! Try agian..</span>");
 				}
 			});
-		
+
 		};
 	});
 </script>
@@ -266,7 +266,7 @@ else if(isset($_POST['test_id']))
 				<td>
 				<select class="form-control" ng-model="ans" name="ans" id="ans" required>
 				<option
-				ng-repeat="x in ansOptions" 
+				ng-repeat="x in ansOptions"
 				ng-value="x.val">{{x.name_c}}</option>
 				</select></td>
 				<td>
@@ -286,10 +286,10 @@ else if(isset($_POST['test_id']))
 			<td><input type="submit" ng-click="add_next()" id="add_next" value="Add another question" class="btn btn-primary" ng-disabled="QueForm.que.$invalid ||  QueForm.mcq1.$invalid ||  QueForm.mcq2.$invalid ||  QueForm.mcq3.$invalid ||  QueForm.mcq4.$invalid ||  QueForm.ans.$invalid" /></td>
 			<td></td>
 			</tr>
-			
+
 	</table>
 	</form>
-</div>	
+</div>
 <div class="col-lg-2">
 </div>
 
@@ -321,7 +321,7 @@ var myApp = angular.module("myapp2",[]);
 			var ans=$scope.ans;
 			var testid="<?php echo $testid; ?>";
 			$.ajax({
-				type: 'POST', 
+				type: 'POST',
 				url: 'submit_test_and_questions.py',
 				data: 'testid='+testid+'&add_que='+question+'&mcq1='+mcq1+'&mcq2='+mcq2+'&mcq3='+mcq3+'&mcq4='+mcq4+'&ans='+ans,
 				success  : function (data)
@@ -339,9 +339,9 @@ var myApp = angular.module("myapp2",[]);
 						$("#status_que").html("<span style='color:red;'>Error! Try agian..</span>");
 				}
 			});
-		
+
 		};
-		
+
 	});
 </script>
 	<?php

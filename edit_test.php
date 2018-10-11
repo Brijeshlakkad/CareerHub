@@ -6,15 +6,15 @@ check_session();
 if(isset($_POST['test_id']))
 {
 	$testid=$_POST['test_id'];
-	$sql="Select * from Tests where ID='$testid'";
+	$sql="Select Title,Course,Subjects,Time from Tests where ID='$testid'";
 	$result=mysqli_query($con,$sql);
 	if($result)
 	{
 		$row=mysqli_fetch_array($result);
-		$title=$row['Title'];
-		$course=$row['Course'];
-		$subjects=$row['Subjects'];
-		$time=$row['Time'];
+		$title=$row[0];
+		$course=$row[1];
+		$subjects=$row[2];
+		$time=$row[3];
 			?>
 <div class="container well" id="show_here">
 <div class="row login_block" id="test_panel">
@@ -43,7 +43,7 @@ if(isset($_POST['test_id']))
 			<td><label for="t_course">Enter Course</label></td>
 			<td><select class="form-control" name="t_course" id="t_course" ng-model="t_course" required>
 				<option
-				ng-repeat="x in t_courseOptions" 
+				ng-repeat="x in t_courseOptions"
 				ng-value="x.val">{{x.name_c}}</option>
 				</select>
 			</td>
@@ -111,7 +111,7 @@ var myApp = angular.module("myapp",[]);
 			var subjects=$("#t_subjects").val();
 			var testid="<?php echo $testid; ?>";
 			$.ajax({
-				type: 'POST', 
+				type: 'POST',
 				url: 'submit_test_and_questions.py',
 				data: 'test_id='+testid+'&update_test='+title+'&course='+course+'&subjects='+subjects,
 				success  : function (data)
@@ -124,14 +124,14 @@ var myApp = angular.module("myapp",[]);
 						$("#status_test").html("<span style='color:red;'>Error! Try agian..</span>");
 				}
 			});
-		
+
 		};
 	});
 myApp.directive("titleDir",function(){
 	return {
 		require: 'ngModel',
 		link: function(scope, element, attr, mCtrl) {
-			function myValidation(value) 
+			function myValidation(value)
 			{
 				var patt = new RegExp("^[0-9a-zA-Z ]+$");
 				if(patt.test(value)) {

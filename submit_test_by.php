@@ -7,27 +7,27 @@ check_session();
 if(isset($_POST['test_id']))
 {
 	$testid=protect_anything($_POST['test_id']);
-	$sql_test="select * from Tests where ID='$testid'";
+	$sql_test="select Title from tests where ID='$testid'";
 	$result_test=mysqli_query($con,$sql_test);
 	if(!$result_test)
 		die();
 	$row_test=mysqli_fetch_array($result_test);
-	$title=$row_test['Title'];
-	$sql="select * from Results where TestID='$testid'";
+	$title=$row_test[0];
+	$sql="select Rightt,Attained,Total,Left_time,Total_time from results where ID='$testid'";
 	$result=mysqli_query($con,$sql);
 	if($result)
 	{
 		$row=mysqli_fetch_array($result);
-		$right=$row['Rightt'];
-		$attained=$row['Attained'];
-		$total=$row['Total'];
-		$left_dur=$row['Left_time'];
-		$total_dur=$row['Total_time'];
+		$right=$row[0];
+		$attained=$row[1];
+		$total=$row[2];
+		$left_dur=$row[3];
+		$total_dur=$row[4];
 		$duration=intval($total_dur-$left_dur);
 		$wrong=$total-$right;
 		$remained_que=$total-$attained;
-		$right=$row['Rightt'];
-	
+		$right=$row[0];
+
 ?>
 <div class="container-fluid well">
 	<div class="row">

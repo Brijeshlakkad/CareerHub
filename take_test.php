@@ -18,7 +18,7 @@ function delete_visited_test($candid,$testid)
 function save_result_to_database($testid,$right,$attained,$total,$remained,$total_dur)
 {
 	global $login_email,$con;
-	$sql="Select * from Results where CandID='$login_email' AND TestID='$testid'";
+	$sql="Select Attempt from Results where CandID='$login_email' AND TestID='$testid'";
 	$result=mysqli_query($con,$sql);
 	$num=mysqli_num_rows($result);
 	if($num==0)
@@ -38,7 +38,7 @@ function save_result_to_database($testid,$right,$attained,$total,$remained,$tota
 	else
 	{
 		$row_result=mysqli_fetch_array($result);
-		$attempt=$row_result['Attempt'];
+		$attempt=$row_result[0];
 		$attempt++;
 		$sql2="Update Results SET Rightt='$right',Attained='$attained',Left_time='$remained',Total_time='$total_dur',Attempt='$attempt' where CandID='$login_email' and TestID='$testid'";
 		$result2=mysqli_query($con,$sql2);
@@ -56,28 +56,28 @@ function save_result_to_database($testid,$right,$attained,$total,$remained,$tota
 if(isset($_POST['test_completed']))
 {
 	$testid=protect_anything($_POST['test_completed']);
-	$sql_for_dur="Select * from Visited_test where CandID='$login_email' AND TestID='$testid'";
+	$sql_for_dur="Select Left_time from Visited_test where CandID='$login_email' AND TestID='$testid'";
 	$result_for_dur=mysqli_query($con,$sql_for_dur);
 	if($result_for_dur)
 	{
 		$row_for_dur=mysqli_fetch_array($result_for_dur);
-		$remained_dur=$row_for_dur['Left_time'];
+		$remained_dur=$row_for_dur[0];
 	}
-	$sql_for_test="Select * from tests where Id='$testid'";
+	$sql_for_test="Select Duration from tests where ID='$testid'";
 	$result_for_test=mysqli_query($con,$sql_for_test);
 	if($result_for_test)
 	{
 		$row_for_test=mysqli_fetch_array($result_for_test);
-		$total_dur=$row_for_test['Duration'];
+		$total_dur=$row_for_test[0];
 	}
-	$sql="Select * from Tests where ID='$testid'";
+	$sql="Select Title,Total_num from Tests where ID='$testid'";
 	$result=mysqli_query($con,$sql);
 	if($result)
 	{
 		$row=mysqli_fetch_array($result);
-		$title=$row['Title'];
-		$total_que=$row['Total_num'];
-		$sql2="Select * from Questions where TestID='$testid'";
+		$title=$row[0];
+		$total_que=$row[1];
+		$sql2="Select ID,Ans from Questions where TestID='$testid'";
 		$result2=mysqli_query($con,$sql2);
 		$right=0;
 		$wrong=0;
@@ -86,11 +86,11 @@ if(isset($_POST['test_completed']))
 		$total=mysqli_num_rows($result2);
 		while($row2=mysqli_fetch_array($result2))
 		{
-			$a=$row2['ID'];
+			$a=$row2[0];
 			if(isset($_POST[''.$a]))
 			{
 				$ans_by=$_POST[''.$a];
-				if($row2['Ans']==$ans_by)
+				if($row2[1]==$ans_by)
 				{
 					$right++;
 				}
@@ -104,7 +104,7 @@ if(isset($_POST['test_completed']))
 			{
 				$remained_que++;
 			}
-			
+
 		}
 		$xx=save_result_to_database($testid,$right,$attained,$total,$remained_dur,$total_dur);
 		if($xx!="00")
@@ -131,16 +131,16 @@ global $test_started;
 if(isset($_POST['test_id']))
 {
 	$testid=$_POST['test_id'];
-	$sql="Select * from Tests where ID='$testid'";
+	$sql="Select Title,Course,Subjects,Duration,Total_num from Tests where ID='$testid'";
 	$result=mysqli_query($con,$sql);
 	if($result)
 	{
 		$row=mysqli_fetch_array($result);
-		$title=$row['Title'];
-		$course=$row['Course'];
-		$subjects=$row['Subjects'];
-		$duration=$row['Duration'];
-		$total_que=$row['Total_num'];
+		$title=$row[0];
+		$course=$row[1];
+		$subjects=$row[2];
+		$duration=$row[3];
+		$total_que=$row[4];
 		$sub_arr=explode("|",$subjects);
 		for($i=0;$i<count($subjects);$i++)
 		{
@@ -148,7 +148,7 @@ if(isset($_POST['test_id']))
 		}
 		$str_sub=implode(", ",$sub_arr);
 		$res_y="0";
-		
+
 		$res_y=find_test($login_email,$testid);
 		if($res_y=="0")
 			{
@@ -164,7 +164,7 @@ if(isset($_POST['test_id']))
 			<div class="row">
 			<div class="test_header col-lg-8" id="<?php echo $testid; ?>"><h3><?php echo $title; ?></h3>
 			</div>
-			
+
 			</div>
 			<div class="row" id="taken_test_panel">
 			<div class="col-lg-offset-2 col-lg-8 col-lg-offset-2">
@@ -190,9 +190,9 @@ if(isset($_POST['test_id']))
 						</table>
 						</div>
 					</div>
-					
+
 					<div id="status_test">
-						
+
 					</div>
 				</form>
 			</div>
@@ -223,9 +223,9 @@ if(isset($_POST['test_id']))
 				</span>
 			</div>
 			<br/>
-			
+
 			<div class="pull-right">
-			<?php 
+			<?php
 		if($res_y=="0"){
 			?>
 			<button class="btn btn-primary" onClick="start_time()" id="start_test" >Start Test</button>
@@ -251,25 +251,25 @@ function check_answers()
 			}
 		else
 			{
-				
+
 			}
 	}
 function delete_visited_test()
 {
 	var testid=$("div.test_header").attr('id');
 		$.ajax({
-				type: 'POST', 
+				type: 'POST',
 				url: 'candidate_interface.py',
 				data: 'delete_visited_test='+testid,
 				success  : function (data)
 				{
 					if(data==11)
 						{
-							
+
 						}
 					else
 						{
-							
+
 						}
 				}
 				});
@@ -279,7 +279,7 @@ var retrieveQuestions=function() {
 			var testid=$("div.test_header").attr('id');
 			var currentid=$("div.questions_of_test").attr('id');
 			$.ajax({
-				type: 'POST', 
+				type: 'POST',
 				url: 'candidate_interface.py',
 				data: 'que_reload='+testid+"&current_id="+currentid,
 				success  : function (data)
@@ -288,7 +288,7 @@ var retrieveQuestions=function() {
 				}
 				});
 };
-		
+
 $("#start_test").click(function(){
 	retrieveQuestions();
 	$("#countdown").show();
@@ -300,7 +300,7 @@ function startTimer(duration, display1, display2, display3) {
 		hours = parseInt(timer / (60*60), 10)
         minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
-		
+
  		hours = hours < 10 ? "0" + hours : hours;
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -314,13 +314,13 @@ function startTimer(duration, display1, display2, display3) {
 		if (timer >= 0)
 			{
 		$.ajax({
-				type: 'POST', 
+				type: 'POST',
 				url: 'visit_test.php',
 				data: "c_id="+c_id+"&t_id="+t_id+"&left_dur="+left_dur,
 				success  : function (data)
 				{
 					if (--timer < 0) {
-			
+
 						document.myForm.submit();
 					}
 				}
