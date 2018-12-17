@@ -8,5 +8,7 @@ This project also includes test system which allows admin to post test and stude
  - PHP Server
  - Database Server
 
-
- 
+# Requirements already have added in this repository.
+ - AngularJS
+ - jQuery
+ - Bootstrap
